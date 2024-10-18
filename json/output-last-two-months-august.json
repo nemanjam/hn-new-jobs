@@ -1,0 +1,1469 @@
+{
+  "result": {
+    "forMonth": "August",
+    "comparedToMonth": "July",
+    "totalCount": 290,
+    "newCount": 161,
+    "oldCount": 129,
+    "percentageOfNew": "56%",
+    "percentageOfOld": "44%",
+    "newNames": [
+      "Argent",
+      "Riza, Inc.",
+      "Provable",
+      "FusionAuth",
+      "The Laboratory for RNA-Based Lifeforms",
+      "Aurora",
+      "Sea Foundry",
+      "Ordergroove",
+      "Clementine",
+      "QuestDB",
+      "HarperDB",
+      "Upflow",
+      "Mesa",
+      "remberg",
+      "Carebit",
+      "Kinity",
+      "Great Question",
+      "EnterpriseDB",
+      "Interactive Brokers",
+      "Stealth ML Startup",
+      "CoPlane",
+      "DoShare -",
+      "ProWritingAid",
+      "Pave.dev",
+      "Unite Us",
+      "Kuzco, Inc.",
+      "BetterBrain",
+      "Cambly.com",
+      "MONUMENTAL",
+      "Squint.ai",
+      "Dirac",
+      "Membrane",
+      "Edmij",
+      "Stealth ML Company",
+      "Patch",
+      "Scale Medicine",
+      "OpenRelay",
+      "Goody",
+      "Fingerprint -",
+      "Interviewer",
+      "Weaviate",
+      "Channable",
+      "Beacon Biosignals",
+      "A2X Accounting",
+      "env0/OpenTofu",
+      "Abnormal Security",
+      "ScribbleVet",
+      "Dimensional Analytics",
+      "Commonwealth Fusion Systems",
+      "Queueco",
+      "Nomic Foundation",
+      "AWS Device Farm",
+      "Microsoft Azure Storage",
+      "FurtherAI",
+      "KREA",
+      "BioIntelliSense",
+      "Freed",
+      "ServiceNow",
+      "Volley",
+      "RevEng.AI",
+      "Bitonic",
+      "Cumulus",
+      "PDM Automotive",
+      "Andi",
+      "Humaans",
+      "OpenRent",
+      "ElectronX",
+      "Quotez",
+      "MyAlloy",
+      "Felt Clinic",
+      "Coder",
+      "Automata",
+      "Upduo",
+      "Enter",
+      "Fauna Robotics",
+      "HVN",
+      "Ataccama",
+      "ABN AMRO",
+      "Terminal",
+      "HENNGE",
+      "Adora",
+      "Veridise",
+      "Seam",
+      "Diabolocom",
+      "OneSignal",
+      "Slice",
+      "Enclave Markets",
+      "Cosuno",
+      "Daydream",
+      "Wasmer",
+      "TestDriver.ai",
+      "Tangram",
+      "Ford Motor Company",
+      "Toolhouse",
+      "Metaschool",
+      "Orbit",
+      "Page Vault",
+      "modash.io",
+      "Comity Inc.",
+      "Openfort",
+      "Pylon",
+      "Vectara",
+      "Amazon Grocery Tech",
+      "Zanders",
+      "Streak",
+      "Topologic",
+      "Bodyport",
+      "Source",
+      "One Huddle",
+      "Cogram",
+      "Second Software Engineer",
+      "TRM Labs",
+      "TurboML",
+      "Thank you HN/WaaS for helping us fill our last software role!! We're still hiring but for Mechanical Engineers.Charge Robotics",
+      "HouseAccount",
+      "E2B",
+      "Complete",
+      "Velo Data",
+      "Palm",
+      "10x Genomics",
+      "Needle",
+      "Inngest",
+      "Maestro AI",
+      "Lancom Systems",
+      "FanPad",
+      "Doctor Droid",
+      "Protege",
+      "Yardstik",
+      "doxel.ai",
+      "neuronOS",
+      "Promptfoo",
+      "Topaz Labs",
+      "Guided Clinical Solutions",
+      "BHS Technologies",
+      "comma.ai",
+      "APM Help",
+      "Aer Compliance",
+      "Arch.dev",
+      "yeet",
+      "Gradient.ai",
+      "Contour",
+      "Spice AI",
+      "Cariloop",
+      "Niceboard",
+      "Arturo AI",
+      "Mixpeek",
+      "Pixelgen Technologies",
+      "dotplay.games",
+      "iGenius.ai",
+      "meetcara.ai",
+      "GoGoGrandparent",
+      "Graphistry, Louie. AI",
+      "Nimble",
+      "PSPDFKit",
+      "BillionToOne",
+      "Stanford University IT",
+      "Raylu",
+      "Danswer AI",
+      "ParaFi Capital",
+      "Schoolyear",
+      "Stealth Financial Institution"
+    ],
+    "oldNames": [
+      "Anvil",
+      "Datenna",
+      "ChartMogul",
+      "Close",
+      "Reef Technologies",
+      "Solution Street",
+      "MDandMe",
+      "Automattic",
+      "FUTO",
+      "Make Waves",
+      "Bruinen",
+      "Rainbow Insurance",
+      "Eigen",
+      "Olo",
+      "PostHog",
+      "Puma.tech",
+      "Cybernetica AS",
+      "Langfuse",
+      "Corbalt",
+      "Monad Labs",
+      "Grid Status",
+      "Freeform",
+      "Sourcegraph",
+      "Privy",
+      "Limitless",
+      "Imbue",
+      "Sudowrite",
+      "Phrasing",
+      "PlantingSpace",
+      "PermitFlow",
+      "Viz.ai",
+      "Hightouch",
+      "Orases",
+      "Lovable",
+      "Hellotext",
+      "Relevant Healthcare",
+      "",
+      "Foxglove",
+      "Lithos Carbon",
+      "Monument",
+      "Founders @DogpatchLabs",
+      "Stytch",
+      "Fractional AI",
+      "Trunk",
+      "Assembled",
+      "Quatt.io",
+      "Two Six Technologies",
+      "Sitewire",
+      "Juniper",
+      "Motive",
+      "Jam.dev",
+      "RINSE",
+      "Meaningful Gigs",
+      "ROCKSTAR GAMES",
+      "Peregrine Technologies",
+      "Venture Global LNG",
+      "Waitwhile",
+      "Neon — Ship Faster with Postgres",
+      "Crusoe",
+      "Layer",
+      "Radar Labs",
+      "Datadog",
+      "Harvard Library Innovation Lab",
+      "Spacelift",
+      "ML6",
+      "Compass Regulatory",
+      "Kensho Technologies",
+      "Happy Scribe",
+      "Resemble AI",
+      "Lightdash",
+      "Skydio",
+      "Recharge",
+      "Rollbar",
+      "Quadrature",
+      "Vannevar Labs",
+      "Standard",
+      "Plotly",
+      "Matterworks.ai",
+      "Val Town",
+      "Beacon AI",
+      "OwnerRez",
+      "Data Research Group",
+      "Comulate",
+      "Better Stack",
+      "SpotHero",
+      "Beautiful.ai",
+      "Aha!",
+      "Scholarly",
+      "Zetier",
+      "Glass Health",
+      "Bolna open source voice AI",
+      "Spill",
+      "Blackshark AI",
+      "SmarterDx",
+      "3Play Media",
+      "Smarkets",
+      "Hashboard",
+      "Ameba",
+      "SerpApi",
+      "76 Software Engineering Group",
+      "Fleetio",
+      "Sphinx Defense",
+      "Fondant",
+      "** Trunk Tools",
+      "Djamo",
+      "Viator",
+      "Tracebit",
+      "Kombo.dev",
+      "",
+      "AE Studio",
+      "40GRID - Full-time Remote",
+      "onXmaps, Inc",
+      "Tulip",
+      "Levels.fyi",
+      "Norm",
+      "Valley View Trading",
+      "Temporal Technologies",
+      "AllSpice",
+      "Powertools Technologies",
+      "DuckDuckGo",
+      "Roboflow",
+      "Fullstory",
+      "sea.dev",
+      "Lago",
+      "MixRank",
+      "Figma",
+      "ChatGPT Writer",
+      "CAPP",
+      "WunderGraph"
+    ],
+    "newCompanies": [
+      {
+        "name": "Argent",
+        "link": "https://news.ycombinator.com/item?id=41191445"
+      },
+      {
+        "name": "Riza, Inc.",
+        "link": "https://news.ycombinator.com/item?id=41130582"
+      },
+      {
+        "name": "Provable",
+        "link": "https://news.ycombinator.com/item?id=41191002"
+      },
+      {
+        "name": "FusionAuth",
+        "link": "https://news.ycombinator.com/item?id=41133198"
+      },
+      {
+        "name": "The Laboratory for RNA-Based Lifeforms",
+        "link": "https://news.ycombinator.com/item?id=41130994"
+      },
+      {
+        "name": "Aurora",
+        "link": "https://news.ycombinator.com/item?id=41130999"
+      },
+      {
+        "name": "Sea Foundry",
+        "link": "https://news.ycombinator.com/item?id=41134018"
+      },
+      {
+        "name": "Ordergroove",
+        "link": "https://news.ycombinator.com/item?id=41185808"
+      },
+      {
+        "name": "Clementine",
+        "link": "https://news.ycombinator.com/item?id=41171139"
+      },
+      {
+        "name": "QuestDB",
+        "link": "https://news.ycombinator.com/item?id=41130241"
+      },
+      {
+        "name": "HarperDB",
+        "link": "https://news.ycombinator.com/item?id=41174904"
+      },
+      {
+        "name": "Upflow",
+        "link": "https://news.ycombinator.com/item?id=41179646"
+      },
+      {
+        "name": "Mesa",
+        "link": "https://news.ycombinator.com/item?id=41131111"
+      },
+      {
+        "name": "remberg",
+        "link": "https://news.ycombinator.com/item?id=41182420"
+      },
+      {
+        "name": "Carebit",
+        "link": "https://news.ycombinator.com/item?id=41179664"
+      },
+      {
+        "name": "Kinity",
+        "link": "https://news.ycombinator.com/item?id=41170888"
+      },
+      {
+        "name": "Great Question",
+        "link": "https://news.ycombinator.com/item?id=41130975"
+      },
+      {
+        "name": "EnterpriseDB",
+        "link": "https://news.ycombinator.com/item?id=41132372"
+      },
+      {
+        "name": "Interactive Brokers",
+        "link": "https://news.ycombinator.com/item?id=41137237"
+      },
+      {
+        "name": "Stealth ML Startup",
+        "link": "https://news.ycombinator.com/item?id=41137611"
+      },
+      {
+        "name": "CoPlane",
+        "link": "https://news.ycombinator.com/item?id=41131010"
+      },
+      {
+        "name": "DoShare -",
+        "link": "https://news.ycombinator.com/item?id=41176357"
+      },
+      {
+        "name": "ProWritingAid",
+        "link": "https://news.ycombinator.com/item?id=41180530"
+      },
+      {
+        "name": "Pave.dev",
+        "link": "https://news.ycombinator.com/item?id=41165109"
+      },
+      {
+        "name": "Unite Us",
+        "link": "https://news.ycombinator.com/item?id=41130440"
+      },
+      {
+        "name": "Kuzco, Inc.",
+        "link": "https://news.ycombinator.com/item?id=41142662"
+      },
+      {
+        "name": "BetterBrain",
+        "link": "https://news.ycombinator.com/item?id=41132660"
+      },
+      {
+        "name": "Cambly.com",
+        "link": "https://news.ycombinator.com/item?id=41162278"
+      },
+      {
+        "name": "MONUMENTAL",
+        "link": "https://news.ycombinator.com/item?id=41130185"
+      },
+      {
+        "name": "Squint.ai",
+        "link": "https://news.ycombinator.com/item?id=41157138"
+      },
+      {
+        "name": "Dirac",
+        "link": "https://news.ycombinator.com/item?id=41132949"
+      },
+      {
+        "name": "Membrane",
+        "link": "https://news.ycombinator.com/item?id=41132942"
+      },
+      {
+        "name": "Edmij",
+        "link": "https://news.ycombinator.com/item?id=41131742"
+      },
+      {
+        "name": "Stealth ML Company",
+        "link": "https://news.ycombinator.com/item?id=41129829"
+      },
+      {
+        "name": "Patch",
+        "link": "https://news.ycombinator.com/item?id=41130718"
+      },
+      {
+        "name": "Scale Medicine",
+        "link": "https://news.ycombinator.com/item?id=41138043"
+      },
+      {
+        "name": "OpenRelay",
+        "link": "https://news.ycombinator.com/item?id=41139782"
+      },
+      {
+        "name": "Goody",
+        "link": "https://news.ycombinator.com/item?id=41129830"
+      },
+      {
+        "name": "Fingerprint -",
+        "link": "https://news.ycombinator.com/item?id=41174622"
+      },
+      {
+        "name": "Interviewer",
+        "link": "https://news.ycombinator.com/item?id=41132041"
+      },
+      {
+        "name": "Weaviate",
+        "link": "https://news.ycombinator.com/item?id=41170553"
+      },
+      {
+        "name": "Channable",
+        "link": "https://news.ycombinator.com/item?id=41129819"
+      },
+      {
+        "name": "Beacon Biosignals",
+        "link": "https://news.ycombinator.com/item?id=41132295"
+      },
+      {
+        "name": "A2X Accounting",
+        "link": "https://news.ycombinator.com/item?id=41146371"
+      },
+      {
+        "name": "env0/OpenTofu",
+        "link": "https://news.ycombinator.com/item?id=41129845"
+      },
+      {
+        "name": "Abnormal Security",
+        "link": "https://news.ycombinator.com/item?id=41141239"
+      },
+      {
+        "name": "ScribbleVet",
+        "link": "https://news.ycombinator.com/item?id=41144489"
+      },
+      {
+        "name": "Dimensional Analytics",
+        "link": "https://news.ycombinator.com/item?id=41187012"
+      },
+      {
+        "name": "Commonwealth Fusion Systems",
+        "link": "https://news.ycombinator.com/item?id=41140788"
+      },
+      {
+        "name": "Queueco",
+        "link": "https://news.ycombinator.com/item?id=41137169"
+      },
+      {
+        "name": "Nomic Foundation",
+        "link": "https://news.ycombinator.com/item?id=41159854"
+      },
+      {
+        "name": "AWS Device Farm",
+        "link": "https://news.ycombinator.com/item?id=41132158"
+      },
+      {
+        "name": "Microsoft Azure Storage",
+        "link": "https://news.ycombinator.com/item?id=41130029"
+      },
+      {
+        "name": "FurtherAI",
+        "link": "https://news.ycombinator.com/item?id=41135090"
+      },
+      {
+        "name": "KREA",
+        "link": "https://news.ycombinator.com/item?id=41136553"
+      },
+      {
+        "name": "BioIntelliSense",
+        "link": "https://news.ycombinator.com/item?id=41132926"
+      },
+      {
+        "name": "Freed",
+        "link": "https://news.ycombinator.com/item?id=41131385"
+      },
+      {
+        "name": "ServiceNow",
+        "link": "https://news.ycombinator.com/item?id=41131765"
+      },
+      {
+        "name": "Volley",
+        "link": "https://news.ycombinator.com/item?id=41140362"
+      },
+      {
+        "name": "RevEng.AI",
+        "link": "https://news.ycombinator.com/item?id=41137449"
+      },
+      {
+        "name": "Bitonic",
+        "link": "https://news.ycombinator.com/item?id=41159505"
+      },
+      {
+        "name": "Cumulus",
+        "link": "https://news.ycombinator.com/item?id=41133415"
+      },
+      {
+        "name": "PDM Automotive",
+        "link": "https://news.ycombinator.com/item?id=41143505"
+      },
+      {
+        "name": "Andi",
+        "link": "https://news.ycombinator.com/item?id=41131026"
+      },
+      {
+        "name": "Humaans",
+        "link": "https://news.ycombinator.com/item?id=41138985"
+      },
+      {
+        "name": "OpenRent",
+        "link": "https://news.ycombinator.com/item?id=41133470"
+      },
+      {
+        "name": "ElectronX",
+        "link": "https://news.ycombinator.com/item?id=41129876"
+      },
+      {
+        "name": "Quotez",
+        "link": "https://news.ycombinator.com/item?id=41130749"
+      },
+      {
+        "name": "MyAlloy",
+        "link": "https://news.ycombinator.com/item?id=41131087"
+      },
+      {
+        "name": "Felt Clinic",
+        "link": "https://news.ycombinator.com/item?id=41134484"
+      },
+      {
+        "name": "Coder",
+        "link": "https://news.ycombinator.com/item?id=41130475"
+      },
+      {
+        "name": "Automata",
+        "link": "https://news.ycombinator.com/item?id=41137286"
+      },
+      {
+        "name": "Upduo",
+        "link": "https://news.ycombinator.com/item?id=41135596"
+      },
+      {
+        "name": "Enter",
+        "link": "https://news.ycombinator.com/item?id=41130278"
+      },
+      {
+        "name": "Fauna Robotics",
+        "link": "https://news.ycombinator.com/item?id=41129899"
+      },
+      {
+        "name": "HVN",
+        "link": "https://news.ycombinator.com/item?id=41131884"
+      },
+      {
+        "name": "Ataccama",
+        "link": "https://news.ycombinator.com/item?id=41139459"
+      },
+      {
+        "name": "ABN AMRO",
+        "link": "https://news.ycombinator.com/item?id=41140548"
+      },
+      {
+        "name": "Terminal",
+        "link": "https://news.ycombinator.com/item?id=41141835"
+      },
+      {
+        "name": "HENNGE",
+        "link": "https://news.ycombinator.com/item?id=41131047"
+      },
+      {
+        "name": "Adora",
+        "link": "https://news.ycombinator.com/item?id=41133205"
+      },
+      {
+        "name": "Veridise",
+        "link": "https://news.ycombinator.com/item?id=41132015"
+      },
+      {
+        "name": "Seam",
+        "link": "https://news.ycombinator.com/item?id=41131420"
+      },
+      {
+        "name": "Diabolocom",
+        "link": "https://news.ycombinator.com/item?id=41130597"
+      },
+      {
+        "name": "OneSignal",
+        "link": "https://news.ycombinator.com/item?id=41133920"
+      },
+      {
+        "name": "Slice",
+        "link": "https://news.ycombinator.com/item?id=41138990"
+      },
+      {
+        "name": "Enclave Markets",
+        "link": "https://news.ycombinator.com/item?id=41134068"
+      },
+      {
+        "name": "Cosuno",
+        "link": "https://news.ycombinator.com/item?id=41138996"
+      },
+      {
+        "name": "Daydream",
+        "link": "https://news.ycombinator.com/item?id=41135664"
+      },
+      {
+        "name": "Wasmer",
+        "link": "https://news.ycombinator.com/item?id=41131045"
+      },
+      {
+        "name": "TestDriver.ai",
+        "link": "https://news.ycombinator.com/item?id=41143143"
+      },
+      {
+        "name": "Tangram",
+        "link": "https://news.ycombinator.com/item?id=41131795"
+      },
+      {
+        "name": "Ford Motor Company",
+        "link": "https://news.ycombinator.com/item?id=41135217"
+      },
+      {
+        "name": "Toolhouse",
+        "link": "https://news.ycombinator.com/item?id=41141000"
+      },
+      {
+        "name": "Metaschool",
+        "link": "https://news.ycombinator.com/item?id=41138631"
+      },
+      {
+        "name": "Orbit",
+        "link": "https://news.ycombinator.com/item?id=41139183"
+      },
+      {
+        "name": "Page Vault",
+        "link": "https://news.ycombinator.com/item?id=41131872"
+      },
+      {
+        "name": "modash.io",
+        "link": "https://news.ycombinator.com/item?id=41158146"
+      },
+      {
+        "name": "Comity Inc.",
+        "link": "https://news.ycombinator.com/item?id=41131940"
+      },
+      {
+        "name": "Openfort",
+        "link": "https://news.ycombinator.com/item?id=41137267"
+      },
+      {
+        "name": "Pylon",
+        "link": "https://news.ycombinator.com/item?id=41142514"
+      },
+      {
+        "name": "Vectara",
+        "link": "https://news.ycombinator.com/item?id=41137019"
+      },
+      {
+        "name": "Amazon Grocery Tech",
+        "link": "https://news.ycombinator.com/item?id=41134413"
+      },
+      {
+        "name": "Zanders",
+        "link": "https://news.ycombinator.com/item?id=41129902"
+      },
+      {
+        "name": "Streak",
+        "link": "https://news.ycombinator.com/item?id=41132099"
+      },
+      {
+        "name": "Topologic",
+        "link": "https://news.ycombinator.com/item?id=41131783"
+      },
+      {
+        "name": "Bodyport",
+        "link": "https://news.ycombinator.com/item?id=41134700"
+      },
+      {
+        "name": "Source",
+        "link": "https://news.ycombinator.com/item?id=41135716"
+      },
+      {
+        "name": "One Huddle",
+        "link": "https://news.ycombinator.com/item?id=41134151"
+      },
+      {
+        "name": "Cogram",
+        "link": "https://news.ycombinator.com/item?id=41131943"
+      },
+      {
+        "name": "Second Software Engineer",
+        "link": "https://news.ycombinator.com/item?id=41163985"
+      },
+      {
+        "name": "TRM Labs",
+        "link": "https://news.ycombinator.com/item?id=41139933"
+      },
+      {
+        "name": "TurboML",
+        "link": "https://news.ycombinator.com/item?id=41135065"
+      },
+      {
+        "name": "Thank you HN/WaaS for helping us fill our last software role!! We're still hiring but for Mechanical Engineers.Charge Robotics",
+        "link": "https://news.ycombinator.com/item?id=41131748"
+      },
+      {
+        "name": "HouseAccount",
+        "link": "https://news.ycombinator.com/item?id=41136167"
+      },
+      {
+        "name": "E2B",
+        "link": "https://news.ycombinator.com/item?id=41137066"
+      },
+      {
+        "name": "Complete",
+        "link": "https://news.ycombinator.com/item?id=41140228"
+      },
+      {
+        "name": "Velo Data",
+        "link": "https://news.ycombinator.com/item?id=41129921"
+      },
+      {
+        "name": "Palm",
+        "link": "https://news.ycombinator.com/item?id=41131608"
+      },
+      {
+        "name": "10x Genomics",
+        "link": "https://news.ycombinator.com/item?id=41134782"
+      },
+      {
+        "name": "Needle",
+        "link": "https://news.ycombinator.com/item?id=41130422"
+      },
+      {
+        "name": "Inngest",
+        "link": "https://news.ycombinator.com/item?id=41133919"
+      },
+      {
+        "name": "Maestro AI",
+        "link": "https://news.ycombinator.com/item?id=41133614"
+      },
+      {
+        "name": "Lancom Systems",
+        "link": "https://news.ycombinator.com/item?id=41136996"
+      },
+      {
+        "name": "FanPad",
+        "link": "https://news.ycombinator.com/item?id=41131305"
+      },
+      {
+        "name": "Doctor Droid",
+        "link": "https://news.ycombinator.com/item?id=41132946"
+      },
+      {
+        "name": "Protege",
+        "link": "https://news.ycombinator.com/item?id=41131967"
+      },
+      {
+        "name": "Yardstik",
+        "link": "https://news.ycombinator.com/item?id=41131647"
+      },
+      {
+        "name": "doxel.ai",
+        "link": "https://news.ycombinator.com/item?id=41132981"
+      },
+      {
+        "name": "neuronOS",
+        "link": "https://news.ycombinator.com/item?id=41141374"
+      },
+      {
+        "name": "Promptfoo",
+        "link": "https://news.ycombinator.com/item?id=41135583"
+      },
+      {
+        "name": "Topaz Labs",
+        "link": "https://news.ycombinator.com/item?id=41130396"
+      },
+      {
+        "name": "Guided Clinical Solutions",
+        "link": "https://news.ycombinator.com/item?id=41135095"
+      },
+      {
+        "name": "BHS Technologies",
+        "link": "https://news.ycombinator.com/item?id=41136649"
+      },
+      {
+        "name": "comma.ai",
+        "link": "https://news.ycombinator.com/item?id=41136467"
+      },
+      {
+        "name": "APM Help",
+        "link": "https://news.ycombinator.com/item?id=41133639"
+      },
+      {
+        "name": "Aer Compliance",
+        "link": "https://news.ycombinator.com/item?id=41131198"
+      },
+      {
+        "name": "Arch.dev",
+        "link": "https://news.ycombinator.com/item?id=41133086"
+      },
+      {
+        "name": "yeet",
+        "link": "https://news.ycombinator.com/item?id=41131373"
+      },
+      {
+        "name": "Gradient.ai",
+        "link": "https://news.ycombinator.com/item?id=41131353"
+      },
+      {
+        "name": "Contour",
+        "link": "https://news.ycombinator.com/item?id=41131555"
+      },
+      {
+        "name": "Spice AI",
+        "link": "https://news.ycombinator.com/item?id=41132875"
+      },
+      {
+        "name": "Cariloop",
+        "link": "https://news.ycombinator.com/item?id=41138875"
+      },
+      {
+        "name": "Niceboard",
+        "link": "https://news.ycombinator.com/item?id=41130491"
+      },
+      {
+        "name": "Arturo AI",
+        "link": "https://news.ycombinator.com/item?id=41139248"
+      },
+      {
+        "name": "Mixpeek",
+        "link": "https://news.ycombinator.com/item?id=41135331"
+      },
+      {
+        "name": "Pixelgen Technologies",
+        "link": "https://news.ycombinator.com/item?id=41132953"
+      },
+      {
+        "name": "dotplay.games",
+        "link": "https://news.ycombinator.com/item?id=41140151"
+      },
+      {
+        "name": "iGenius.ai",
+        "link": "https://news.ycombinator.com/item?id=41137092"
+      },
+      {
+        "name": "meetcara.ai",
+        "link": "https://news.ycombinator.com/item?id=41132705"
+      },
+      {
+        "name": "GoGoGrandparent",
+        "link": "https://news.ycombinator.com/item?id=41137166"
+      },
+      {
+        "name": "Graphistry, Louie. AI",
+        "link": "https://news.ycombinator.com/item?id=41135005"
+      },
+      {
+        "name": "Nimble",
+        "link": "https://news.ycombinator.com/item?id=41136768"
+      },
+      {
+        "name": "PSPDFKit",
+        "link": "https://news.ycombinator.com/item?id=41133025"
+      },
+      {
+        "name": "BillionToOne",
+        "link": "https://news.ycombinator.com/item?id=41137096"
+      },
+      {
+        "name": "Stanford University IT",
+        "link": "https://news.ycombinator.com/item?id=41132744"
+      },
+      {
+        "name": "Raylu",
+        "link": "https://news.ycombinator.com/item?id=41130702"
+      },
+      {
+        "name": "Danswer AI",
+        "link": "https://news.ycombinator.com/item?id=41132286"
+      },
+      {
+        "name": "ParaFi Capital",
+        "link": "https://news.ycombinator.com/item?id=41131276"
+      },
+      {
+        "name": "Schoolyear",
+        "link": "https://news.ycombinator.com/item?id=41137419"
+      },
+      {
+        "name": "Stealth Financial Institution",
+        "link": "https://news.ycombinator.com/item?id=41130801"
+      }
+    ],
+    "oldCompanies": [
+      {
+        "name": "Anvil",
+        "link": "https://news.ycombinator.com/item?id=41192522"
+      },
+      {
+        "name": "Datenna",
+        "link": "https://news.ycombinator.com/item?id=41191301"
+      },
+      {
+        "name": "ChartMogul",
+        "link": "https://news.ycombinator.com/item?id=41179588"
+      },
+      {
+        "name": "Close",
+        "link": "https://news.ycombinator.com/item?id=41181764"
+      },
+      {
+        "name": "Reef Technologies",
+        "link": "https://news.ycombinator.com/item?id=41144936"
+      },
+      {
+        "name": "Solution Street",
+        "link": "https://news.ycombinator.com/item?id=41174013"
+      },
+      {
+        "name": "MDandMe",
+        "link": "https://news.ycombinator.com/item?id=41183146"
+      },
+      {
+        "name": "Automattic",
+        "link": "https://news.ycombinator.com/item?id=41131818"
+      },
+      {
+        "name": "FUTO",
+        "link": "https://news.ycombinator.com/item?id=41139263"
+      },
+      {
+        "name": "Make Waves",
+        "link": "https://news.ycombinator.com/item?id=41169485"
+      },
+      {
+        "name": "Bruinen",
+        "link": "https://news.ycombinator.com/item?id=41184259"
+      },
+      {
+        "name": "Rainbow Insurance",
+        "link": "https://news.ycombinator.com/item?id=41132223"
+      },
+      {
+        "name": "Eigen",
+        "link": "https://news.ycombinator.com/item?id=41142750"
+      },
+      {
+        "name": "Olo",
+        "link": "https://news.ycombinator.com/item?id=41131203"
+      },
+      {
+        "name": "PostHog",
+        "link": "https://news.ycombinator.com/item?id=41133606"
+      },
+      {
+        "name": "Puma.tech",
+        "link": "https://news.ycombinator.com/item?id=41133339"
+      },
+      {
+        "name": "Cybernetica AS",
+        "link": "https://news.ycombinator.com/item?id=41136550"
+      },
+      {
+        "name": "Langfuse",
+        "link": "https://news.ycombinator.com/item?id=41137525"
+      },
+      {
+        "name": "Corbalt",
+        "link": "https://news.ycombinator.com/item?id=41130844"
+      },
+      {
+        "name": "Monad Labs",
+        "link": "https://news.ycombinator.com/item?id=41131077"
+      },
+      {
+        "name": "Grid Status",
+        "link": "https://news.ycombinator.com/item?id=41132178"
+      },
+      {
+        "name": "Freeform",
+        "link": "https://news.ycombinator.com/item?id=41134978"
+      },
+      {
+        "name": "Sourcegraph",
+        "link": "https://news.ycombinator.com/item?id=41132870"
+      },
+      {
+        "name": "Privy",
+        "link": "https://news.ycombinator.com/item?id=41133784"
+      },
+      {
+        "name": "Limitless",
+        "link": "https://news.ycombinator.com/item?id=41133522"
+      },
+      {
+        "name": "Imbue",
+        "link": "https://news.ycombinator.com/item?id=41141845"
+      },
+      {
+        "name": "Sudowrite",
+        "link": "https://news.ycombinator.com/item?id=41132915"
+      },
+      {
+        "name": "Phrasing",
+        "link": "https://news.ycombinator.com/item?id=41136480"
+      },
+      {
+        "name": "PlantingSpace",
+        "link": "https://news.ycombinator.com/item?id=41129823"
+      },
+      {
+        "name": "PermitFlow",
+        "link": "https://news.ycombinator.com/item?id=41156458"
+      },
+      {
+        "name": "Viz.ai",
+        "link": "https://news.ycombinator.com/item?id=41129865"
+      },
+      {
+        "name": "Hightouch",
+        "link": "https://news.ycombinator.com/item?id=41130859"
+      },
+      {
+        "name": "Orases",
+        "link": "https://news.ycombinator.com/item?id=41131265"
+      },
+      {
+        "name": "Lovable",
+        "link": "https://news.ycombinator.com/item?id=41137539"
+      },
+      {
+        "name": "Hellotext",
+        "link": "https://news.ycombinator.com/item?id=41130878"
+      },
+      {
+        "name": "Relevant Healthcare",
+        "link": "https://news.ycombinator.com/item?id=41132488"
+      },
+      {
+        "name": "",
+        "link": "https://news.ycombinator.com/item?id=41132612"
+      },
+      {
+        "name": "Foxglove",
+        "link": "https://news.ycombinator.com/item?id=41131221"
+      },
+      {
+        "name": "Lithos Carbon",
+        "link": "https://news.ycombinator.com/item?id=41134412"
+      },
+      {
+        "name": "Monument",
+        "link": "https://news.ycombinator.com/item?id=41131178"
+      },
+      {
+        "name": "Founders @DogpatchLabs",
+        "link": "https://news.ycombinator.com/item?id=41130571"
+      },
+      {
+        "name": "Stytch",
+        "link": "https://news.ycombinator.com/item?id=41140644"
+      },
+      {
+        "name": "Fractional AI",
+        "link": "https://news.ycombinator.com/item?id=41144529"
+      },
+      {
+        "name": "Trunk",
+        "link": "https://news.ycombinator.com/item?id=41141613"
+      },
+      {
+        "name": "Assembled",
+        "link": "https://news.ycombinator.com/item?id=41136285"
+      },
+      {
+        "name": "Quatt.io",
+        "link": "https://news.ycombinator.com/item?id=41130143"
+      },
+      {
+        "name": "Two Six Technologies",
+        "link": "https://news.ycombinator.com/item?id=41160970"
+      },
+      {
+        "name": "Sitewire",
+        "link": "https://news.ycombinator.com/item?id=41141533"
+      },
+      {
+        "name": "Juniper",
+        "link": "https://news.ycombinator.com/item?id=41130295"
+      },
+      {
+        "name": "Motive",
+        "link": "https://news.ycombinator.com/item?id=41131589"
+      },
+      {
+        "name": "Jam.dev",
+        "link": "https://news.ycombinator.com/item?id=41138812"
+      },
+      {
+        "name": "RINSE",
+        "link": "https://news.ycombinator.com/item?id=41131240"
+      },
+      {
+        "name": "Meaningful Gigs",
+        "link": "https://news.ycombinator.com/item?id=41131256"
+      },
+      {
+        "name": "ROCKSTAR GAMES",
+        "link": "https://news.ycombinator.com/item?id=41131601"
+      },
+      {
+        "name": "Peregrine Technologies",
+        "link": "https://news.ycombinator.com/item?id=41131584"
+      },
+      {
+        "name": "Venture Global LNG",
+        "link": "https://news.ycombinator.com/item?id=41141496"
+      },
+      {
+        "name": "Waitwhile",
+        "link": "https://news.ycombinator.com/item?id=41130533"
+      },
+      {
+        "name": "Neon — Ship Faster with Postgres",
+        "link": "https://news.ycombinator.com/item?id=41133455"
+      },
+      {
+        "name": "Crusoe",
+        "link": "https://news.ycombinator.com/item?id=41133348"
+      },
+      {
+        "name": "Layer",
+        "link": "https://news.ycombinator.com/item?id=41131311"
+      },
+      {
+        "name": "Radar Labs",
+        "link": "https://news.ycombinator.com/item?id=41131156"
+      },
+      {
+        "name": "Datadog",
+        "link": "https://news.ycombinator.com/item?id=41131097"
+      },
+      {
+        "name": "Harvard Library Innovation Lab",
+        "link": "https://news.ycombinator.com/item?id=41134583"
+      },
+      {
+        "name": "Spacelift",
+        "link": "https://news.ycombinator.com/item?id=41131949"
+      },
+      {
+        "name": "ML6",
+        "link": "https://news.ycombinator.com/item?id=41130697"
+      },
+      {
+        "name": "Compass Regulatory",
+        "link": "https://news.ycombinator.com/item?id=41139043"
+      },
+      {
+        "name": "Kensho Technologies",
+        "link": "https://news.ycombinator.com/item?id=41131525"
+      },
+      {
+        "name": "Happy Scribe",
+        "link": "https://news.ycombinator.com/item?id=41130013"
+      },
+      {
+        "name": "Resemble AI",
+        "link": "https://news.ycombinator.com/item?id=41135181"
+      },
+      {
+        "name": "Lightdash",
+        "link": "https://news.ycombinator.com/item?id=41137557"
+      },
+      {
+        "name": "Skydio",
+        "link": "https://news.ycombinator.com/item?id=41160329"
+      },
+      {
+        "name": "Recharge",
+        "link": "https://news.ycombinator.com/item?id=41131089"
+      },
+      {
+        "name": "Rollbar",
+        "link": "https://news.ycombinator.com/item?id=41132344"
+      },
+      {
+        "name": "Quadrature",
+        "link": "https://news.ycombinator.com/item?id=41137278"
+      },
+      {
+        "name": "Vannevar Labs",
+        "link": "https://news.ycombinator.com/item?id=41133759"
+      },
+      {
+        "name": "Standard",
+        "link": "https://news.ycombinator.com/item?id=41142326"
+      },
+      {
+        "name": "Plotly",
+        "link": "https://news.ycombinator.com/item?id=41132016"
+      },
+      {
+        "name": "Matterworks.ai",
+        "link": "https://news.ycombinator.com/item?id=41132804"
+      },
+      {
+        "name": "Val Town",
+        "link": "https://news.ycombinator.com/item?id=41131226"
+      },
+      {
+        "name": "Beacon AI",
+        "link": "https://news.ycombinator.com/item?id=41132084"
+      },
+      {
+        "name": "OwnerRez",
+        "link": "https://news.ycombinator.com/item?id=41132672"
+      },
+      {
+        "name": "Data Research Group",
+        "link": "https://news.ycombinator.com/item?id=41132161"
+      },
+      {
+        "name": "Comulate",
+        "link": "https://news.ycombinator.com/item?id=41131845"
+      },
+      {
+        "name": "Better Stack",
+        "link": "https://news.ycombinator.com/item?id=41130846"
+      },
+      {
+        "name": "SpotHero",
+        "link": "https://news.ycombinator.com/item?id=41138485"
+      },
+      {
+        "name": "Beautiful.ai",
+        "link": "https://news.ycombinator.com/item?id=41130458"
+      },
+      {
+        "name": "Aha!",
+        "link": "https://news.ycombinator.com/item?id=41129928"
+      },
+      {
+        "name": "Scholarly",
+        "link": "https://news.ycombinator.com/item?id=41131258"
+      },
+      {
+        "name": "Zetier",
+        "link": "https://news.ycombinator.com/item?id=41138793"
+      },
+      {
+        "name": "Glass Health",
+        "link": "https://news.ycombinator.com/item?id=41137155"
+      },
+      {
+        "name": "Bolna open source voice AI",
+        "link": "https://news.ycombinator.com/item?id=41139402"
+      },
+      {
+        "name": "Spill",
+        "link": "https://news.ycombinator.com/item?id=41132831"
+      },
+      {
+        "name": "Blackshark AI",
+        "link": "https://news.ycombinator.com/item?id=41140023"
+      },
+      {
+        "name": "SmarterDx",
+        "link": "https://news.ycombinator.com/item?id=41129878"
+      },
+      {
+        "name": "3Play Media",
+        "link": "https://news.ycombinator.com/item?id=41132589"
+      },
+      {
+        "name": "Smarkets",
+        "link": "https://news.ycombinator.com/item?id=41131160"
+      },
+      {
+        "name": "Hashboard",
+        "link": "https://news.ycombinator.com/item?id=41131549"
+      },
+      {
+        "name": "Ameba",
+        "link": "https://news.ycombinator.com/item?id=41129825"
+      },
+      {
+        "name": "SerpApi",
+        "link": "https://news.ycombinator.com/item?id=41135688"
+      },
+      {
+        "name": "76 Software Engineering Group",
+        "link": "https://news.ycombinator.com/item?id=41134404"
+      },
+      {
+        "name": "Fleetio",
+        "link": "https://news.ycombinator.com/item?id=41133817"
+      },
+      {
+        "name": "Sphinx Defense",
+        "link": "https://news.ycombinator.com/item?id=41132188"
+      },
+      {
+        "name": "Fondant",
+        "link": "https://news.ycombinator.com/item?id=41134988"
+      },
+      {
+        "name": "** Trunk Tools",
+        "link": "https://news.ycombinator.com/item?id=41131165"
+      },
+      {
+        "name": "Djamo",
+        "link": "https://news.ycombinator.com/item?id=41133965"
+      },
+      {
+        "name": "Viator",
+        "link": "https://news.ycombinator.com/item?id=41136765"
+      },
+      {
+        "name": "Tracebit",
+        "link": "https://news.ycombinator.com/item?id=41130356"
+      },
+      {
+        "name": "Kombo.dev",
+        "link": "https://news.ycombinator.com/item?id=41134215"
+      },
+      {
+        "name": "",
+        "link": "https://news.ycombinator.com/item?id=41132035"
+      },
+      {
+        "name": "AE Studio",
+        "link": "https://news.ycombinator.com/item?id=41132688"
+      },
+      {
+        "name": "40GRID - Full-time Remote",
+        "link": "https://news.ycombinator.com/item?id=41132569"
+      },
+      {
+        "name": "onXmaps, Inc",
+        "link": "https://news.ycombinator.com/item?id=41140599"
+      },
+      {
+        "name": "Tulip",
+        "link": "https://news.ycombinator.com/item?id=41134889"
+      },
+      {
+        "name": "Levels.fyi",
+        "link": "https://news.ycombinator.com/item?id=41135464"
+      },
+      {
+        "name": "Norm",
+        "link": "https://news.ycombinator.com/item?id=41133022"
+      },
+      {
+        "name": "Valley View Trading",
+        "link": "https://news.ycombinator.com/item?id=41137835"
+      },
+      {
+        "name": "Temporal Technologies",
+        "link": "https://news.ycombinator.com/item?id=41129943"
+      },
+      {
+        "name": "AllSpice",
+        "link": "https://news.ycombinator.com/item?id=41139182"
+      },
+      {
+        "name": "Powertools Technologies",
+        "link": "https://news.ycombinator.com/item?id=41132103"
+      },
+      {
+        "name": "DuckDuckGo",
+        "link": "https://news.ycombinator.com/item?id=41131459"
+      },
+      {
+        "name": "Roboflow",
+        "link": "https://news.ycombinator.com/item?id=41136791"
+      },
+      {
+        "name": "Fullstory",
+        "link": "https://news.ycombinator.com/item?id=41130312"
+      },
+      {
+        "name": "sea.dev",
+        "link": "https://news.ycombinator.com/item?id=41137536"
+      },
+      {
+        "name": "Lago",
+        "link": "https://news.ycombinator.com/item?id=41132409"
+      },
+      {
+        "name": "MixRank",
+        "link": "https://news.ycombinator.com/item?id=41131139"
+      },
+      {
+        "name": "Figma",
+        "link": "https://news.ycombinator.com/item?id=41132088"
+      },
+      {
+        "name": "ChatGPT Writer",
+        "link": "https://news.ycombinator.com/item?id=41136727"
+      },
+      {
+        "name": "CAPP",
+        "link": "https://news.ycombinator.com/item?id=41132150"
+      },
+      {
+        "name": "WunderGraph",
+        "link": "https://news.ycombinator.com/item?id=41160993"
+      }
+    ]
+  }
+}
