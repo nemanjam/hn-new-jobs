@@ -1,0 +1,52 @@
+{
+  "name": "hn-parser-node",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "NODE_NO_WARNINGS=1 next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "preview": "next build && next start",
+    "typecheck": "tsc --noEmit",
+    "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
+    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
+    "clean": "rm -rf node_modules yarn.lock",
+    "docker:build:push:arm": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-parser-node --platform linux/arm64 --push .",
+    "docker:build:push:x86": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-parser-node --platform linux/amd64 --push ."
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.0.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "0.453.0",
+    "next": "^15.0.0",
+    "next-themes": "^0.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sharp": "^0.33.5",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.6"
+  },
+  "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
+    "@types/node": "^22.7.8",
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
+    "@typescript-eslint/parser": "^8.11.0",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "15.0.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-tailwindcss": "^3.13.0",
+    "postcss": "^8.4.24",
+    "prettier": "^3.3.3",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.6.3"
+  },
+  "resolutions": {
+    "punycode": "^2.3.1"
+  }
+}
