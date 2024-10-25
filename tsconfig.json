@@ -19,9 +19,9 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"],
+      "@/parser/*": ["parser/*"],
+      "@/types/*": ["types/*"]
     },
     "plugins": [
       {

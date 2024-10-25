@@ -1,46 +1,12 @@
+import { getDocumentFromUrl } from "@/parser/download";
+import { getThreads } from "@/parser/threads";
 
 async function parse({ saveAsFile = true, whichMonths = 'last-two' }) {
 
-    const cache = { url: {} };
 
-    async function getDocumentFromUrl(url) {
-        if (!cache.url?.[url]) {
-            const response = await fetch(url);
-            cache.url[url] = await response.text();
-            await sleep(5);
-        }
 
-        const htmlContent = cache.url[url];
 
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(htmlContent, 'text/html');
-        return doc;
-    }
 
-    async function getThreads() {
-        const threadsUrl = 'https://news.ycombinator.com/submitted?id=whoishiring';
-        const threadsSelector = 'tr.athing span.titleline a';
-        const monthRegex = /.*(?:hiring).*?\((\w+)/;
-
-        const doc = await getDocumentFromUrl(threadsUrl);
-        const threadsNodes = doc.querySelectorAll(threadsSelector)
-
-        const threads = []
-
-        for (const threadNode of threadsNodes) {
-            const text = threadNode.textContent;
-            const match = text.match(monthRegex);
-            const month = match ? match[1].trim() : null;
-            if (!month) continue;
-
-            const link = threadNode.href;
-
-            const thread = { month, link };
-            threads.push(thread)
-        }
-
-        return threads;
-    }
 
     async function getThreadUrlFromMonth(month) {
         const threads = await getThreads();
@@ -51,10 +17,7 @@ async function parse({ saveAsFile = true, whichMonths = 'last-two' }) {
         return link;
     }
 
-    async function sleep(seconds) {
-        return new Promise(resolve => setTimeout(resolve, seconds * 1000));
-    }
-
+    // pagination
     async function getPagesUrlsForMonth(threadUrl) {
         const postsSelector = '.athing.comtr:has([indent="0"]) .commtext:first-child';
 
