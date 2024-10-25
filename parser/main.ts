@@ -8,14 +8,7 @@ async function parse({ saveAsFile = true, whichMonths = 'last-two' }) {
 
 
 
-    async function getThreadUrlFromMonth(month) {
-        const threads = await getThreads();
 
-        const thread = threads.find(thread => thread.month === month);
-        const link = thread.link;
-
-        return link;
-    }
 
     // pagination
     async function getPagesUrlsForMonth(threadUrl) {
