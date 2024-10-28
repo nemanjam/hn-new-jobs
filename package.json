@@ -9,9 +9,9 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "preview": "next build && next start",
-    "typecheck": "tsc --noEmit",
-    "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
+    "types": "tsc --noEmit",
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
+    "format": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
     "clean": "rm -rf node_modules yarn.lock",
     "docker:build:push:arm": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-parser-node --platform linux/arm64 --push .",
     "docker:build:push:x86": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-parser-node --platform linux/amd64 --push ."

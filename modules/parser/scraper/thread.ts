@@ -1,6 +1,6 @@
-import { SCRAPER } from '@/parser/scraper/constants';
-import { getDocumentFromUrl } from '@/parser/scraper/fetch-html';
-import { getThreads } from '@/parser/scraper/threads';
+import { getDocumentFromUrl } from '@/modules/parser/scraper/fetch-html';
+import { getThreads } from '@/modules/parser/scraper/threads';
+import { SCRAPER } from '@/constants/scraper';
 
 export const getThreadUrlFromMonth = async (month: string): Promise<string> => {
   const threads = await getThreads();

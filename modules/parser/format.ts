@@ -1,27 +1,7 @@
 import { promises as fs } from 'fs';
 import { join } from 'path';
-import { NewAndOldCompanies } from '@/parser/compare';
-import { Company } from '@/parser/scraper/posts';
 
-export interface Input {
-  result: NewAndOldCompanies;
-  month1: string;
-  month2: string;
-}
-
-export interface FormattedResult {
-  forMonth: string;
-  comparedToMonth: string;
-  totalCount: number;
-  newCount: number;
-  oldCount: number;
-  percentageOfNew: string;
-  percentageOfOld: string;
-  newNames: string[];
-  oldNames: string[];
-  newCompanies: Company[];
-  oldCompanies: Company[];
-}
+import type { FormattedResult, Input } from '@/types/parser';
 
 export const formatResult = (input: Input): FormattedResult => {
   const { result, month1, month2 } = input;
@@ -35,7 +15,7 @@ export const formatResult = (input: Input): FormattedResult => {
   const newNames = newCompanies.map((company) => company.name);
   const oldNames = oldCompanies.map((company) => company.name);
 
-  const output = {
+  const output: FormattedResult = {
     forMonth: month2,
     comparedToMonth: month1,
     totalCount,

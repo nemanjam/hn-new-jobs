@@ -1,20 +1,19 @@
-import { sleep } from '@/parser/utils';
 import { JSDOM } from 'jsdom';
 
-interface Cache {
-  url: Record<string, string>;
-}
+import { sleep } from '@/utils/sleep';
 
-const cache: Cache = { url: {} };
+import type { Cache } from '@/types/parser';
+
+const cache: Cache = { urls: {} };
 
 export const getDocumentFromUrl = async (url: string): Promise<Document> => {
-  if (!cache.url?.[url]) {
+  if (!cache.urls?.[url]) {
     const response = await fetch(url);
-    cache.url[url] = await response.text();
+    cache.urls[url] = await response.text();
     await sleep(5);
   }
 
-  const htmlContent = cache.url[url];
+  const htmlContent = cache.urls[url];
 
   // node.js dom
   const dom = new JSDOM(htmlContent);

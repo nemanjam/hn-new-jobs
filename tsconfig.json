@@ -15,9 +15,19 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@/parser/*": ["parser/*"],
-      "@/types/*": ["types/*"]
+      // don't have to be in order
+      "@/app/*": ["app/*"],
+      "@/components/*": ["components/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/modules/*": ["modules/*"],
+      "@/libs/*": ["libs/*"],
+      "@/utils/*": ["utils/*"],
+      "@/constants/*": ["constants/*"],
+      "@/data/*": ["data/*"],
+      "@/config/*": ["config/*"],
+      "@/types/*": ["types/*"],
+      "@/assets/*": ["assets/*"],
+      "@/styles/*": ["styles/*"]
     },
     "plugins": [
       {

@@ -1,20 +1,7 @@
-import { SCRAPER } from '@/parser/scraper/constants';
-import { getDocumentFromUrl } from '@/parser/scraper/fetch-html';
+import { getDocumentFromUrl } from '@/modules/parser/scraper/fetch-html';
+import { SCRAPER } from '@/constants/scraper';
 
-export interface Thread {
-  month: string;
-  link: string;
-}
-
-export interface MonthPair {
-  month1: string;
-  month2: string;
-}
-
-export interface Months {
-  allMonths: string[];
-  monthPairs: MonthPair[];
-}
+import type { Months, Thread } from '@/types/parser';
 
 // todo: Support pagination later.
 

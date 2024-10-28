@@ -1,9 +1,4 @@
-import { Company } from '@/parser/scraper/posts';
-
-export interface NewAndOldCompanies {
-  newCompanies: Company[];
-  oldCompanies: Company[];
-}
+import type { Company, NewAndOldCompanies } from '@/types/parser';
 
 export const compareCompanies = (
   company1: Company,

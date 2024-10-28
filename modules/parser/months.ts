@@ -1,9 +1,14 @@
-import { compareCompanies, getNewAndOldCompanies } from '@/parser/compare';
-import { CONFIG } from '@/parser/constants';
-import { formatResult, FormattedResult, saveAsJsonFile } from '@/parser/format';
-import { getCompaniesForThread } from '@/parser/scraper/posts';
-import { getThreadUrlFromMonth } from '@/parser/scraper/thread';
-import { getAllMonths } from '@/parser/scraper/threads';
+import {
+  compareCompanies,
+  getNewAndOldCompanies,
+} from '@/modules/parser/compare';
+import { formatResult, saveAsJsonFile } from '@/modules/parser/format';
+import { getCompaniesForThread } from '@/modules/parser/scraper/posts';
+import { getThreadUrlFromMonth } from '@/modules/parser/scraper/thread';
+import { getAllMonths } from '@/modules/parser/scraper/threads';
+import { CONFIG } from '@/config/parser';
+
+import type { FormattedResult } from '@/types/parser';
 
 const { saveAsFile, fileNames } = CONFIG;
 

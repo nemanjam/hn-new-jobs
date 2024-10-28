@@ -1,11 +1,8 @@
-import { SCRAPER } from '@/parser/scraper/constants';
-import { getDocumentFromUrl } from '@/parser/scraper/fetch-html';
-import { getThreadPagesUrlsForMonth } from '@/parser/scraper/thread';
+import { getDocumentFromUrl } from '@/modules/parser/scraper/fetch-html';
+import { getThreadPagesUrlsForMonth } from '@/modules/parser/scraper/thread';
+import { SCRAPER } from '@/constants/scraper';
 
-export interface Company {
-  name: string;
-  link: string;
-}
+import type { Company } from '@/types/parser';
 
 export const getCompaniesForPage = async (
   pageUrl: string
