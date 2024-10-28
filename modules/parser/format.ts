@@ -32,10 +32,7 @@ export const formatResult = (input: Input): FormattedResult => {
   return output;
 };
 
-export const saveAsJsonFile = async (
-  data: unknown,
-  fileName: string
-): Promise<void> => {
+export const saveAsJsonFile = async (data: unknown, fileName: string): Promise<void> => {
   const jsonString = JSON.stringify(data, null, 2);
 
   const filePath = join(__dirname, fileName);

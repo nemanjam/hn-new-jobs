@@ -1,13 +1,14 @@
 import '@/styles/globals.css';
 
 import { Metadata } from 'next';
-import { fontSans } from '@/libs/fonts';
-import { cn } from '@/utils/styles';
 
-import { siteConfig } from '@/config/site';
 import { SiteHeader } from '@/components/site-header';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 import { ThemeProvider } from '@/components/theme-provider';
+
+import { fontSans } from '@/libs/fonts';
+import { cn } from '@/utils/styles';
+import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = {
   title: {
@@ -38,12 +39,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <>
       <html lang="en" suppressHydrationWarning>
         <head />
-        <body
-          className={cn(
-            'min-h-screen bg-background font-sans antialiased',
-            fontSans.variable
-          )}
-        >
+        <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <div className="relative flex min-h-screen flex-col">
               <SiteHeader />

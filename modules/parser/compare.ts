@@ -1,9 +1,6 @@
 import type { Company, NewAndOldCompanies } from '@/types/parser';
 
-export const compareCompanies = (
-  company1: Company,
-  company2: Company
-): boolean => {
+export const compareCompanies = (company1: Company, company2: Company): boolean => {
   const isEqual = company1.name === company2.name;
   // console.log('isEqual: ', isEqual, `${company1.name} === ${company2.name}`);
 

@@ -4,9 +4,7 @@ import { SCRAPER } from '@/constants/scraper';
 
 import type { Company } from '@/types/parser';
 
-export const getCompaniesForPage = async (
-  pageUrl: string
-): Promise<Company[]> => {
+export const getCompaniesForPage = async (pageUrl: string): Promise<Company[]> => {
   const {
     postSelector,
     titleChildSelector,
@@ -44,9 +42,7 @@ export const getCompaniesForPage = async (
 
 /** Main function that returns parsed companies for a month. */
 
-export const getCompaniesForThread = async (
-  threadUrl: string
-): Promise<Company[]> => {
+export const getCompaniesForThread = async (threadUrl: string): Promise<Company[]> => {
   const pagesUrls = await getThreadPagesUrlsForMonth(threadUrl);
 
   const allCompanies = [];

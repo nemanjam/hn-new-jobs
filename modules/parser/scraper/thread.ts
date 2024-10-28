@@ -12,9 +12,7 @@ export const getThreadUrlFromMonth = async (month: string): Promise<string> => {
 };
 
 // pagination
-export const getThreadPagesUrlsForMonth = async (
-  threadUrl: string
-): Promise<string[]> => {
+export const getThreadPagesUrlsForMonth = async (threadUrl: string): Promise<string[]> => {
   const { postTitleSelector } = SCRAPER.thread;
 
   const pagesUrls = [];
