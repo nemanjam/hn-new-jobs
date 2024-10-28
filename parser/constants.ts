@@ -1,17 +1,9 @@
-export const PARSER = {
-  threads: {
-    threadsUrl: 'https://news.ycombinator.com/submitted?id=whoishiring',
-    threadsSelector: 'tr.athing span.titleline a',
-    monthRegex: /.*(?:hiring).*?\((\w+)/,
+export const CONFIG = {
+  saveAsFile: true,
+  whichMonths: 'last-two',
+  fileNames: {
+    outputAllMonths: 'output-all-months.json',
+    outputLastTwoMoths: 'output-last-two-months.json',
+    outputAllCompanies: 'output-all-companies.json',
   },
-  thread: {
-    postsSelector: '.athing.comtr:has([indent="0"]) .commtext:first-child',
-  },
-  companies: {
-    postsSelector: '.athing.comtr:has([indent="0"])',
-    titleChildSelector: '.commtext:first-child',
-    linkChildSelector: 'span.age a',
-    companyNameRegex: /^([^|]+)\|/,
-    removeLinkOrBracesRegex: /^(.*?)\s*(?:\([^)]*\)|https?:\/\/\S+)/,
-  },
-};
+} as const;

@@ -1,4 +1,4 @@
-import { Company } from '@/parser/companies';
+import { Company } from '@/parser/scraper/posts';
 
 export interface NewAndOldCompanies {
   newCompanies: Company[];
@@ -31,11 +31,9 @@ export const getNewAndOldCompanies = (
         break;
       }
     }
-    if (isNew) {
-      newCompanies.push(company2);
-    } else {
-      oldCompanies.push(company2);
-    }
+
+    if (isNew) newCompanies.push(company2);
+    else oldCompanies.push(company2);
   }
 
   const result = { newCompanies, oldCompanies };

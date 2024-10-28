@@ -1,6 +1,6 @@
-import { PARSER } from '@/parser/constants';
-import { getDocumentFromUrl } from '@/parser/download';
-import { getThreads } from '@/parser/threads';
+import { SCRAPER } from '@/parser/scraper/constants';
+import { getDocumentFromUrl } from '@/parser/scraper/fetch-html';
+import { getThreads } from '@/parser/scraper/threads';
 
 export const getThreadUrlFromMonth = async (month: string): Promise<string> => {
   const threads = await getThreads();
@@ -15,7 +15,7 @@ export const getThreadUrlFromMonth = async (month: string): Promise<string> => {
 export const getThreadPagesUrlsForMonth = async (
   threadUrl: string
 ): Promise<string[]> => {
-  const { postsSelector } = PARSER.thread;
+  const { postTitleSelector } = SCRAPER.thread;
 
   const pagesUrls = [];
 
@@ -23,8 +23,9 @@ export const getThreadPagesUrlsForMonth = async (
     const pageUrl = `${threadUrl}&p=${page}`;
     try {
       const doc = await getDocumentFromUrl(pageUrl);
-      const postsNodes = doc.querySelectorAll(postsSelector);
-      if (!(postsNodes.length > 0)) break;
+      // check that thread page has job ads comments
+      const postTitleNodes = doc.querySelectorAll(postTitleSelector);
+      if (!(postTitleNodes.length > 0)) break;
 
       pagesUrls.push(pageUrl);
     } catch (error) {}

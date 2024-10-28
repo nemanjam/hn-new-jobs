@@ -1,6 +1,6 @@
-import { PARSER } from '@/parser/constants';
-import { getDocumentFromUrl } from '@/parser/download';
-import { getThreadPagesUrlsForMonth } from '@/parser/thread';
+import { SCRAPER } from '@/parser/scraper/constants';
+import { getDocumentFromUrl } from '@/parser/scraper/fetch-html';
+import { getThreadPagesUrlsForMonth } from '@/parser/scraper/thread';
 
 export interface Company {
   name: string;
@@ -11,19 +11,19 @@ export const getCompaniesForPage = async (
   pageUrl: string
 ): Promise<Company[]> => {
   const {
-    postsSelector,
+    postSelector,
     titleChildSelector,
     linkChildSelector,
     companyNameRegex,
     removeLinkOrBracesRegex,
-  } = PARSER.companies;
+  } = SCRAPER.companies;
 
   const doc = await getDocumentFromUrl(pageUrl);
-  const postsNodes = doc.querySelectorAll(postsSelector);
+  const postNodes = doc.querySelectorAll(postSelector);
 
   const companies = [];
 
-  for (const postNode of postsNodes) {
+  for (const postNode of postNodes) {
     const titleNode = postNode.querySelector(titleChildSelector);
     if (!titleNode) continue;
 
@@ -44,6 +44,8 @@ export const getCompaniesForPage = async (
 
   return companies;
 };
+
+/** Main function that returns parsed companies for a month. */
 
 export const getCompaniesForThread = async (
   threadUrl: string
