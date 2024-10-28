@@ -7,6 +7,7 @@ export const SCRAPER = {
   thread: {
     // just post title
     postTitleSelector: '.athing.comtr:has([indent="0"]) .commtext:first-child', // cspell:disable-line
+    maxNumberOfPages: 10,
   },
   companies: {
     // entire post, queried again for title and link
@@ -16,4 +17,4 @@ export const SCRAPER = {
     companyNameRegex: /^([^|]+)\|/,
     removeLinkOrBracesRegex: /^(.*?)\s*(?:\([^)]*\)|https?:\/\/\S+)/,
   },
-};
+} as const;

@@ -1,4 +1,4 @@
-import { getDocumentFromUrl } from '@/modules/parser/scraper/fetch-html';
+import { fetchHtmlDocumentFromUrl } from '@/modules/parser/scraper/fetch-html';
 import { SCRAPER } from '@/constants/scraper';
 
 import type { Months, Thread } from '@/types/parser';
@@ -10,22 +10,22 @@ import type { Months, Thread } from '@/types/parser';
 export const getThreads = async (): Promise<Thread[]> => {
   const { threadsUrl, threadPostSelector, monthWordRegex } = SCRAPER.threads;
 
-  const doc = await getDocumentFromUrl(threadsUrl);
-  const threadsNodes = doc.querySelectorAll(threadPostSelector);
+  const doc = await fetchHtmlDocumentFromUrl(threadsUrl);
+  const threadsNodes =
+    doc.querySelectorAll<HTMLAnchorElement>(threadPostSelector);
 
   const threads = [];
 
   for (const threadNode of threadsNodes) {
-    // todo: handle not found and fix types
+    if (!(threadNode && threadNode.textContent && threadNode.href)) continue;
+
     const { textContent, href } = threadNode;
 
     const match = textContent.match(monthWordRegex);
     const month = match ? match[1].trim() : null;
     if (!month) continue;
 
-    const link = threadNode.href;
-
-    const thread = { month, link };
+    const thread = { month, link: href };
     threads.push(thread);
   }
 

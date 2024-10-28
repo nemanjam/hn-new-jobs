@@ -1,16 +1,22 @@
 import { JSDOM } from 'jsdom';
 
 import { sleep } from '@/utils/sleep';
+import { CONFIG } from '@/config/parser';
 
 import type { Cache } from '@/types/parser';
 
+const { fetchWaitSeconds } = CONFIG;
+
+// todo: cache to files
 const cache: Cache = { urls: {} };
 
-export const getDocumentFromUrl = async (url: string): Promise<Document> => {
+export const fetchHtmlDocumentFromUrl = async (
+  url: string
+): Promise<Document> => {
   if (!cache.urls?.[url]) {
     const response = await fetch(url);
     cache.urls[url] = await response.text();
-    await sleep(5);
+    await sleep(fetchWaitSeconds);
   }
 
   const htmlContent = cache.urls[url];

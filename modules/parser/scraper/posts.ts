@@ -1,10 +1,12 @@
-import { getDocumentFromUrl } from '@/modules/parser/scraper/fetch-html';
+import { fetchHtmlDocumentFromUrl } from '@/modules/parser/scraper/fetch-html';
 import { getThreadPagesUrlsForMonth } from '@/modules/parser/scraper/thread';
 import { SCRAPER } from '@/constants/scraper';
 
 import type { Company } from '@/types/parser';
 
-export const getCompaniesForPage = async (pageUrl: string): Promise<Company[]> => {
+export const getCompaniesForPage = async (
+  pageUrl: string
+): Promise<Company[]> => {
   const {
     postSelector,
     titleChildSelector,
@@ -13,14 +15,22 @@ export const getCompaniesForPage = async (pageUrl: string): Promise<Company[]> =
     removeLinkOrBracesRegex,
   } = SCRAPER.companies;
 
-  const doc = await getDocumentFromUrl(pageUrl);
-  const postNodes = doc.querySelectorAll(postSelector);
+  const doc = await fetchHtmlDocumentFromUrl(pageUrl);
+  const postNodes = doc.querySelectorAll<HTMLTableRowElement>(postSelector);
+
+  // todo: throw if postNodes empty
 
   const companies = [];
 
   for (const postNode of postNodes) {
-    const titleNode = postNode.querySelector(titleChildSelector);
-    if (!titleNode) continue;
+    // handle DOM elements first
+    const titleNode =
+      postNode.querySelector<HTMLDivElement>(titleChildSelector);
+    const linkNode =
+      postNode.querySelector<HTMLAnchorElement>(linkChildSelector);
+
+    // if no element, skip
+    if (!(titleNode?.textContent && linkNode)) continue;
 
     const titleText = titleNode.textContent.trim();
     const match = titleText.match(companyNameRegex);
@@ -30,7 +40,6 @@ export const getCompaniesForPage = async (pageUrl: string): Promise<Company[]> =
     const urlMatch = name.match(removeLinkOrBracesRegex);
     name = urlMatch ? urlMatch[1].trim() : name;
 
-    const linkNode = postNode.querySelector(linkChildSelector);
     const link = linkNode.href;
 
     const company = { name, link };
@@ -42,7 +51,9 @@ export const getCompaniesForPage = async (pageUrl: string): Promise<Company[]> =
 
 /** Main function that returns parsed companies for a month. */
 
-export const getCompaniesForThread = async (threadUrl: string): Promise<Company[]> => {
+export const getCompaniesForThread = async (
+  threadUrl: string
+): Promise<Company[]> => {
   const pagesUrls = await getThreadPagesUrlsForMonth(threadUrl);
 
   const allCompanies = [];

@@ -1,11 +1,14 @@
-import { compareCompanies, getNewAndOldCompanies } from '@/modules/parser/compare';
+import {
+  compareCompanies,
+  getNewAndOldCompanies,
+} from '@/modules/parser/compare';
 import { formatResult, saveAsJsonFile } from '@/modules/parser/format';
 import { getCompaniesForThread } from '@/modules/parser/scraper/posts';
 import { getThreadUrlFromMonth } from '@/modules/parser/scraper/thread';
 import { getAllMonths } from '@/modules/parser/scraper/threads';
 import { CONFIG } from '@/config/parser';
 
-import type { FormattedResult } from '@/types/parser';
+import type { Company, FormattedResult } from '@/types/parser';
 
 const { saveAsFile, fileNames } = CONFIG;
 
@@ -62,47 +65,54 @@ export const compareLastTwoMonths = async (): Promise<void> => {
   console.table(output);
 };
 
-export const getNumberOfMonthsForLastMonthsCompanies = async (): Promise<void> => {
-  const parsedMonths = await getAllMonths();
-  const { allMonths } = parsedMonths;
+interface CompanyMonths {
+  monthsCount: number;
+  ads: (Company & { month: string })[];
+  months: string[];
+}
 
-  const month1 = allMonths[0];
-  const threadUrl1 = await getThreadUrlFromMonth(month1);
-  const companies1 = await getCompaniesForThread(threadUrl1);
+export const getNumberOfMonthsForLastMonthsCompanies =
+  async (): Promise<void> => {
+    const parsedMonths = await getAllMonths();
+    const { allMonths } = parsedMonths;
 
-  const allCompanies = [];
-  for (const company1 of companies1) {
-    const company = { ...company1, months: [], monthsCount: 0, ads: [] };
-    for (const month of allMonths) {
-      const threadUrl2 = await getThreadUrlFromMonth(month);
-      const companies2 = await getCompaniesForThread(threadUrl2);
+    const month1 = allMonths[0];
+    const threadUrl1 = await getThreadUrlFromMonth(month1);
+    const companies1 = await getCompaniesForThread(threadUrl1);
 
-      let isFound = false;
-      let companyAd = null;
-      for (const company2 of companies2) {
-        const isEqual = compareCompanies(company1, company2);
-        if (isEqual) {
-          isFound = true;
-          companyAd = { ...company2, month };
-          break;
+    const allCompanies = [];
+    for (const company1 of companies1) {
+      const company: CompanyMonths = {
+        ...company1,
+        months: [],
+        monthsCount: 0,
+        ads: [],
+      };
+      for (const month of allMonths) {
+        const threadUrl2 = await getThreadUrlFromMonth(month);
+        const companies2 = await getCompaniesForThread(threadUrl2);
+
+        for (const company2 of companies2) {
+          const isEqual = compareCompanies(company1, company2);
+          if (isEqual) {
+            company.months.push(month);
+            const companyAd = { ...company2, month };
+            company.ads.push(companyAd);
+            company.monthsCount++;
+            break;
+          }
         }
       }
-      if (isFound) {
-        company.months.push(month);
-        company.ads.push(companyAd);
-        company.monthsCount++;
-      }
+      allCompanies.push(company);
+      console.log('company', company);
     }
-    allCompanies.push(company);
-    console.log('company', company);
-  }
 
-  allCompanies.sort((a, b) => b.monthsCount - a.monthsCount);
+    allCompanies.sort((a, b) => b.monthsCount - a.monthsCount);
 
-  if (saveAsFile) {
-    const output = { allCompanies };
-    saveAsJsonFile(output, fileNames.outputAllCompanies);
-  }
+    if (saveAsFile) {
+      const output = { allCompanies };
+      saveAsJsonFile(output, fileNames.outputAllCompanies);
+    }
 
-  console.table(allCompanies);
-};
+    console.table(allCompanies);
+  };

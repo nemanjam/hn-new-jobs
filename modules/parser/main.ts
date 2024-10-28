@@ -4,13 +4,13 @@ async function parse({ saveAsFile = true, whichMonths = 'last-two' }) {
   async function main() {
     switch (whichMonths) {
       case 'last-two':
-        await compareLastTwoMonths();
+        // await compareLastTwoMonths();
         break;
       case 'all':
-        await compareAllMonths();
+        // await compareAllMonths();
         break;
       case 'companies':
-        await getNumberOfMonthsForLastMonthsCompanies();
+        // await getNumberOfMonthsForLastMonthsCompanies();
         break;
 
       default:
