@@ -12,6 +12,7 @@ import { CONFIG } from '@/config/parser';
 
 const { fetchWaitSeconds, cacheFilePath, cacheTtlHours, resultFolder, fileNames } = CONFIG;
 
+// disables cache for testing
 try {
   fs.unlinkSync(cacheFilePath);
   const filePath = join(resultFolder, fileNames.outputLastTwoMoths);
