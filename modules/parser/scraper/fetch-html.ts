@@ -1,9 +1,12 @@
+import axios from 'axios';
 import { JSDOM } from 'jsdom';
 import Keyv from 'keyv';
 import KeyvFile from 'keyv-file';
 
 import { sleep } from '@/utils/sleep';
 import { CONFIG } from '@/config/parser';
+
+import type { AxiosError } from 'axios';
 
 const { fetchWaitSeconds, cacheFilePath, cacheTtlHours } = CONFIG;
 
@@ -20,8 +23,8 @@ export const fetchHtml = async (url: string): Promise<Document> => {
     }
 
     // fetch
-    const response = await fetch(url);
-    const htmlContent = await response.text();
+    const response = await axios.get(url);
+    const htmlContent = await response.data;
 
     // cache
     await cache.set(url, htmlContent, cacheTtlHours * 60 * 60 * 1000); // TTL in milliseconds
@@ -31,7 +34,29 @@ export const fetchHtml = async (url: string): Promise<Document> => {
 
     return new JSDOM(htmlContent).window.document;
   } catch (error) {
-    console.error('An error occurred:', error);
-    throw error;
+    if (axios.isAxiosError(error)) {
+      throw handleAxiosError(error);
+    } else {
+      const message = `Unknown fetchHtml error. ${error}`;
+      console.error(message);
+      throw new Error(message);
+    }
   }
+};
+
+const handleAxiosError = (error: AxiosError): Error => {
+  const { response } = error;
+  let message;
+
+  if (response) {
+    message = `Axios response error. Status: ${response.status}, Message: ${response.statusText}, Data: ${response.data}`;
+  } else if (error.request) {
+    message = `Axios no response error. Request: ${JSON.stringify(error.request)}`;
+  } else {
+    message = `Axios request error. ${error.message}`;
+  }
+
+  console.error(message);
+
+  return new Error(message);
 };

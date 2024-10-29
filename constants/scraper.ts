@@ -5,6 +5,7 @@ export const SCRAPER = {
     monthWordRegex: /.*(?:hiring).*?\((\w+)/,
   },
   thread: {
+    threadBaseUrl: 'https://news.ycombinator.com/',
     // just post title
     postTitleSelector: '.athing.comtr:has([indent="0"]) .commtext:first-child', // cspell:disable-line
     maxNumberOfPages: 10,

@@ -14,12 +14,12 @@ export const getThreadUrlFromMonth = async (month: string): Promise<string> => {
 
 // pagination
 export const getThreadPagesUrlsForMonth = async (threadUrl: string): Promise<string[]> => {
-  const { postTitleSelector, maxNumberOfPages } = SCRAPER.thread;
+  const { postTitleSelector, maxNumberOfPages, threadBaseUrl } = SCRAPER.thread;
 
   const pagesUrls = [];
 
   for (let page = 1; page < maxNumberOfPages; page++) {
-    const pageUrl = `${threadUrl}&p=${page}`;
+    const pageUrl = `${threadBaseUrl}${threadUrl}&p=${page}`;
     try {
       const doc = await fetchHtml(pageUrl); // can throw
       // check that thread page has job ads comments
