@@ -3,5 +3,5 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "cSpell.words": ["Multistep"]
+  "cSpell.words": ["Keyv", "Multistep"]
 }

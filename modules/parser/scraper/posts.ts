@@ -1,12 +1,10 @@
-import { fetchHtmlDocumentFromUrl } from '@/modules/parser/scraper/fetch-html';
+import { fetchHtml } from '@/modules/parser/scraper/fetch-html';
 import { getThreadPagesUrlsForMonth } from '@/modules/parser/scraper/thread';
 import { SCRAPER } from '@/constants/scraper';
 
 import type { Company } from '@/types/parser';
 
-export const getCompaniesForPage = async (
-  pageUrl: string
-): Promise<Company[]> => {
+export const getCompaniesForPage = async (pageUrl: string): Promise<Company[]> => {
   const {
     postSelector,
     titleChildSelector,
@@ -15,7 +13,7 @@ export const getCompaniesForPage = async (
     removeLinkOrBracesRegex,
   } = SCRAPER.companies;
 
-  const doc = await fetchHtmlDocumentFromUrl(pageUrl);
+  const doc = await fetchHtml(pageUrl);
   const postNodes = doc.querySelectorAll<HTMLTableRowElement>(postSelector);
 
   // todo: throw if postNodes empty
@@ -24,10 +22,8 @@ export const getCompaniesForPage = async (
 
   for (const postNode of postNodes) {
     // handle DOM elements first
-    const titleNode =
-      postNode.querySelector<HTMLDivElement>(titleChildSelector);
-    const linkNode =
-      postNode.querySelector<HTMLAnchorElement>(linkChildSelector);
+    const titleNode = postNode.querySelector<HTMLDivElement>(titleChildSelector);
+    const linkNode = postNode.querySelector<HTMLAnchorElement>(linkChildSelector);
 
     // if no element, skip
     if (!(titleNode?.textContent && linkNode)) continue;
@@ -51,9 +47,7 @@ export const getCompaniesForPage = async (
 
 /** Main function that returns parsed companies for a month. */
 
-export const getCompaniesForThread = async (
-  threadUrl: string
-): Promise<Company[]> => {
+export const getCompaniesForThread = async (threadUrl: string): Promise<Company[]> => {
   const pagesUrls = await getThreadPagesUrlsForMonth(threadUrl);
 
   const allCompanies = [];

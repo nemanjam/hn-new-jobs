@@ -1,7 +1,11 @@
+import { join } from 'path';
+
 export const CONFIG = {
   saveAsFile: true,
   whichMonths: 'last-two',
   fetchWaitSeconds: 5,
+  cacheFilePath: join(__dirname, '..', 'cache/cache.json'),
+  cacheTtlHours: 24,
   fileNames: {
     outputAllMonths: 'output-all-months.json',
     outputLastTwoMoths: 'output-last-two-months.json',

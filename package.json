@@ -6,6 +6,7 @@
     "dev": "NODE_NO_WARNINGS=1 next dev",
     "build": "next build",
     "start": "next start",
+    "parse-hn": "ts-node modules/parser/main.ts",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "preview": "next build && next start",
@@ -21,6 +22,8 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "jsdom": "^25.0.1",
+    "keyv": "^5.1.2",
+    "keyv-file": "^5.0.3",
     "lucide-react": "0.453.0",
     "next": "^15.0.0",
     "next-themes": "^0.3.0",
@@ -28,7 +31,8 @@
     "react-dom": "^18.2.0",
     "sharp": "^0.33.5",
     "tailwind-merge": "^2.5.4",
-    "tailwindcss-animate": "^1.0.6"
+    "tailwindcss-animate": "^1.0.6",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.3.1",

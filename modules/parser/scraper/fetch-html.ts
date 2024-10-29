@@ -1,27 +1,37 @@
 import { JSDOM } from 'jsdom';
+import Keyv from 'keyv';
+import KeyvFile from 'keyv-file';
 
 import { sleep } from '@/utils/sleep';
 import { CONFIG } from '@/config/parser';
 
-import type { Cache } from '@/types/parser';
+const { fetchWaitSeconds, cacheFilePath, cacheTtlHours } = CONFIG;
 
-const { fetchWaitSeconds } = CONFIG;
+const cache = new Keyv({
+  store: new KeyvFile({ filename: cacheFilePath }),
+});
 
-// todo: cache to files
-const cache: Cache = { urls: {} };
+export const fetchHtml = async (url: string): Promise<Document> => {
+  try {
+    // check cache
+    const cachedContent = await cache.get(url);
+    if (cachedContent) {
+      return new JSDOM(cachedContent).window.document;
+    }
 
-export const fetchHtmlDocumentFromUrl = async (
-  url: string
-): Promise<Document> => {
-  if (!cache.urls?.[url]) {
+    // fetch
     const response = await fetch(url);
-    cache.urls[url] = await response.text();
+    const htmlContent = await response.text();
+
+    // cache
+    await cache.set(url, htmlContent, cacheTtlHours * 60 * 60 * 1000); // TTL in milliseconds
+
+    // throttle only fetch
     await sleep(fetchWaitSeconds);
+
+    return new JSDOM(htmlContent).window.document;
+  } catch (error) {
+    console.error('An error occurred:', error);
+    throw error;
   }
-
-  const htmlContent = cache.urls[url];
-
-  // node.js dom
-  const dom = new JSDOM(htmlContent);
-  return dom.window.document;
 };

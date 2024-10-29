@@ -1,16 +1,22 @@
-async function parse({ saveAsFile = true, whichMonths = 'last-two' }) {
+import {
+  compareAllMonths,
+  compareLastTwoMonths,
+  getNumberOfMonthsForLastMonthsCompanies,
+} from '@/modules/parser/months';
+
+async function parse({ whichMonths = 'last-two' }) {
   //
 
   async function main() {
     switch (whichMonths) {
       case 'last-two':
-        // await compareLastTwoMonths();
+        await compareLastTwoMonths();
         break;
       case 'all':
-        // await compareAllMonths();
+        await compareAllMonths();
         break;
       case 'companies':
-        // await getNumberOfMonthsForLastMonthsCompanies();
+        await getNumberOfMonthsForLastMonthsCompanies();
         break;
 
       default:
@@ -18,18 +24,11 @@ async function parse({ saveAsFile = true, whichMonths = 'last-two' }) {
     }
   }
 
-  const fileNames = {
-    outputAllMonths: 'output-all-months.json',
-    outputLastTwoMoths: 'output-last-two-months.json',
-    outputAllCompanies: 'output-all-companies.json',
-  };
-
   await main();
 }
 
 (function () {
   const options = {
-    saveAsFile: true,
     whichMonths: 'last-two',
   };
 

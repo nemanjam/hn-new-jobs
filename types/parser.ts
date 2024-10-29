@@ -1,7 +1,3 @@
-export interface Cache {
-  urls: Record<string, string>;
-}
-
 export interface Company {
   name: string;
   link: string;
