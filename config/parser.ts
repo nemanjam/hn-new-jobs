@@ -4,7 +4,8 @@ export const CONFIG = {
   saveAsFile: true,
   whichMonths: 'last-two',
   fetchWaitSeconds: 5,
-  cacheFilePath: join(__dirname, '..', 'cache/cache.json'),
+  cacheFilePath: join(__dirname, '..', 'data/cache/cache.json'),
+  resultFolder: join(__dirname, '..', 'data/result/'),
   cacheTtlHours: 24,
   fileNames: {
     outputAllMonths: 'output-all-months.json',

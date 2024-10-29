@@ -37,6 +37,12 @@ yarn-error.log*
 
 tsconfig.tsbuildinfo
 
-!cache
-cache/*
-!cache/.gitkeep
+# ignore cache
+!data/cache
+data/cache/*
+!data/cache/.gitkeep
+
+# enable in prduction
+!data/result
+data/result/*
+!data/result/.gitkeep

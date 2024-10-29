@@ -1,7 +1,11 @@
 import { promises as fs } from 'fs';
 import { join } from 'path';
 
+import { CONFIG } from '@/config/parser';
+
 import type { FormattedResult, Input } from '@/types/parser';
+
+const { resultFolder } = CONFIG;
 
 export const formatResult = (input: Input): FormattedResult => {
   const { result, month1, month2 } = input;
@@ -35,7 +39,7 @@ export const formatResult = (input: Input): FormattedResult => {
 export const saveAsJsonFile = async (data: unknown, fileName: string): Promise<void> => {
   const jsonString = JSON.stringify(data, null, 2);
 
-  const filePath = join(__dirname, fileName);
+  const filePath = join(resultFolder, fileName);
 
   try {
     await fs.writeFile(filePath, jsonString, 'utf8');
