@@ -1,7 +1,18 @@
+/*------------------ database -----------------*/
+
 export interface Company {
   name: string;
   link: string;
 }
+
+// tables don't need types
+export interface Month {
+  name: string;
+  companies: Company[];
+  createdAt: Date;
+}
+
+/*------------------ parser -----------------*/
 
 export interface Thread {
   month: string;
@@ -32,13 +43,15 @@ export interface Input {
 export interface FormattedResult {
   forMonth: string;
   comparedToMonth: string;
-  totalCount: number;
-  newCount: number;
-  oldCount: number;
-  percentageOfNew: string;
-  percentageOfOld: string;
-  newNames: string[];
-  oldNames: string[];
   newCompanies: Company[];
   oldCompanies: Company[];
+  // calculated
+  newCount: number;
+  oldCount: number;
+  totalCount: number;
+  percentageOfNew: string;
+  percentageOfOld: string;
+  // repeated
+  newNames: string[];
+  oldNames: string[];
 }

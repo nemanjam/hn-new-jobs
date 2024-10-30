@@ -10,7 +10,6 @@ async function parse({ whichMonths = 'last-two' }) {
   async function main() {
     switch (whichMonths) {
       case 'last-two':
-        console.log('tsx works');
         await compareLastTwoMonths();
         break;
       case 'all':

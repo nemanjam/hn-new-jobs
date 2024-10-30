@@ -1,30 +1,27 @@
-import { compareCompanies, getNewAndOldCompanies } from '@/modules/parser/compare';
-import { formatResult, saveAsJsonFile } from '@/modules/parser/format';
+import { compareCompanies, compareTwoMonths } from '@/modules/parser/compare';
+import { saveAsJsonFile } from '@/modules/parser/format';
 import { getCompaniesForThread } from '@/modules/parser/scraper/posts';
 import { getThreadUrlFromMonth } from '@/modules/parser/scraper/thread';
 import { getAllMonths } from '@/modules/parser/scraper/threads';
 import { CONFIG } from '@/config/parser';
 
-import type { Company, FormattedResult } from '@/types/parser';
+import type { Company } from '@/types/parser';
 
 const { saveAsFile, fileNames } = CONFIG;
 
-export const compareTwoMonths = async (
-  month1: string,
-  month2: string
-): Promise<FormattedResult> => {
-  const threadUrl1 = await getThreadUrlFromMonth(month1);
-  const threadUrl2 = await getThreadUrlFromMonth(month2);
+export const compareLastTwoMonths = async (): Promise<void> => {
+  const parsedMonths = await getAllMonths();
+  const { monthPairs } = parsedMonths;
 
-  const companies1 = await getCompaniesForThread(threadUrl1);
-  const companies2 = await getCompaniesForThread(threadUrl2);
+  const monthPair = monthPairs[0];
+  const result = await compareTwoMonths(monthPair.month1, monthPair.month2);
 
-  const result = getNewAndOldCompanies(companies1, companies2);
+  const output = { result };
 
-  const input = { result, month1, month2 };
-  const output = formatResult(input);
-
-  return output;
+  if (saveAsFile) {
+    saveAsJsonFile(output, fileNames.outputLastTwoMoths);
+  }
+  console.table(output);
 };
 
 export const compareAllMonths = async (): Promise<void> => {
@@ -42,21 +39,6 @@ export const compareAllMonths = async (): Promise<void> => {
 
   console.log(allMonths);
   console.table(allResults);
-};
-
-export const compareLastTwoMonths = async (): Promise<void> => {
-  const parsedMonths = await getAllMonths();
-  const { monthPairs } = parsedMonths;
-
-  const monthPair = monthPairs[0];
-  const result = await compareTwoMonths(monthPair.month1, monthPair.month2);
-
-  const output = { result };
-
-  if (saveAsFile) {
-    saveAsJsonFile(output, fileNames.outputLastTwoMoths);
-  }
-  console.table(output);
 };
 
 interface CompanyMonths {

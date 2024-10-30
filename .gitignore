@@ -46,3 +46,8 @@ data/cache/*
 !data/result
 data/result/*
 !data/result/.gitkeep
+
+# enable in prduction
+!data/database
+data/database/*
+!data/database/.gitkeep

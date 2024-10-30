@@ -9,6 +9,7 @@ cron
 dateFns
 save result json
 logger with colors
+result, normalized db schema, tables, columns
 ```
 
 - axios and http error - just restart terminal, trivial, otherwise nasty error

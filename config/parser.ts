@@ -5,6 +5,8 @@ export const CONFIG = {
   whichMonths: 'last-two',
   fetchWaitSeconds: 5,
   cacheFilePath: join(__dirname, '..', 'data/cache/cache.json'),
+  databaseFilePath: join(__dirname, '..', 'data/database/hn-parser-node-database.sqlite3'),
+  // todo: remove after database
   resultFolder: join(__dirname, '..', 'data/result/'),
   cacheTtlHours: 24,
   fileNames: {

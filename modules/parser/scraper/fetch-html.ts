@@ -14,9 +14,9 @@ const { fetchWaitSeconds, cacheFilePath, cacheTtlHours, resultFolder, fileNames 
 
 // disables cache for testing
 try {
-  fs.unlinkSync(cacheFilePath);
-  const filePath = join(resultFolder, fileNames.outputLastTwoMoths);
-  fs.unlinkSync(filePath);
+  // fs.unlinkSync(cacheFilePath);
+  // const filePath = join(resultFolder, fileNames.outputLastTwoMoths);
+  // fs.unlinkSync(filePath);
 } catch (error) {}
 
 const cache = new Keyv({
