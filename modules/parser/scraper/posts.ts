@@ -2,9 +2,9 @@ import { fetchHtml } from '@/modules/parser/scraper/fetch-html';
 import { getThreadPagesUrlsForMonth, getThreadUrlFromMonth } from '@/modules/parser/scraper/thread';
 import { SCRAPER } from '@/constants/scraper';
 
-import type { Company } from '@/types/parser';
+import type { PCompany } from '@/types/parser';
 
-export const parseCompaniesForPage = async (pageUrl: string): Promise<Company[]> => {
+export const parseCompaniesForPage = async (pageUrl: string): Promise<PCompany[]> => {
   const {
     postSelector,
     titleChildSelector,
@@ -47,10 +47,10 @@ export const parseCompaniesForPage = async (pageUrl: string): Promise<Company[]>
 
 /** Main function that returns parsed companies for a month. */
 
-export const parseCompaniesForThread = async (threadUrl: string): Promise<Company[]> => {
+export const parseCompaniesForThread = async (threadUrl: string): Promise<PCompany[]> => {
   const pagesUrls = await getThreadPagesUrlsForMonth(threadUrl);
 
-  const allCompanies: Company[] = [];
+  const allCompanies: PCompany[] = [];
 
   for (const pageUrl of pagesUrls) {
     const companies = await parseCompaniesForPage(pageUrl);

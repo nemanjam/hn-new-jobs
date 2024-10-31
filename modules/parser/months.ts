@@ -1,5 +1,5 @@
-import { compareCompanies, compareTwoMonths } from '@/modules/parser/compare';
 import { saveAsJsonFile } from '@/modules/parser/format';
+import { compareCompanies, compareTwoMonths } from '@/modules/parser/parse';
 import { parseCompaniesForThread } from '@/modules/parser/scraper/posts';
 import { getThreadUrlFromMonth } from '@/modules/parser/scraper/thread';
 import { getAllMonths } from '@/modules/parser/scraper/threads';

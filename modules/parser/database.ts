@@ -1,6 +1,6 @@
 import BetterSqlite3 from 'better-sqlite3';
 
-import { compareCompanies } from '@/modules/parser/compare';
+import { compareCompanies } from '@/modules/parser/parse';
 import { CONFIG } from '@/config/parser';
 
 import type { Database, RunResult } from 'better-sqlite3';
@@ -54,7 +54,7 @@ export const saveNewMonth = (month: PMonth): void => {
 
 /** Insert multiple months with sliding window (pagination). */
 
-export const saveFromToMonths = (months: PMonth[]): void => {
+export const saveFromToSubsequentMonths = (months: PMonth[]): void => {
   const insertMonth = db.prepare<[string], RunResult>(
     `INSERT OR IGNORE INTO month (name) VALUES (?)`
   );

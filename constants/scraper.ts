@@ -1,8 +1,11 @@
 export const SCRAPER = {
   threads: {
     threadsUrl: 'https://news.ycombinator.com/submitted?id=whoishiring',
-    threadPostSelector: 'tr.athing span.titleline a', // cspell:disable-line
-    monthWordRegex: /.*(?:hiring).*?\((\w+)/,
+    threadPostTitleSelector: 'tr.athing span.titleline a', // cspell:disable-line
+    // new
+    threadDateSelectorTemplate: 'a[href="__thread-href__"]', // 'a[href="item?id=41709301"]'
+    threadHrefPlaceholder: '__thread-href__',
+    hasHiringRegex: /hiring/i,
   },
   thread: {
     threadBaseUrl: 'https://news.ycombinator.com/',

@@ -1,10 +1,9 @@
-/*-------------------------- database wrappers ------------------------*/
-
 import type { DbCompany } from '@/types/database';
+
+/*-------------------------- database wrappers ------------------------*/
 
 export interface PMonth {
   name: string;
-  createdAt: Date;
   companies: PCompany[];
 }
 
@@ -33,6 +32,8 @@ export interface MonthsPair {
 export interface NewAndOldCompanies extends MonthsPair {
   newCompanies: DbCompany[];
   oldCompanies: DbCompany[];
+  /** todo: First time appearing companies. */
+  firstTimeCompanies?: DbCompany[];
 }
 
 export interface CompanyMonths {
