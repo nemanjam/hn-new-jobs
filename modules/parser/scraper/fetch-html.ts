@@ -1,8 +1,6 @@
 import fs from 'fs';
-import { join } from 'path';
 
 import axios from 'axios';
-import { JSDOM } from 'jsdom';
 import Keyv from 'keyv';
 import KeyvFile from 'keyv-file';
 
@@ -21,13 +19,13 @@ const cache = new Keyv({
   store: new KeyvFile({ filename: cacheFilePath }),
 });
 
-export const fetchHtml = async (url: string): Promise<Document> => {
+export const fetchHtml = async (url: string): Promise<string> => {
   try {
     // check cache
-    const cachedContent = await cache.get(url);
+    const cachedContent = await cache.get<string>(url);
     if (cachedContent) {
       console.log(`Cache hit, url: ${url}`);
-      return new JSDOM(cachedContent).window.document;
+      return cachedContent;
     }
 
     console.log(`Cache miss, url: ${url}`);
@@ -36,18 +34,17 @@ export const fetchHtml = async (url: string): Promise<Document> => {
     const response = await axiosInstance.get<string>(url);
     const htmlContent = response.data;
 
-    console.log(`htmlContent`, htmlContent);
-
     // cache
     await cache.set(url, htmlContent, cacheTtlHours * 60 * 60 * 1000);
 
     // throttle only fetch
     await sleep(fetchWaitSeconds);
 
-    return new JSDOM(htmlContent).window.document;
+    return htmlContent;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw handleAxiosError(error);
+      handleAxiosError(error);
+      // must throw here to prevent bellow
     }
 
     const message = `Unknown fetchHtml error. ${error}`;

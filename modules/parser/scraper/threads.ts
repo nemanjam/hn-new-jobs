@@ -1,3 +1,5 @@
+import { JSDOM } from 'jsdom';
+
 import { fetchHtml } from '@/modules/parser/scraper/fetch-html';
 import { convertDateToDbMonthName } from '@/libs/datetime';
 import { SCRAPER } from '@/constants/scraper';
@@ -17,7 +19,10 @@ export const getThreads = async (): Promise<Thread[]> => {
     hasHiringRegex,
   } = SCRAPER.threads;
 
-  const doc = await fetchHtml(threadsUrl);
+  const htmlContent = await fetchHtml(threadsUrl);
+  console.log('htmlContent', htmlContent);
+
+  const doc: Document = new JSDOM(htmlContent).window.document;
 
   const threadFirstTrNodes = doc.querySelectorAll<HTMLTableRowElement>(threadPostFirstTrSelector);
 
