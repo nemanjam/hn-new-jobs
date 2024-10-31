@@ -1,8 +1,6 @@
-import {
-  compareAllMonths,
-  compareLastTwoMonths,
-  getNumberOfMonthsForLastMonthsCompanies,
-} from '@/modules/parser/months';
+import { compareAllMonths, getNumberOfMonthsForLastMonthsCompanies } from '@/modules/parser/months';
+import { parseNewMonth } from './parse';
+import { getThreads } from './scraper/threads';
 
 async function parse({ whichMonths = 'last-two' }) {
   //
@@ -10,7 +8,9 @@ async function parse({ whichMonths = 'last-two' }) {
   async function main() {
     switch (whichMonths) {
       case 'last-two':
-        await compareLastTwoMonths();
+        // await compareLastTwoMonths();
+        // await parseNewMonth();
+        await getThreads();
         break;
       case 'all':
         await compareAllMonths();

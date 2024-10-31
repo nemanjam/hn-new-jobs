@@ -14,9 +14,7 @@ const { fetchWaitSeconds, cacheFilePath, cacheTtlHours, resultFolder, fileNames 
 
 // disables cache for testing
 try {
-  // fs.unlinkSync(cacheFilePath);
-  // const filePath = join(resultFolder, fileNames.outputLastTwoMoths);
-  // fs.unlinkSync(filePath);
+  fs.unlinkSync(cacheFilePath);
 } catch (error) {}
 
 const cache = new Keyv({
@@ -37,6 +35,8 @@ export const fetchHtml = async (url: string): Promise<Document> => {
     // fetch
     const response = await axiosInstance.get<string>(url);
     const htmlContent = response.data;
+
+    console.log(`htmlContent`, htmlContent);
 
     // cache
     await cache.set(url, htmlContent, cacheTtlHours * 60 * 60 * 1000);

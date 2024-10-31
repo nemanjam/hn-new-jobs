@@ -46,7 +46,7 @@ export const handleAxiosError = (error: AxiosError): Error => {
     message = `Axios request error. ${error.message}`;
   }
 
-  console.error('Stringified error: ', JSON.stringify(error, null, 2));
+  // console.error('Stringified error: ', JSON.stringify(error, null, 2));
   console.error(message, errorData);
   return new Error(message);
 };
