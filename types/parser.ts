@@ -1,23 +1,19 @@
-/*------------------ database -----------------*/
+/*-------------------------- database wrappers ------------------------*/
 
-export interface Company {
-  name: string;
-  link: string;
-}
+import type { DbCompany } from '@/types/database';
 
-// tables don't need types
-export interface Month {
+export interface PMonth {
   name: string;
-  companies: Company[];
   createdAt: Date;
+  companies: PCompany[];
 }
 
-/*------------------ parser -----------------*/
-
-export interface Thread {
-  month: string;
+export interface PCompany {
+  name: string;
   link: string;
 }
+
+/*-------------------- get old new companies from db ------------------*/
 
 export interface MonthPair {
   month1: string;
@@ -29,10 +25,29 @@ export interface Months {
   monthPairs: MonthPair[];
 }
 
-export interface NewAndOldCompanies {
-  newCompanies: Company[];
-  oldCompanies: Company[];
+export interface MonthsPair {
+  forMonthName: string;
+  comparedToMonthName: string;
 }
+
+export interface NewAndOldCompanies extends MonthsPair {
+  newCompanies: DbCompany[];
+  oldCompanies: DbCompany[];
+}
+
+export interface CompanyMonths {
+  companyName: string;
+  allMonths: DbCompany[];
+}
+
+/*------------------ old parser -----------------*/
+
+export interface Thread {
+  month: string;
+  link: string;
+}
+
+/*------------------ bellow old parser outdated -----------------*/
 
 export interface Input {
   result: NewAndOldCompanies;

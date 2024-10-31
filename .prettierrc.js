@@ -32,9 +32,9 @@ module.exports = {
     '^@/config',
     '^[./]', // all relative imports
     '',
+    '^@/types',
     '<TYPES>',
     '<TYPES>^[.]',
-    '^@/types',
     '',
     '^@/assets',
     '^@/styles',

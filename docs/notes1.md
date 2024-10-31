@@ -10,6 +10,10 @@ dateFns
 save result json
 logger with colors
 result, normalized db schema, tables, columns
+scheduler
+separate parse and compare from db
+fix types import sort prettier
+check select name select * what will return
 ```
 
 - axios and http error - just restart terminal, trivial, otherwise nasty error

@@ -1,19 +1,21 @@
 import { formatResult } from '@/modules/parser/format';
-import { getCompaniesForThread } from '@/modules/parser/scraper/posts';
+import { parseCompaniesForThread } from '@/modules/parser/scraper/posts';
 import { getThreadUrlFromMonth } from '@/modules/parser/scraper/thread';
 
-import type { Company, FormattedResult, NewAndOldCompanies } from '@/types/parser';
+import type { DbCompany } from '@/types/database';
+import type { FormattedResult, NewAndOldCompanies } from '@/types/parser';
 
-export const compareCompanies = (company1: Company, company2: Company): boolean => {
+export const compareCompanies = (company1: DbCompany, company2: DbCompany): boolean => {
   const isEqual = company1.name === company2.name;
   // console.log('isEqual: ', isEqual, `${company1.name} === ${company2.name}`);
 
   return isEqual;
 };
 
+// outdated, not needed
 export const getNewAndOldCompanies = (
-  companies1: Company[],
-  companies2: Company[]
+  companies1: DbCompany[],
+  companies2: DbCompany[]
 ): NewAndOldCompanies => {
   const newCompanies = [];
   const oldCompanies = [];
@@ -36,6 +38,7 @@ export const getNewAndOldCompanies = (
   return result;
 };
 
+// parser, outdated
 export const compareTwoMonths = async (
   month1: string,
   month2: string
@@ -43,8 +46,8 @@ export const compareTwoMonths = async (
   const threadUrl1 = await getThreadUrlFromMonth(month1);
   const threadUrl2 = await getThreadUrlFromMonth(month2);
 
-  const companies1 = await getCompaniesForThread(threadUrl1);
-  const companies2 = await getCompaniesForThread(threadUrl2);
+  const companies1 = await parseCompaniesForThread(threadUrl1);
+  const companies2 = await parseCompaniesForThread(threadUrl2);
 
   const result = getNewAndOldCompanies(companies1, companies2);
 

@@ -1,10 +1,10 @@
 import { fetchHtml } from '@/modules/parser/scraper/fetch-html';
-import { getThreadPagesUrlsForMonth } from '@/modules/parser/scraper/thread';
+import { getThreadPagesUrlsForMonth, getThreadUrlFromMonth } from '@/modules/parser/scraper/thread';
 import { SCRAPER } from '@/constants/scraper';
 
 import type { Company } from '@/types/parser';
 
-export const getCompaniesForPage = async (pageUrl: string): Promise<Company[]> => {
+export const parseCompaniesForPage = async (pageUrl: string): Promise<Company[]> => {
   const {
     postSelector,
     titleChildSelector,
@@ -47,15 +47,26 @@ export const getCompaniesForPage = async (pageUrl: string): Promise<Company[]> =
 
 /** Main function that returns parsed companies for a month. */
 
-export const getCompaniesForThread = async (threadUrl: string): Promise<Company[]> => {
+export const parseCompaniesForThread = async (threadUrl: string): Promise<Company[]> => {
   const pagesUrls = await getThreadPagesUrlsForMonth(threadUrl);
 
-  const allCompanies = [];
+  const allCompanies: Company[] = [];
 
   for (const pageUrl of pagesUrls) {
-    const companies = await getCompaniesForPage(pageUrl);
+    const companies = await parseCompaniesForPage(pageUrl);
     allCompanies.push(...companies);
   }
 
   return allCompanies;
+};
+
+// todo: parse for new unparsed month
+export const parseCompaniesForMonth = async (month: string): Promise<Company[]> => {
+  const threadUrl = await getThreadUrlFromMonth(month);
+  const companies = await parseCompaniesForThread(threadUrl);
+  return companies;
+};
+
+export const parseNewMonth = async (): Promise<void> => {
+  //
 };

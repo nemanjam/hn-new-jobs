@@ -1,6 +1,6 @@
 import { compareCompanies, compareTwoMonths } from '@/modules/parser/compare';
 import { saveAsJsonFile } from '@/modules/parser/format';
-import { getCompaniesForThread } from '@/modules/parser/scraper/posts';
+import { parseCompaniesForThread } from '@/modules/parser/scraper/posts';
 import { getThreadUrlFromMonth } from '@/modules/parser/scraper/thread';
 import { getAllMonths } from '@/modules/parser/scraper/threads';
 import { CONFIG } from '@/config/parser';
@@ -53,7 +53,7 @@ export const getNumberOfMonthsForLastMonthsCompanies = async (): Promise<void> =
 
   const month1 = allMonths[0];
   const threadUrl1 = await getThreadUrlFromMonth(month1);
-  const companies1 = await getCompaniesForThread(threadUrl1);
+  const companies1 = await parseCompaniesForThread(threadUrl1);
 
   const allCompanies = [];
   for (const company1 of companies1) {
@@ -65,7 +65,7 @@ export const getNumberOfMonthsForLastMonthsCompanies = async (): Promise<void> =
     };
     for (const month of allMonths) {
       const threadUrl2 = await getThreadUrlFromMonth(month);
-      const companies2 = await getCompaniesForThread(threadUrl2);
+      const companies2 = await parseCompaniesForThread(threadUrl2);
 
       for (const company2 of companies2) {
         const isEqual = compareCompanies(company1, company2);
