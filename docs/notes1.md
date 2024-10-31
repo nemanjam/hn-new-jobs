@@ -14,6 +14,7 @@ scheduler
 separate parse and compare from db
 fix types import sort prettier
 check select name select * what will return
+complete migration to single monthName format 2024-10
 ```
 
 - axios and http error - just restart terminal, trivial, otherwise nasty error
