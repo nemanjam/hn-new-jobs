@@ -1,10 +1,9 @@
 export const SCRAPER = {
   threads: {
     threadsUrl: 'https://news.ycombinator.com/submitted?id=whoishiring',
-    threadPostTitleSelector: 'tr.athing span.titleline a', // cspell:disable-line
-    // new
-    threadDateSelectorTemplate: 'a[href="__thread-href__"]', // 'a[href="item?id=41709301"]'
-    threadHrefPlaceholder: '__thread-href__',
+    threadPostFirstTrSelector: 'tr.athing[id]', // cspell:disable-line
+    threadIdPlaceholder: '__thread-id__',
+    threadLinkSelectorTemplate: 'a[href="item?id=__thread-id__"]', // 'a[href="item?id=41709301"]'
     hasHiringRegex: /hiring/i,
   },
   thread: {

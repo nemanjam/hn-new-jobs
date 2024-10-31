@@ -80,14 +80,14 @@ export const saveFromToSubsequentMonths = (months: PMonth[]): void => {
 /** Compare two specific months by name. */
 
 export const getCompaniesForTwoMonths = (monthsPair: MonthsPair): NewAndOldCompanies => {
-  const { forMonthName, comparedToMonthName } = monthsPair;
+  const { forMonth, comparedToMonth } = monthsPair;
 
   const month1Companies = db
     .prepare<string, DbCompany>(`SELECT * FROM company WHERE monthName = ?`)
-    .all(forMonthName);
+    .all(forMonth);
   const month2Companies = db
     .prepare<string, DbCompany>(`SELECT * FROM company WHERE monthName = ?`)
-    .all(comparedToMonthName);
+    .all(comparedToMonth);
 
   const newCompanies = month2Companies.filter(
     (c1) => !month1Companies.some((c2) => compareCompanies(c1, c2))
@@ -107,8 +107,8 @@ export const getCompaniesForLastTwoSubsequentMonths = (): NewAndOldCompanies => 
     .all();
 
   const monthsPair: MonthsPair = {
-    forMonthName: lastTwoMonths[1].name,
-    comparedToMonthName: lastTwoMonths[0].name,
+    forMonth: lastTwoMonths[1].name,
+    comparedToMonth: lastTwoMonths[0].name,
   };
 
   return getCompaniesForTwoMonths(monthsPair);
@@ -119,19 +119,19 @@ export const getCompaniesForLastTwoSubsequentMonths = (): NewAndOldCompanies => 
 export const getCompaniesForFromToSubsequentMonths = (
   monthsPair: MonthsPair
 ): NewAndOldCompanies[] => {
-  const { forMonthName, comparedToMonthName } = monthsPair;
+  const { forMonth, comparedToMonth } = monthsPair;
 
   const subsequentMonths = db
     .prepare<
       [string, string],
       DbMonth
     >(`SELECT name FROM month WHERE name BETWEEN ? AND ? ORDER BY name`)
-    .all(forMonthName, comparedToMonthName);
+    .all(forMonth, comparedToMonth);
 
   const comparisons = subsequentMonths.slice(0, -1).map((month, index) => {
     const subsequentMonthsPair = {
-      forMonthName: month.name,
-      comparedToMonthName: subsequentMonths[index + 1].name,
+      forMonth: month.name,
+      comparedToMonth: subsequentMonths[index + 1].name,
     };
     return getCompaniesForTwoMonths(subsequentMonthsPair);
   });

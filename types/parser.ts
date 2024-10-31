@@ -25,8 +25,8 @@ export interface Months {
 }
 
 export interface MonthsPair {
-  forMonthName: string;
-  comparedToMonthName: string;
+  forMonth: string;
+  comparedToMonth: string;
 }
 
 export interface NewAndOldCompanies extends MonthsPair {

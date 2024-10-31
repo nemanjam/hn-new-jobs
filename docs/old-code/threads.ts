@@ -8,7 +8,7 @@ import type { Months, Thread } from '@/types/parser';
 /** Handle just first search page from pagination. 30 items, 10 months. */
 
 export const getThreads = async (): Promise<Thread[]> => {
-  const { threadsUrl, threadPostTitleSelector: threadPostSelector, monthWordRegex } = SCRAPER.threads;
+  const { threadsUrl, threadLinkSelectorTemplate: threadPostSelector, monthWordRegex } = SCRAPER.threads;
 
   const doc = await fetchHtml(threadsUrl);
   const threadsNodes = doc.querySelectorAll<HTMLAnchorElement>(threadPostSelector);

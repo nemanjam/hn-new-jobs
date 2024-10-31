@@ -2,7 +2,7 @@ import { fetchHtml } from '@/modules/parser/scraper/fetch-html';
 import { convertDateToDbMonthName } from '@/libs/datetime';
 import { SCRAPER } from '@/constants/scraper';
 
-import type { Months, Thread } from '@/types/parser';
+import type { Thread } from '@/types/parser';
 
 // todo: Support pagination later.
 
@@ -11,21 +11,36 @@ import type { Months, Thread } from '@/types/parser';
 export const getThreads = async (): Promise<Thread[]> => {
   const {
     threadsUrl,
-    threadPostTitleSelector,
-    threadDateSelectorTemplate,
-    threadHrefPlaceholder,
+    threadPostFirstTrSelector,
+    threadLinkSelectorTemplate,
+    threadIdPlaceholder,
     hasHiringRegex,
   } = SCRAPER.threads;
 
   const doc = await fetchHtml(threadsUrl);
-  const threadsNodes = doc.querySelectorAll<HTMLAnchorElement>(threadPostTitleSelector);
+
+  const threadFirstTrNodes = doc.querySelectorAll<HTMLTableRowElement>(threadPostFirstTrSelector);
 
   const threads = [];
 
-  for (const threadNode of threadsNodes) {
-    if (!(threadNode && threadNode.textContent && threadNode.href)) continue;
+  for (const threadFirstTrNode of threadFirstTrNodes) {
+    // work with these 2 tr nodes bellow, not entire dom
+    const threadSecondTrNode = threadFirstTrNode?.nextElementSibling;
+    const threadId = threadFirstTrNode?.id;
 
-    const { textContent, href } = threadNode;
+    if (!(threadFirstTrNode && threadId && threadSecondTrNode)) continue;
+
+    // 1. get href
+    // first tr
+
+    // can be reused for both trs
+    const threadLinkSelector = threadLinkSelectorTemplate.replace(threadIdPlaceholder, threadId);
+
+    // the only link in first tr is title
+    const threadTitleNode = threadFirstTrNode.querySelector<HTMLAnchorElement>(threadLinkSelector);
+    if (!(threadTitleNode && threadTitleNode.textContent && threadTitleNode.href)) continue;
+
+    const { textContent, href } = threadTitleNode;
 
     // search word 'hiring' in the post title
     const isHiringPost = hasHiringRegex.test(textContent);
@@ -33,18 +48,20 @@ export const getThreads = async (): Promise<Thread[]> => {
     // discard not hiring thread posts
     if (!isHiringPost) continue;
 
-    // get monthName in format 'yyyy-MM' bellow
+    // 2. get monthName in format 'yyyy-MM' bellow
+    // from second tr
 
-    // get links that point to thread id
-    const threadLinkSelector = threadDateSelectorTemplate.replace(threadHrefPlaceholder, href);
-    const threadsLinkNodes = doc.querySelectorAll<HTMLAnchorElement>(threadLinkSelector);
+    const threadsLinkNodes =
+      threadSecondTrNode.querySelectorAll<HTMLAnchorElement>(threadLinkSelector);
+    if (!(threadsLinkNodes?.length > 1)) continue;
 
-    // there are 3 links, 2nd has span parent with date
-    const dateTitleAttribute = (threadsLinkNodes[1].parentNode as Element)?.getAttribute('title');
+    // there are 2 links, 1st has span parent with date
+    const dateTitleAttribute = (threadsLinkNodes[0].parentNode as Element)?.getAttribute('title');
     if (!dateTitleAttribute) continue;
 
     const dateString = dateTitleAttribute.split(' ')[0];
     const dateObject = new Date(dateString);
+    if (!isNaN(dateObject.getTime())) continue;
 
     const monthName = convertDateToDbMonthName(dateObject);
 
