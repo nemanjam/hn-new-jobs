@@ -59,3 +59,12 @@ axiosRetry(axiosRetryInstance, {
     return isValidHtmlContent(response.data);
   },
 });
+
+const onResponseError = (error: AxiosError<ResponseData>): void => {
+  console.error(`interceptor, error, code: ${error.code}`);
+
+  // http fail silently
+  // return Promise.reject(error);
+};
+
+axiosRetryInstance.interceptors.response.use(null, onResponseError);

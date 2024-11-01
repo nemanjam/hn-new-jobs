@@ -1,5 +1,7 @@
+import { JSDOM } from 'jsdom';
+
 import { fetchHtml } from '@/modules/parser/scraper/fetch-html';
-import { getThreadPagesUrlsForMonth, getThreadUrlFromMonth } from '@/modules/parser/scraper/thread';
+import { getThreadPagesUrlsForMonth } from '@/modules/parser/scraper/thread';
 import { SCRAPER } from '@/constants/scraper';
 
 import type { PCompany } from '@/types/parser';
@@ -13,7 +15,10 @@ export const parseCompaniesForPage = async (pageUrl: string): Promise<PCompany[]
     removeLinkOrBracesRegex,
   } = SCRAPER.companies;
 
-  const doc = await fetchHtml(pageUrl);
+  const htmlContent = await fetchHtml(pageUrl);
+  const doc: Document = new JSDOM(htmlContent).window.document;
+
+  // first level posts
   const postNodes = doc.querySelectorAll<HTMLTableRowElement>(postSelector);
 
   // todo: throw if postNodes empty
@@ -28,6 +33,8 @@ export const parseCompaniesForPage = async (pageUrl: string): Promise<PCompany[]
     // if no element, skip
     if (!(titleNode?.textContent && linkNode)) continue;
 
+    // 1. company name
+
     const titleText = titleNode.textContent.trim();
     const match = titleText.match(companyNameRegex);
     let name = match ? match[1].trim() : null;
@@ -35,6 +42,8 @@ export const parseCompaniesForPage = async (pageUrl: string): Promise<PCompany[]
 
     const urlMatch = name.match(removeLinkOrBracesRegex);
     name = urlMatch ? urlMatch[1].trim() : name;
+
+    // 2. post link
 
     const link = linkNode.href;
 
@@ -58,15 +67,4 @@ export const parseCompaniesForThread = async (threadUrl: string): Promise<PCompa
   }
 
   return allCompanies;
-};
-
-// todo: parse for new unparsed month
-export const parseCompaniesForMonth = async (month: string): Promise<Company[]> => {
-  const threadUrl = await getThreadUrlFromMonth(month);
-  const companies = await parseCompaniesForThread(threadUrl);
-  return companies;
-};
-
-export const parseNewMonth = async (): Promise<void> => {
-  //
 };

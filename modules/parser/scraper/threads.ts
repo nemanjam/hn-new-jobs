@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom';
 
 import { fetchHtml } from '@/modules/parser/scraper/fetch-html';
-import { convertDateToDbMonthName } from '@/libs/datetime';
+import { convertDateToMonthName } from '@/libs/datetime';
 import { SCRAPER } from '@/constants/scraper';
 
 import type { Thread } from '@/types/parser';
@@ -67,7 +67,7 @@ export const getThreads = async (): Promise<Thread[]> => {
     const dateObject = new Date(dateString);
     if (isNaN(dateObject.getTime())) continue;
 
-    const monthName = convertDateToDbMonthName(dateObject);
+    const monthName = convertDateToMonthName(dateObject);
 
     const thread = { month: monthName, link: href };
     threads.push(thread);

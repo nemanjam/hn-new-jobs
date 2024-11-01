@@ -19,7 +19,6 @@ const cache = new Keyv({
 
 export const fetchHtml = async (url: string): Promise<string> => {
   // no try catch, use interceptor
-  console.log('called fetchHtml');
 
   // check cache
   const cachedContent = await cache.get<string>(url);

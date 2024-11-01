@@ -15,6 +15,7 @@ export const compareCompanies = (company1: DbCompany, company2: DbCompany): bool
 
 /** Main parsing function for new month database updates. */
 
+// todo: this should parse first unparsed month from db for first run, to populate db
 export const parseNewMonth = async (): Promise<void> => {
   const parsedMonths = await getAllMonths();
   const newMonthName = parsedMonths[0];
@@ -23,6 +24,8 @@ export const parseNewMonth = async (): Promise<void> => {
   const companies = await parseCompaniesForThread(threadUrl);
 
   const pMonth: PMonth = { name: newMonthName, companies };
+
+  console.log('pMonth', pMonth);
 
   saveNewMonth(pMonth);
 };

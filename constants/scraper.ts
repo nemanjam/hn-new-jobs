@@ -26,6 +26,6 @@ export const SCRAPER = {
     // axios-rate-limit
     delayBetweenRequests: 5 * 1000,
     // axios-retry
-    numberOfRetries: 5,
+    numberOfRetries: 3,
   },
 } as const;

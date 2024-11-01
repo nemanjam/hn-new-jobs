@@ -11,9 +11,9 @@ async function parse({ whichMonths = 'last-two' }) {
     switch (whichMonths) {
       case 'last-two':
         // await compareLastTwoMonths();
-        // await parseNewMonth();
-        const threads = await getThreads();
-        console.log('threads', threads);
+        await parseNewMonth();
+        // const threads = await getThreads();
+        // console.log('threads', threads);
         // const htmlContent = await fetchHtml(SCRAPER.threads.threadsUrl);
         // console.log('htmlContent', htmlContent);
 

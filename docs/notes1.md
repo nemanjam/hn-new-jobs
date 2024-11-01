@@ -24,6 +24,17 @@ const axiosRetry = require('axios-retry');
 retry and delay is solution
 
 remove outputAllMonths: 'output-all-months.json',
+ensure all pages for month are parsed
 ```
 
 - axios and http error - just restart terminal, trivial, otherwise nasty error
+
+```
+onRetry error, count: 3, code: ETIMEDOUT
+onRetry error, count: 4, code: ECONNRESET
+
+
+ECONNRESET: This error occurs when the connection is forcibly closed by the peer (the server you're trying to connect 
+ETIMEDOUT: This error signifies that a connection attempt timed out. It usually indicates that 
+
+```

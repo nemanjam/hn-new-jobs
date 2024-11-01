@@ -1,10 +1,6 @@
 import { format } from 'date-fns';
 
-export const dbMonthNameFormat = 'yyyy-MM' as const;
+export const monthNameFormat = 'yyyy-MM' as const;
 
-export const convertDateToDbMonthName = (date: Date): string => {
-  // format to 'YYYY-MM'
-  const monthName = format(date, dbMonthNameFormat);
-
-  return monthName;
-};
+/** format to 'YYYY-MM' */
+export const convertDateToMonthName = (date: Date): string => format(date, monthNameFormat);
