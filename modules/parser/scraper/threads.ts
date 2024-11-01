@@ -20,7 +20,6 @@ export const getThreads = async (): Promise<Thread[]> => {
   } = SCRAPER.threads;
 
   const htmlContent = await fetchHtml(threadsUrl);
-  console.log('htmlContent', htmlContent);
 
   const doc: Document = new JSDOM(htmlContent).window.document;
 

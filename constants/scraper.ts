@@ -20,4 +20,12 @@ export const SCRAPER = {
     companyNameRegex: /^([^|]+)\|/,
     removeLinkOrBracesRegex: /^(.*?)\s*(?:\([^)]*\)|https?:\/\/\S+)/,
   },
+  axios: {
+    // axios instance
+    timeout: 15 * 1000, // 7 seconds in reality
+    // axios-rate-limit
+    delayBetweenRequests: 5 * 1000,
+    // axios-retry
+    numberOfRetries: 5,
+  },
 } as const;

@@ -37,6 +37,7 @@ export const fetchHtml = async (url: string): Promise<string> => {
 
     return htmlContent;
   } catch (error) {
+    // no try catch, use interceptor
     console.error('My fetch error.');
     throw error;
   }

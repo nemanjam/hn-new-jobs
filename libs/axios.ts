@@ -4,19 +4,23 @@ import axios from 'axios';
 import rateLimit from 'axios-rate-limit';
 import axiosRetry from 'axios-retry';
 
+import { isValidHtmlContent, shortHtml } from '@/utils/dom';
+import { SCRAPER } from '@/constants/scraper';
+
 import type { AxiosError, AxiosInstance, AxiosResponse, CreateAxiosDefaults } from 'axios';
 
-// 7 seconds in reality
-const timeout = 15 * 1000;
+export type ResponseData = string;
+
+const { timeout, numberOfRetries, delayBetweenRequests } = SCRAPER.axios;
 
 export const axiosConfig: CreateAxiosDefaults = {
   timeout,
   httpsAgent: new Agent({
-    keepAlive: true,
     timeout,
+    keepAlive: true,
     scheduling: 'fifo',
   }),
-  maxRate: [100, 1024],
+  maxRate: [100, 1024], // works
 };
 
 /** Must use singleton. */
@@ -30,63 +34,28 @@ export default class MyAxiosInstance {
   }
 }
 
+/** Without retries. */
 export const axiosInstance = MyAxiosInstance.getInstance();
 
+/** Main retry instance to use. */
 export const axiosRetryInstance = rateLimit(axiosInstance, {
   maxRequests: 1, // Only one request at a time
-  perMilliseconds: 5 * 1000, // 5-second delay between requests
+  perMilliseconds: delayBetweenRequests,
 });
-
-/** true: retry, false: do not retry */
-const retryCondition = (error: AxiosError): boolean => {
-  // no logging here, called 2 times
-
-  switch (true) {
-    // retry
-    case error.code === 'ETIMEDOUT':
-      return true;
-
-    // do not retry
-    default:
-      return false;
-  }
-};
 
 axiosRetry(axiosRetryInstance, {
-  retries: 3, // Retry up to 3 times
+  retries: numberOfRetries,
   shouldResetTimeout: true,
-  retryCondition: (error: AxiosError) => {
-    console.log(
-      `retryCondition, error.code: ${error.code}, error.response.status: ${error.response?.status}`
-    );
-
-    return retryCondition(error);
+  onRetry: (retryCount: number, error: AxiosError) => {
+    console.error(`onRetry error, count: ${retryCount}, code: ${error.code}`);
   },
-  retryDelay: axiosRetry.exponentialDelay,
+  onMaxRetryTimesExceeded: (error: AxiosError, retryCount: number) => {
+    console.error(`onMaxRetryTimesExceeded error, count: ${retryCount}, code: ${error.code}`);
+  },
+  // ! use this instead of retryCondition
+  validateResponse: (response: AxiosResponse<ResponseData>): boolean => {
+    console.log(`validateResponse success, response:data: ${shortHtml(response.data)}`);
+
+    return isValidHtmlContent(response.data);
+  },
 });
-
-type ResponseData = string;
-
-let successCount = 0;
-let failureCount = 0;
-
-const onResponse = (response: AxiosResponse<ResponseData>): AxiosResponse<ResponseData> => {
-  successCount++;
-  console.info(
-    `response success, count: ${successCount}, response:data: ${response.data.slice(0, 50)}`
-  );
-
-  return response;
-};
-
-const onResponseError = (error: AxiosError<ResponseData>): Promise<AxiosError<ResponseData>> => {
-  failureCount++;
-  const retryMessage = retryCondition(error) ? 'retried...' : 'FINAL';
-  console.error(
-    `interceptor, response error, ${retryMessage}, count: ${failureCount}, code: ${error.code}`
-  );
-
-  return Promise.reject(error);
-};
-
-axiosRetryInstance.interceptors.response.use(onResponse, onResponseError);
