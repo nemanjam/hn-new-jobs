@@ -15,7 +15,7 @@ async function parse({ whichMonths = 'last-two' }) {
         // const threads = await getThreads();
         // console.log('threads', threads);
         const htmlContent = await fetchHtml(SCRAPER.threads.threadsUrl);
-        console.log('htmlContent', htmlContent);
+        // console.log('htmlContent', htmlContent);
 
         break;
       case 'all':

@@ -1,15 +1,16 @@
 import { Agent } from 'https';
 
 import axios from 'axios';
+import rateLimit from 'axios-rate-limit';
+import axiosRetry from 'axios-retry';
 
-import type { AxiosError, AxiosInstance, AxiosProgressEvent, CreateAxiosDefaults } from 'axios';
+import type { AxiosError, AxiosInstance, AxiosResponse, CreateAxiosDefaults } from 'axios';
 
 // 7 seconds in reality
 const timeout = 15 * 1000;
 
 export const axiosConfig: CreateAxiosDefaults = {
   timeout,
-  // important to terminate connection and prevent timeout exception
   httpsAgent: new Agent({
     keepAlive: true,
     timeout,
@@ -31,37 +32,61 @@ export default class MyAxiosInstance {
 
 export const axiosInstance = MyAxiosInstance.getInstance();
 
-export const handleAxiosError = (error: AxiosError): Error | void => {
-  const { request, response } = error;
+export const axiosRetryInstance = rateLimit(axiosInstance, {
+  maxRequests: 1, // Only one request at a time
+  perMilliseconds: 5 * 1000, // 5-second delay between requests
+});
+
+/** true: retry, false: do not retry */
+const retryCondition = (error: AxiosError): boolean => {
+  // no logging here, called 2 times
 
   switch (true) {
-    case !!response: {
-      const { status, statusText, data } = response;
-      const errorData = { status, statusText, data };
-      const message = `Axios response error. Status: ${status}, Message: ${statusText}, Data: ${data}`;
+    // retry
+    case error.code === 'ETIMEDOUT':
+      return true;
 
-      console.error(message, errorData);
-      throw new Error(message);
-    }
-
-    // case error.code === 'ECONNABORTED': {
-    case error.code === 'ETIMEDOUT': {
-      const message = 'Request timed out';
-      console.error(message);
-      break;
-    }
-
-    case !!request: {
-      // don't log request, big useless object
-      const message = `Axios no response error. Request: ${request}`;
-      console.error(message);
-      break;
-    }
-
-    default: {
-      const message = `Axios request error. ${error.message}`;
-      console.error(message);
-      break;
-    }
+    // do not retry
+    default:
+      return false;
   }
 };
+
+axiosRetry(axiosRetryInstance, {
+  retries: 3, // Retry up to 3 times
+  shouldResetTimeout: true,
+  retryCondition: (error: AxiosError) => {
+    console.log(
+      `retryCondition, error.code: ${error.code}, error.response.status: ${error.response?.status}`
+    );
+
+    return retryCondition(error);
+  },
+  retryDelay: axiosRetry.exponentialDelay,
+});
+
+type ResponseData = string;
+
+let successCount = 0;
+let failureCount = 0;
+
+const onResponse = (response: AxiosResponse<ResponseData>): AxiosResponse<ResponseData> => {
+  successCount++;
+  console.info(
+    `response success, count: ${successCount}, response:data: ${response.data.slice(0, 50)}`
+  );
+
+  return response;
+};
+
+const onResponseError = (error: AxiosError<ResponseData>): Promise<AxiosError<ResponseData>> => {
+  failureCount++;
+  const retryMessage = retryCondition(error) ? 'retried...' : 'FINAL';
+  console.error(
+    `interceptor, response error, ${retryMessage}, count: ${failureCount}, code: ${error.code}`
+  );
+
+  return Promise.reject(error);
+};
+
+axiosRetryInstance.interceptors.response.use(onResponse, onResponseError);

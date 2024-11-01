@@ -20,6 +20,8 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
     "axios": "^1.7.7",
+    "axios-rate-limit": "^1.4.0",
+    "axios-retry": "^4.5.0",
     "better-sqlite3": "^11.5.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",

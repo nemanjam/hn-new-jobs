@@ -1,14 +1,12 @@
 import fs from 'fs';
 
-import axios from 'axios';
 import Keyv from 'keyv';
 import KeyvFile from 'keyv-file';
 
-import { axiosInstance, handleAxiosError } from '@/libs/axios';
-import { sleep } from '@/utils/sleep';
+import { axiosRetryInstance } from '@/libs/axios';
 import { CONFIG } from '@/config/parser';
 
-const { fetchWaitSeconds, cacheFilePath, cacheTtlHours, resultFolder, fileNames } = CONFIG;
+const { cacheFilePath, cacheTtlHours } = CONFIG;
 
 // disables cache for testing
 try {
@@ -31,24 +29,15 @@ export const fetchHtml = async (url: string): Promise<string> => {
     console.log(`Cache miss, url: ${url}`);
 
     // fetch
-    const response = await axiosInstance.get<string>(url);
+    const response = await axiosRetryInstance.get<string>(url);
     const htmlContent = response.data;
 
     // cache
     await cache.set(url, htmlContent, cacheTtlHours * 60 * 60 * 1000);
 
-    // throttle only fetch
-    await sleep(fetchWaitSeconds);
-
     return htmlContent;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      handleAxiosError(error);
-      // must throw here to prevent bellow
-    }
-
-    const message = `Unknown fetchHtml error. ${error}`;
-    console.error(message, error);
-    throw new Error(message);
+    console.error('My fetch error.');
+    throw error;
   }
 };
