@@ -13,14 +13,34 @@ export type ResponseData = string;
 
 const { timeout, numberOfRetries, delayBetweenRequests } = SCRAPER.axios;
 
+const axiosBrowserConfig: CreateAxiosDefaults = {
+  headers: {
+    'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:131.0) Gecko/20100101 Firefox/131.0',
+    Accept:
+      'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.5',
+    'Accept-Encoding': 'gzip, deflate, br, zstd',
+    Connection: 'keep-alive',
+    'Upgrade-Insecure-Requests': '1',
+    'Sec-Fetch-Dest': 'document',
+    'Sec-Fetch-Mode': 'navigate',
+    'Sec-Fetch-Site': 'none',
+    'Sec-Fetch-User': '?1',
+    Priority: 'u=0, i',
+    TE: 'trailers',
+  },
+  decompress: true,
+};
+
 export const axiosConfig: CreateAxiosDefaults = {
-  timeout,
-  httpsAgent: new Agent({
-    timeout,
-    keepAlive: true,
-    scheduling: 'fifo',
-  }),
-  maxRate: [100, 1024], // works
+  ...axiosBrowserConfig,
+  // timeout,
+  // httpsAgent: new Agent({
+  //   timeout,
+  //   keepAlive: true,
+  //   scheduling: 'fifo',
+  // }),
+  // maxRate: [100, 1024], // works
 };
 
 /** Must use singleton. */

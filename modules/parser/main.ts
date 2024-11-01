@@ -6,16 +6,18 @@ import { getThreads } from './scraper/threads';
 
 async function parse({ whichMonths = 'last-two' }) {
   //
+  const url1 = 'https://news.ycombinator.com/item?id=41709301&p=1';
 
   async function main() {
     switch (whichMonths) {
       case 'last-two':
         // await compareLastTwoMonths();
-        await parseNewMonth();
+        // await parseNewMonth();
         // const threads = await getThreads();
         // console.log('threads', threads);
         // const htmlContent = await fetchHtml(SCRAPER.threads.threadsUrl);
-        // console.log('htmlContent', htmlContent);
+        const htmlContent = await fetchHtml(url1);
+        // console.log('htmlContent 1', htmlContent);
 
         break;
       case 'all':

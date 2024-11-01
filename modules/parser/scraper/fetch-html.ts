@@ -10,7 +10,7 @@ const { cacheFilePath, cacheTtlHours } = CONFIG;
 
 // disables cache for testing
 try {
-  // fs.unlinkSync(cacheFilePath);
+  fs.unlinkSync(cacheFilePath);
 } catch (error) {}
 
 const cache = new Keyv({
