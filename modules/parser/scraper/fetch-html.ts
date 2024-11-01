@@ -10,7 +10,7 @@ const { cacheFilePath, cacheTtlHours } = CONFIG;
 
 // disables cache for testing
 try {
-  fs.unlinkSync(cacheFilePath);
+  // fs.unlinkSync(cacheFilePath);
 } catch (error) {}
 
 const cache = new Keyv({
@@ -18,27 +18,24 @@ const cache = new Keyv({
 });
 
 export const fetchHtml = async (url: string): Promise<string> => {
-  try {
-    // check cache
-    const cachedContent = await cache.get<string>(url);
-    if (cachedContent) {
-      console.log(`Cache hit, url: ${url}`);
-      return cachedContent;
-    }
+  // no try catch, use interceptor
+  console.log('called fetchHtml');
 
-    console.log(`Cache miss, url: ${url}`);
-
-    // fetch
-    const response = await axiosRetryInstance.get<string>(url);
-    const htmlContent = response.data;
-
-    // cache
-    await cache.set(url, htmlContent, cacheTtlHours * 60 * 60 * 1000);
-
-    return htmlContent;
-  } catch (error) {
-    // no try catch, use interceptor
-    console.error('My fetch error.');
-    throw error;
+  // check cache
+  const cachedContent = await cache.get<string>(url);
+  if (cachedContent) {
+    console.log(`Cache hit, url: ${url}`);
+    return cachedContent;
   }
+
+  console.log(`Cache miss, url: ${url}`);
+
+  // fetch
+  const response = await axiosRetryInstance.get<string>(url);
+  const htmlContent = response.data;
+
+  // cache
+  await cache.set(url, htmlContent, cacheTtlHours * 60 * 60 * 1000);
+
+  return htmlContent;
 };

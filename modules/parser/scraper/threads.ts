@@ -65,7 +65,7 @@ export const getThreads = async (): Promise<Thread[]> => {
 
     const dateString = dateTitleAttribute.split(' ')[0];
     const dateObject = new Date(dateString);
-    if (!isNaN(dateObject.getTime())) continue;
+    if (isNaN(dateObject.getTime())) continue;
 
     const monthName = convertDateToDbMonthName(dateObject);
 

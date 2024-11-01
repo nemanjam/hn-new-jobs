@@ -22,6 +22,8 @@ import Agent from 'agentkeepalive'
 import Bottleneck from "bottleneck"
 const axiosRetry = require('axios-retry');
 retry and delay is solution
+
+remove outputAllMonths: 'output-all-months.json',
 ```
 
 - axios and http error - just restart terminal, trivial, otherwise nasty error

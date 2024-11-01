@@ -12,9 +12,9 @@ async function parse({ whichMonths = 'last-two' }) {
       case 'last-two':
         // await compareLastTwoMonths();
         // await parseNewMonth();
-        // const threads = await getThreads();
-        // console.log('threads', threads);
-        const htmlContent = await fetchHtml(SCRAPER.threads.threadsUrl);
+        const threads = await getThreads();
+        console.log('threads', threads);
+        // const htmlContent = await fetchHtml(SCRAPER.threads.threadsUrl);
         // console.log('htmlContent', htmlContent);
 
         break;
