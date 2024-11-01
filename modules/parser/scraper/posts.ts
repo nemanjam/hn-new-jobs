@@ -66,5 +66,9 @@ export const parseCompaniesForThread = async (threadUrl: string): Promise<PCompa
     allCompanies.push(...companies);
   }
 
-  return allCompanies;
+  const uniqueCompanies = Array.from(
+    new Map(allCompanies.map((company) => [company.name, company])).values()
+  );
+
+  return uniqueCompanies;
 };
