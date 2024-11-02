@@ -9,4 +9,5 @@ export interface DbCompany {
   name: string;
   link: string;
   monthName: string;
+  createdAt: Date;
 }

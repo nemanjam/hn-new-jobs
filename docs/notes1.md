@@ -26,6 +26,8 @@ retry and delay is solution
 remove outputAllMonths: 'output-all-months.json',
 ensure all pages for month are parsed
 import puppeteer from 'puppeteer';
+
+postId instead of link for company in db
 ```
 
 - axios and http error - just restart terminal, trivial, otherwise nasty error

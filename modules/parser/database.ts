@@ -3,9 +3,9 @@ import BetterSqlite3 from 'better-sqlite3';
 import { compareCompanies } from '@/modules/parser/parse';
 import { CONFIG } from '@/config/parser';
 
-import type { Database, RunResult } from 'better-sqlite3';
 import { DbCompany, DbMonth } from '@/types/database';
 import { CompanyMonths, MonthsPair, NewAndOldCompanies, PMonth } from '@/types/parser';
+import type { Database, RunResult } from 'better-sqlite3';
 
 const { databaseFilePath } = CONFIG;
 
@@ -22,9 +22,11 @@ db.exec(`
   );
 
   CREATE TABLE IF NOT EXISTS company (
-    name TEXT PRIMARY KEY,
+    name TEXT,
     link TEXT,
     monthName TEXT,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (name, monthName),
     FOREIGN KEY (monthName) REFERENCES month(name)
   );
 `);
@@ -35,10 +37,10 @@ db.exec(`
 
 export const saveNewMonth = (month: PMonth): void => {
   const insertMonth = db.prepare<[string], RunResult>(
-    `INSERT OR IGNORE INTO month (name) VALUES (?)`
+    `INSERT OR REPLACE INTO month (name) VALUES (?)`
   );
   const insertCompany = db.prepare<[string, string, string], RunResult>(
-    `INSERT INTO company (name, link, monthName) VALUES (?, ?, ?)`
+    `INSERT OR REPLACE INTO company (name, link, monthName) VALUES (?, ?, ?)`
   );
 
   const transaction = db.transaction(() => {
@@ -56,10 +58,10 @@ export const saveNewMonth = (month: PMonth): void => {
 
 export const saveFromToSubsequentMonths = (months: PMonth[]): void => {
   const insertMonth = db.prepare<[string], RunResult>(
-    `INSERT OR IGNORE INTO month (name) VALUES (?)`
+    `INSERT OR REPLACE INTO month (name) VALUES (?)`
   );
   const insertCompany = db.prepare<[string, string, string], RunResult>(
-    `INSERT INTO company (name, link, monthName) VALUES (?, ?, ?)`
+    `INSERT OR REPLACE INTO company (name, link, monthName) VALUES (?, ?, ?)`
   );
 
   const transaction = db.transaction(() => {
