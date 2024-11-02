@@ -28,6 +28,9 @@ ensure all pages for month are parsed
 import puppeteer from 'puppeteer';
 
 postId instead of link for company in db
+axios works now, its ip, maybe puppeteer
+axios-retry numberOfRetries: 5, this is wrong, parses only 2 pages... // important
+make reliable fetch with puppeteer
 ```
 
 - axios and http error - just restart terminal, trivial, otherwise nasty error

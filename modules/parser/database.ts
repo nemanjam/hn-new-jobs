@@ -33,9 +33,9 @@ db.exec(`
 
 /*-------------------------------- inserts ------------------------------*/
 
-/** Insert a new month with companies. */
+/** Insert a new month with companies. The only insert needed. */
 
-export const saveNewMonth = (month: PMonth): void => {
+export const saveMonth = (month: PMonth): void => {
   const insertMonth = db.prepare<[string], RunResult>(
     `INSERT OR REPLACE INTO month (name) VALUES (?)`
   );
@@ -54,30 +54,23 @@ export const saveNewMonth = (month: PMonth): void => {
   transaction();
 };
 
-/** Insert multiple months with sliding window (pagination). */
+/*-------------------------------- selects ------------------------------*/
 
-export const saveFromToSubsequentMonths = (months: PMonth[]): void => {
-  const insertMonth = db.prepare<[string], RunResult>(
-    `INSERT OR REPLACE INTO month (name) VALUES (?)`
-  );
-  const insertCompany = db.prepare<[string, string, string], RunResult>(
-    `INSERT OR REPLACE INTO company (name, link, monthName) VALUES (?, ?, ?)`
-  );
+export const getLastMonth = (): DbMonth | undefined => {
+  const lastMonth = db
+    .prepare<[], DbMonth>(`SELECT name FROM month ORDER BY name DESC LIMIT 1`)
+    .get();
 
-  const transaction = db.transaction(() => {
-    for (const month of months) {
-      insertMonth.run(month.name);
-
-      for (const company of month.companies) {
-        insertCompany.run(company.name, company.link, month.name);
-      }
-    }
-  });
-
-  transaction();
+  return lastMonth;
 };
 
-/*-------------------------------- selects ------------------------------*/
+export const getFirstMonth = (): DbMonth | undefined => {
+  const firstMonth = db
+    .prepare<[], DbMonth>(`SELECT name FROM month ORDER BY name ASC LIMIT 1`)
+    .get();
+
+  return firstMonth;
+};
 
 /** Compare two specific months by name. */
 
@@ -144,9 +137,8 @@ export const getCompaniesForFromToSubsequentMonths = (
 /** Get all months in which companies from the last month appeared */
 
 export const getMonthsForLastMonthsCompanies = (): CompanyMonths[] => {
-  const lastMonth = db
-    .prepare<[], DbMonth>(`SELECT name FROM month ORDER BY name DESC LIMIT 1`)
-    .get();
+  // handle undefined
+  const lastMonth = getLastMonth();
 
   const lastMonthCompanies = db
     .prepare<string, DbCompany>(`SELECT DISTINCT name FROM company WHERE monthName = ?`)

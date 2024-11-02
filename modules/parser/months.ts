@@ -47,6 +47,7 @@ interface CompanyMonths {
   months: string[];
 }
 
+// db now
 export const getNumberOfMonthsForLastMonthsCompanies = async (): Promise<void> => {
   const parsedMonths = await getAllMonths();
   const { allMonths } = parsedMonths;

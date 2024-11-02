@@ -2,6 +2,7 @@ import { JSDOM } from 'jsdom';
 
 import { fetchHtml } from '@/modules/parser/scraper/fetch-html';
 import { getThreadPagesUrlsForMonth } from '@/modules/parser/scraper/thread';
+import { getPostIdFromHref } from '@/utils/strings';
 import { SCRAPER } from '@/constants/scraper';
 
 import type { PCompany } from '@/types/parser';
@@ -46,6 +47,9 @@ export const parseCompaniesForPage = async (pageUrl: string): Promise<PCompany[]
     // 2. post link
 
     const link = linkNode.href;
+
+    // todo: rename column in db
+    const postId = getPostIdFromHref(link);
 
     const company = { name, link };
     companies.push(company);

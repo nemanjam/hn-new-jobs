@@ -19,6 +19,8 @@ export const SCRAPER = {
     linkChildSelector: 'span.age a',
     companyNameRegex: /^([^|]+)\|/,
     removeLinkOrBracesRegex: /^(.*?)\s*(?:\([^)]*\)|https?:\/\/\S+)/,
+    // capture postId from href
+    postIdRegex: /item\?id=(\d+)/,
   },
   axios: {
     // axios instance
@@ -26,6 +28,6 @@ export const SCRAPER = {
     // axios-rate-limit
     delayBetweenRequests: 5 * 1000,
     // axios-retry
-    numberOfRetries: 3,
+    numberOfRetries: 5,
   },
 } as const;
