@@ -1,4 +1,4 @@
-import { compareAllMonths, getNumberOfMonthsForLastMonthsCompanies } from '@/modules/parser/months';
+// import { compareAllMonths, getNumberOfMonthsForLastMonthsCompanies } from '@/modules/parser/months';
 import { SCRAPER } from '@/constants/scraper';
 import { parseNewMonth, parseOldMonth } from './parse';
 import { fetchHtml } from './scraper/fetch-html';
@@ -12,8 +12,8 @@ async function parse({ whichMonths = 'last-two' }) {
     switch (whichMonths) {
       case 'last-two':
         // await compareLastTwoMonths();
-        // await parseNewMonth();
-        await parseOldMonth();
+        await parseNewMonth();
+        // await parseOldMonth();
         // const threads = await getThreads();
         // console.log('threads', threads);
         // const htmlContent = await fetchHtml(SCRAPER.threads.threadsUrl);
@@ -22,10 +22,10 @@ async function parse({ whichMonths = 'last-two' }) {
 
         break;
       case 'all':
-        await compareAllMonths();
+        // await compareAllMonths();
         break;
       case 'companies':
-        await getNumberOfMonthsForLastMonthsCompanies();
+        // await getNumberOfMonthsForLastMonthsCompanies();
         break;
 
       default:

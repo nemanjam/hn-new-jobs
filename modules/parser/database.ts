@@ -23,7 +23,7 @@ db.exec(`
 
   CREATE TABLE IF NOT EXISTS company (
     name TEXT,
-    link TEXT,
+    postId TEXT,
     monthName TEXT,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (name, monthName),
@@ -40,14 +40,14 @@ export const saveMonth = (month: PMonth): void => {
     `INSERT OR REPLACE INTO month (name) VALUES (?)`
   );
   const insertCompany = db.prepare<[string, string, string], RunResult>(
-    `INSERT OR REPLACE INTO company (name, link, monthName) VALUES (?, ?, ?)`
+    `INSERT OR REPLACE INTO company (name, postId, monthName) VALUES (?, ?, ?)`
   );
 
   const transaction = db.transaction(() => {
     insertMonth.run(month.name);
 
     for (const company of month.companies) {
-      insertCompany.run(company.name, company.link, month.name);
+      insertCompany.run(company.name, company.postId, month.name);
     }
   });
 

@@ -2,6 +2,7 @@ import { JSDOM } from 'jsdom';
 
 import { fetchHtml } from '@/modules/parser/scraper/fetch-html';
 import { convertDateToMonthName } from '@/libs/datetime';
+import { getPostIdFromHref } from '@/utils/strings';
 import { SCRAPER } from '@/constants/scraper';
 
 import type { Thread } from '@/types/parser';
@@ -34,7 +35,7 @@ export const getThreads = async (): Promise<Thread[]> => {
 
     if (!(threadFirstTrNode && threadId && threadSecondTrNode)) continue;
 
-    // 1. get href
+    // 1. get postId - href
     // first tr
 
     // can be reused for both trs
@@ -45,6 +46,9 @@ export const getThreads = async (): Promise<Thread[]> => {
     if (!(threadTitleNode && threadTitleNode.textContent && threadTitleNode.href)) continue;
 
     const { textContent, href } = threadTitleNode;
+
+    const postId = getPostIdFromHref(href);
+    if (!postId) continue;
 
     // search word 'hiring' in the post title
     const isHiringPost = hasHiringRegex.test(textContent);
@@ -69,7 +73,7 @@ export const getThreads = async (): Promise<Thread[]> => {
 
     const monthName = convertDateToMonthName(dateObject);
 
-    const thread = { month: monthName, link: href };
+    const thread = { month: monthName, postId };
     threads.push(thread);
   }
 

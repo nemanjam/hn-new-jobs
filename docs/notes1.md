@@ -27,7 +27,7 @@ remove outputAllMonths: 'output-all-months.json',
 ensure all pages for month are parsed
 import puppeteer from 'puppeteer';
 
-postId instead of link for company in db
+        postId instead of link for company in db
 axios works now, its ip, maybe puppeteer
 axios-retry numberOfRetries: 5, this is wrong, parses only 2 pages... // important
 make reliable fetch with puppeteer

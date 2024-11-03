@@ -5,6 +5,7 @@ module.exports = {
   semi: true,
   singleQuote: true,
   useTabs: false,
+  tabWidth: 2,
   endOfLine: 'lf',
   trailingComma: 'es5',
   importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],

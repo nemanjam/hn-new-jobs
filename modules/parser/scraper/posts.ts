@@ -14,7 +14,7 @@ export const parseCompaniesForPage = async (pageUrl: string): Promise<PCompany[]
     linkChildSelector,
     companyNameRegex,
     removeLinkOrBracesRegex,
-  } = SCRAPER.companies;
+  } = SCRAPER.posts;
 
   const htmlContent = await fetchHtml(pageUrl);
   const doc: Document = new JSDOM(htmlContent).window.document;
@@ -44,21 +44,25 @@ export const parseCompaniesForPage = async (pageUrl: string): Promise<PCompany[]
     const urlMatch = name.match(removeLinkOrBracesRegex);
     name = urlMatch ? urlMatch[1].trim() : name;
 
-    // 2. post link
+    // 2. postId - link
 
     const link = linkNode.href;
 
-    // todo: rename column in db
-    const postId = getPostIdFromHref(link);
+    const postId = getPostIdFromHref(link); // todo: handle undefined - exception
+    if (!postId) continue;
 
-    const company = { name, link };
+    const company = { name, postId };
     companies.push(company);
   }
 
   return companies;
 };
 
-/** Main function that returns parsed companies for a month. */
+/**
+ * Main function that returns parsed companies for a month.
+ *
+ * @param {string} threadUrl - Absolute thread url.
+ */
 
 export const parseCompaniesForThread = async (threadUrl: string): Promise<PCompany[]> => {
   const pagesUrls = await getThreadPagesUrlsForMonth(threadUrl);

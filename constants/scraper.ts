@@ -12,7 +12,7 @@ export const SCRAPER = {
     postTitleSelector: '.athing.comtr:has([indent="0"]) .commtext:first-child', // cspell:disable-line
     maxNumberOfPages: 10,
   },
-  companies: {
+  posts: {
     // entire post, queried again for title and link
     postSelector: '.athing.comtr:has([indent="0"])', // cspell:disable-line
     titleChildSelector: '.commtext:first-child', // cspell:disable-line
@@ -21,6 +21,7 @@ export const SCRAPER = {
     removeLinkOrBracesRegex: /^(.*?)\s*(?:\([^)]*\)|https?:\/\/\S+)/,
     // capture postId from href
     postIdRegex: /item\?id=(\d+)/,
+    postHrefPrefix: 'item?id=',
   },
   axios: {
     // axios instance

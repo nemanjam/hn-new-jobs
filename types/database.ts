@@ -7,7 +7,7 @@ export interface DbMonth {
 
 export interface DbCompany {
   name: string;
-  link: string;
+  postId: string;
   monthName: string;
   createdAt: Date;
 }

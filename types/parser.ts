@@ -9,7 +9,7 @@ export interface PMonth {
 
 export interface PCompany {
   name: string;
-  link: string;
+  postId: string;
 }
 
 /*-------------------- get old new companies from db ------------------*/
@@ -45,7 +45,7 @@ export interface CompanyMonths {
 
 export interface Thread {
   month: string;
-  link: string;
+  postId: string;
 }
 
 /*------------------ bellow old parser outdated -----------------*/

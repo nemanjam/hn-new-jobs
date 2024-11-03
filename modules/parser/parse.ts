@@ -28,7 +28,7 @@ export const parseMonth = async (monthName: string): Promise<void> => {
 
 /** First available new month not present in database. */
 
-export const parseNewMonth = async (): Promise<void> => {
+export const getNewMonthName = async (): Promise<string | undefined> => {
   const lastMonth = getLastMonth();
 
   const parsedMonths = await getAllMonths();
@@ -36,26 +36,31 @@ export const parseNewMonth = async (): Promise<void> => {
 
   let newMonthName: string;
 
-  if (lastMonth) {
-    const index = parsedMonths.indexOf(lastMonth.name);
-    // new month is defined and not found, exit
-    if (!(index > 0)) return;
-
-    // get item before
-    newMonthName = parsedMonths[index - 1];
-  } else {
-    // handle empty db
+  // handle empty db
+  if (!lastMonth) {
     newMonthName = parsedMonths[0];
+    return newMonthName;
   }
 
+  const index = parsedMonths.indexOf(lastMonth.name);
+  // new month is defined and not found, exit
+  if (!(index > 0)) return;
+
+  // get item before
+  newMonthName = parsedMonths[index - 1];
+  return newMonthName;
+};
+
+export const parseNewMonth = async (): Promise<void> => {
+  const newMonthName = await getNewMonthName();
   console.log('newMonthName', newMonthName);
 
-  await parseMonth(newMonthName);
+  if (newMonthName) await parseMonth(newMonthName);
 };
 
 /** First available older month not present in database. Pagination. */
 
-export const parseOldMonth = async (): Promise<void> => {
+export const getOldMonthName = async (): Promise<string | undefined> => {
   const firstMonth = getFirstMonth();
 
   const parsedMonths = await getAllMonths(); // todo: this should be different, pagination
@@ -63,19 +68,24 @@ export const parseOldMonth = async (): Promise<void> => {
 
   let oldMonthName: string;
 
-  if (firstMonth) {
-    const index = parsedMonths.indexOf(firstMonth.name);
-    // index not found or out of bounds
-    if (!(index > 0 && index < parsedMonths.length - 1)) return;
-
-    // get item after
-    oldMonthName = parsedMonths[index + 1];
-  } else {
-    // handle empty db
+  // handle empty db
+  if (!firstMonth) {
     oldMonthName = parsedMonths[0];
+    return oldMonthName;
   }
 
+  const index = parsedMonths.indexOf(firstMonth.name);
+  // index not found or out of bounds
+  if (!(index > 0 && index < parsedMonths.length - 1)) return;
+
+  // get item after
+  oldMonthName = parsedMonths[index + 1];
+  return oldMonthName;
+};
+
+export const parseOldMonth = async (): Promise<void> => {
+  const oldMonthName = await getOldMonthName();
   console.log('oldMonthName', oldMonthName);
 
-  await parseMonth(oldMonthName);
+  if (oldMonthName) await parseMonth(oldMonthName);
 };
