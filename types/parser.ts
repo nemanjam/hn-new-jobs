@@ -45,7 +45,7 @@ export interface CompanyMonths {
 
 export interface Thread {
   month: string;
-  postId: string;
+  threadId: string;
 }
 
 /*------------------ bellow old parser outdated -----------------*/

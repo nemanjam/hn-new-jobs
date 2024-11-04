@@ -1,8 +1,8 @@
 // import { compareAllMonths, getNumberOfMonthsForLastMonthsCompanies } from '@/modules/parser/months';
 import { SCRAPER } from '@/constants/scraper';
+import { getThreads } from './algolia/threads';
 import { parseNewMonth, parseOldMonth } from './parse';
 import { fetchHtml } from './scraper/fetch-html';
-import { getThreads } from './scraper/threads';
 
 async function parse({ whichMonths = 'last-two' }) {
   //
@@ -12,10 +12,10 @@ async function parse({ whichMonths = 'last-two' }) {
     switch (whichMonths) {
       case 'last-two':
         // await compareLastTwoMonths();
-        await parseNewMonth();
+        // await parseNewMonth();
         // await parseOldMonth();
-        // const threads = await getThreads();
-        // console.log('threads', threads);
+        const threads = await getThreads();
+        console.log('threads', threads);
         // const htmlContent = await fetchHtml(SCRAPER.threads.threadsUrl);
         // const htmlContent = await fetchHtml(url1);
         // console.log('htmlContent 1', htmlContent);

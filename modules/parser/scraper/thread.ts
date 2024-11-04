@@ -18,7 +18,7 @@ export const getThreadUrlFromMonth = async (month: string): Promise<string> => {
   const threads = await getThreads();
   const thread = threads.find((thread) => thread.month === month);
 
-  const postId = thread?.postId;
+  const postId = thread?.threadId;
   if (!postId) throw new Error(`Thread postId for ${month} not found.`);
 
   const threadHref = createHrefFromPostId(postId);
