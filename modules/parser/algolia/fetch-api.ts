@@ -30,6 +30,7 @@ export const fetchApi = async <T>(url: string): Promise<T> => {
   console.log(`Cache miss, url: ${url}`);
 
   // fetch
+  // query params must be in url for cache key
   const response = await axiosRateLimitInstance.get<T>(url);
   const apiResponse = response.data;
 

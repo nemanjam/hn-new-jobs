@@ -47,7 +47,7 @@ export const saveMonth = (month: PMonth): void => {
     insertMonth.run(month.name);
 
     for (const company of month.companies) {
-      insertCompany.run(company.name, company.postId, month.name);
+      insertCompany.run(company.name, company.commentId, month.name);
     }
   });
 

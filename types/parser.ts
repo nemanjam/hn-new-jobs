@@ -9,7 +9,7 @@ export interface PMonth {
 
 export interface PCompany {
   name: string;
-  postId: string;
+  commentId: string;
 }
 
 /*-------------------- get old new companies from db ------------------*/

@@ -1,17 +1,18 @@
 /** Index of threads. */
 
-export interface ASearch {
+export interface APagination {
+  nbHits: number;
+  page: number;
+  nbPages: number;
+  hitsPerPage: number;
+}
+export interface ASearch extends APagination {
   hits: APost[];
-  // todo: for pagination
-  // nbHits: number;
-  // page: number;
-  // nbPages: number;
-  // hitsPerPage: number;
 }
 
 /** Thread. */
 
-export interface AThread {
+export interface AThread extends APagination {
   hits: AComment[];
 }
 
@@ -26,7 +27,6 @@ export interface APost {
 /** Thread posts. */
 
 export interface AComment {
-  created_at: string;
   // html
   comment_text: string;
   // for href
