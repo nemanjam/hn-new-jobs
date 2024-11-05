@@ -8,10 +8,10 @@ import { parseNewMonth, parseNOldMonths, parseOldMonth } from '@/modules/parser/
 
 const main = async () => {
   // await compareLastTwoMonths();
-  // await parseNewMonth();
+  await parseNewMonth();
   // await parseOldMonth();
-  await parseNOldMonths(5);
-  // const firstTimeCompanies = await getFirstTimeCompaniesForLastMonth();
+  // await parseNOldMonths(5);
+  // const firstTimeCompanies = getFirstTimeCompaniesForLastMonth();
   // console.log('firstTimeCompanies', firstTimeCompanies.length);
   // const noCompanies = getNOCompaniesForLastTwoMonths();
   // console.log('noCompanies.newCompanies.length', noCompanies.newCompanies.length);

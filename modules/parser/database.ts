@@ -19,11 +19,14 @@ const { databaseFilePath } = CONFIG;
 
 const db: Database = new BetterSqlite3(databaseFilePath);
 
+// todo: must invalidate cache for updatedAt
+
 db.exec(`
   CREATE TABLE IF NOT EXISTS month (
     name TEXT PRIMARY KEY, -- "YYYY-MM" format for uniqueness
     threadId TEXT UNIQUE,
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP -- auto-populated
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, -- auto-populated
+    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP -- auto-populated on creation
   );
 
   CREATE TABLE IF NOT EXISTS company (
@@ -31,9 +34,24 @@ db.exec(`
     monthName TEXT,
     commentId TEXT UNIQUE,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP, 
     PRIMARY KEY (name, monthName),
     FOREIGN KEY (monthName) REFERENCES month(name)
   );
+
+  CREATE TRIGGER IF NOT EXISTS month_updated_at
+  AFTER UPDATE ON month
+  FOR EACH ROW
+  BEGIN
+    UPDATE month SET updatedAt = CURRENT_TIMESTAMP WHERE rowid = NEW.rowid;
+  END;
+
+  CREATE TRIGGER IF NOT EXISTS company_updated_at
+  AFTER UPDATE ON company
+  FOR EACH ROW
+  BEGIN
+    UPDATE company SET updatedAt = CURRENT_TIMESTAMP WHERE rowid = NEW.rowid;
+  END;
 `);
 
 /*-------------------------------- inserts ------------------------------*/

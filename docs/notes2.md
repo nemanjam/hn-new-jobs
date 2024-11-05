@@ -9,4 +9,5 @@ test axios rate limit in practice // to
 cache duration
 parse entire history, scheduler
 idempotent retry new month
+new month should run every day between 1st and 15th in month, insert or update
 ```
