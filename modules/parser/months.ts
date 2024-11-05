@@ -35,6 +35,7 @@ export const getOldMonthName = async (): Promise<string | undefined> => {
 
   // handle empty db
   if (!firstMonth) {
+    // gets last thread on empty db
     oldMonthName = parsedMonths[0];
     return oldMonthName;
   }

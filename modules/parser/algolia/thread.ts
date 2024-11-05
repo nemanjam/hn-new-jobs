@@ -1,11 +1,14 @@
 import { getThreads } from '@/modules/parser/algolia/threads';
 
-export const getThreadIdFromMonth = async (month: string): Promise<string> => {
+import { DbMonthInsert } from '@/types/database';
+
+/** Thread === DbMonthInsert */
+
+export const getThreadFromMonthName = async (monthName: string): Promise<DbMonthInsert> => {
   const threads = await getThreads();
-  const thread = threads.find((thread) => thread.month === month);
+  const thread = threads.find((thread) => thread.name === monthName);
 
-  const threadId = thread?.threadId;
-  if (!threadId) throw new Error(`threadId for ${month} not found.`);
+  if (!thread) throw new Error(`Thread for ${monthName} not found.`);
 
-  return threadId;
+  return thread;
 };

@@ -16,7 +16,7 @@ export interface DbCompany {
 
 /*-------------------------------- Insert ------------------------------*/
 
-export interface DbCompanyInsert extends Pick<DbCompany, 'name' | 'commentId' | 'monthName'> {}
+export interface DbCompanyInsert extends Pick<DbCompany, 'name' | 'commentId'> {}
 
 export interface DbMonthInsert extends Pick<DbMonth, 'name' | 'threadId'> {}
 

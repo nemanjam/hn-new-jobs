@@ -7,6 +7,7 @@ import {
   DbCompany,
   DbCompanyInsert,
   DbMonth,
+  DbMonthInsert,
   MonthsPair,
   NOCompanies,
 } from '@/types/database';
@@ -18,8 +19,6 @@ const { databaseFilePath } = CONFIG;
 
 const db: Database = new BetterSqlite3(databaseFilePath);
 
-// todo: add support for years in DbMonth, probably date
-// convert from parser
 db.exec(`
   CREATE TABLE IF NOT EXISTS month (
     name TEXT PRIMARY KEY, -- "YYYY-MM" format for uniqueness
@@ -41,19 +40,19 @@ db.exec(`
 
 /** Insert a new month with companies. The only insert needed. */
 
-export const saveMonth = (monthName: string, companies: DbCompanyInsert[]): void => {
-  const insertMonth = db.prepare<[string], RunResult>(
-    `INSERT OR REPLACE INTO month (name) VALUES (?)`
+export const saveMonth = (month: DbMonthInsert, companies: DbCompanyInsert[]): void => {
+  const insertMonth = db.prepare<[string, string], RunResult>(
+    `INSERT OR REPLACE INTO month (name, threadId) VALUES (?, ?)`
   );
   const insertCompany = db.prepare<[string, string, string], RunResult>(
     `INSERT OR REPLACE INTO company (name, commentId, monthName) VALUES (?, ?, ?)`
   );
 
   const transaction = db.transaction(() => {
-    insertMonth.run(monthName);
+    insertMonth.run(month.name, month.threadId);
 
     for (const company of companies) {
-      insertCompany.run(company.name, company.commentId, monthName);
+      insertCompany.run(company.name, company.commentId, month.name);
     }
   });
 
@@ -120,10 +119,6 @@ export const getNOCompaniesForLastTwoMonths = (): NOCompanies => {
   return getNOCompaniesForTwoMonths(monthsPair);
 };
 
-export const getFirstTimeCompaniesForLastMonth = (): DbCompany[] => {
-  return [];
-};
-
 /** Compare from-to months for sliding window (pagination). */
 
 export const getNOCompaniesForFromToSubsequentMonths = (monthsPair: MonthsPair): NOCompanies[] => {
@@ -152,11 +147,12 @@ export const getNOCompaniesForFromToSubsequentMonths = (monthsPair: MonthsPair):
 export const getMonthsForLastMonthsCompanies = (): CompanyMonths[] => {
   // handle undefined
   const lastMonth = getLastMonth();
+  if (!lastMonth) return [];
 
   const lastMonthCompanies: DbCompany[] = db
     // .prepare<string, DbCompany>(`SELECT DISTINCT name FROM company WHERE monthName = ?`)
     .prepare<string, DbCompany>(`SELECT * FROM company WHERE monthName = ? GROUP BY name`)
-    .all(lastMonth!.name);
+    .all(lastMonth.name);
 
   const companiesMonths: CompanyMonths[] = lastMonthCompanies.map((company) => {
     const { name: companyName } = company;
@@ -170,6 +166,22 @@ export const getMonthsForLastMonthsCompanies = (): CompanyMonths[] => {
   });
 
   return companiesMonths;
+};
+
+export const getFirstTimeCompaniesForLastMonth = (): DbCompany[] => {
+  const lastMonth = getLastMonth();
+  if (!lastMonth) return [];
+
+  const firstTimeCompanies = db
+    .prepare<[string, string], DbCompany>(
+      `SELECT c.* FROM company AS c
+     WHERE c.monthName = ? AND c.name NOT IN (
+       SELECT name FROM company WHERE monthName != ?
+     )`
+    )
+    .all(lastMonth.name, lastMonth.name);
+
+  return firstTimeCompanies;
 };
 
 /*-------------------------------- utils ------------------------------*/

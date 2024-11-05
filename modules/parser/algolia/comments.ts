@@ -1,7 +1,6 @@
 import { JSDOM } from 'jsdom';
 
 import { fetchApi } from '@/modules/parser/algolia/fetch-api';
-import { getThreadIdFromMonth } from '@/modules/parser/algolia/thread';
 import { ALGOLIA } from '@/constants/algolia';
 
 import { AComment, APagination, AThread } from '@/types/algolia';

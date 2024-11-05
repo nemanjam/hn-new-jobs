@@ -3,23 +3,23 @@ import { convertDateToMonthName } from '@/libs/datetime';
 import { ALGOLIA } from '@/constants/algolia';
 
 import { APost, ASearch } from '@/types/algolia';
-import type { Thread } from '@/types/parser';
+import { DbMonthInsert } from '@/types/database';
 
 const { threadsBaseUrl, hitsPerPageMax, hasHiringRegex } = ALGOLIA.threads;
 
-/** 455 threads, first thread 2011-03, no pagination */
+/** Returns all threads. 455 threads, first thread 2011-03, no pagination.  postId === threadId */
 
-export const getThreads = async (): Promise<Thread[]> => {
+export const getThreads = async (): Promise<DbMonthInsert[]> => {
   const threadsUrl = `${threadsBaseUrl}&hitsPerPage=${hitsPerPageMax}`;
 
   const searchResponse = await fetchApi<ASearch>(threadsUrl);
 
   const invalidFlag = 'invalid' as const;
 
-  const threads: Thread[] = searchResponse.hits
+  const threads: DbMonthInsert[] = searchResponse.hits
     .map((post: APost) => {
-      const blankThread: Thread = {
-        month: invalidFlag,
+      const blankThread: DbMonthInsert = {
+        name: invalidFlag,
         threadId: invalidFlag,
       };
 
@@ -35,21 +35,20 @@ export const getThreads = async (): Promise<Thread[]> => {
       const dateObject = new Date(created_at);
       if (isNaN(dateObject.getTime())) return blankThread;
 
-      const month = convertDateToMonthName(dateObject);
+      const monthName = convertDateToMonthName(dateObject);
 
       // 3. get threadId for url
       const threadId = String(story_id);
       if (!threadId) return blankThread;
 
-      const thread: Thread = { month, threadId };
+      const thread: DbMonthInsert = { name: monthName, threadId };
 
       return thread;
     })
-    .filter((thread) => thread.month !== invalidFlag && thread.threadId !== invalidFlag);
+    .filter((thread) => thread.name !== invalidFlag && thread.threadId !== invalidFlag);
 
   return threads;
 };
-
-/** Just project strings. Almost not needed. */
+/** Just project strings. Reused in few places. */
 export const getAllMonths = async (): Promise<string[]> =>
-  getThreads().then((threads) => threads.map((thread) => thread.month));
+  getThreads().then((threads) => threads.map((thread) => thread.name));

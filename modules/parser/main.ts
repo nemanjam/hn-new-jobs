@@ -1,12 +1,21 @@
-// import { compareAllMonths, getNumberOfMonthsForLastMonthsCompanies } from '@/modules/parser/months';
 import { parseCompaniesForThread } from '@/modules/parser/algolia/comments';
 import { getThreads } from '@/modules/parser/algolia/threads';
+import {
+  getFirstTimeCompaniesForLastMonth,
+  getNOCompaniesForLastTwoMonths,
+} from '@/modules/parser/database';
 import { parseNewMonth, parseOldMonth } from '@/modules/parser/parse';
 
 const main = async () => {
   // await compareLastTwoMonths();
   // await parseNewMonth();
-  await parseOldMonth();
+  // await parseOldMonth();
+  const firstTimeCompanies = await getFirstTimeCompaniesForLastMonth();
+  console.log('firstTimeCompanies', firstTimeCompanies.length);
+
+  // const noCompanies = getNOCompaniesForLastTwoMonths();
+  // console.log('noCompanies.newCompanies.length', noCompanies.newCompanies.length);
+  // console.log('noCompanies.oldCompanies.length', noCompanies.oldCompanies.length);
   // const threads = await getThreads();
   // console.log('threads', threads);
   // const parsedCompanies = await parseCompaniesForThread('42017580');
