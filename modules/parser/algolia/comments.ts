@@ -1,18 +1,19 @@
 import { JSDOM } from 'jsdom';
 
 import { fetchApi } from '@/modules/parser/algolia/fetch-api';
+import { getThreadIdFromMonth } from '@/modules/parser/algolia/thread';
 import { ALGOLIA } from '@/constants/algolia';
 
 import { AComment, APagination, AThread } from '@/types/algolia';
-import type { PCompany } from '@/types/parser';
+import type { DbCompanyInsert } from '@/types/database';
 
 const { threadBaseUrl, hitsPerPageMax, companyNameRegex, removeLinkOrBracesRegex } =
   ALGOLIA.comments;
 
 // with hitsPerPage=1000 pagination mostly not needed
 
-export const parseCompaniesForThread = async (threadId: string): Promise<PCompany[]> => {
-  let allCompanies: PCompany[] = [];
+export const parseCompaniesForThread = async (threadId: string): Promise<DbCompanyInsert[]> => {
+  let allCompanies: DbCompanyInsert[] = [];
   let page = 0;
   let totalPages;
 
@@ -32,7 +33,7 @@ export const parseCompaniesForThread = async (threadId: string): Promise<PCompan
 };
 
 export interface PaginatedPCompanies {
-  pageCompanies: PCompany[];
+  pageCompanies: DbCompanyInsert[];
   pagination: APagination;
 }
 
@@ -56,7 +57,7 @@ export const parseCompaniesForPage = async (
 
   const pageCompanies = threadResponse.hits
     .map((comment: AComment) => {
-      const blankCompany: PCompany = {
+      const blankCompany: DbCompanyInsert = {
         name: invalidFlag,
         commentId: invalidFlag,
       };

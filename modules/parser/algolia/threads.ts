@@ -50,9 +50,6 @@ export const getThreads = async (): Promise<Thread[]> => {
   return threads;
 };
 
-export const getAllMonths = async (): Promise<string[]> => {
-  const threads = await getThreads();
-  const months = threads.map((thread) => thread.month);
-
-  return months;
-};
+/** Just project strings. Almost not needed. */
+export const getAllMonths = async (): Promise<string[]> =>
+  getThreads().then((threads) => threads.map((thread) => thread.month));

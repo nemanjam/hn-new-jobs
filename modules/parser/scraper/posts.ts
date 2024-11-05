@@ -5,9 +5,9 @@ import { getThreadPagesUrlsForMonth } from '@/modules/parser/scraper/thread';
 import { getPostIdFromHref } from '@/utils/strings';
 import { SCRAPER } from '@/constants/scraper';
 
-import type { PCompany } from '@/types/parser';
+import type { DbCompanyInsert } from '@/types/parser';
 
-export const parseCompaniesForPage = async (pageUrl: string): Promise<PCompany[]> => {
+export const parseCompaniesForPage = async (pageUrl: string): Promise<DbCompanyInsert[]> => {
   const {
     postSelector,
     titleChildSelector,
@@ -64,10 +64,10 @@ export const parseCompaniesForPage = async (pageUrl: string): Promise<PCompany[]
  * @param {string} threadUrl - Absolute thread url.
  */
 
-export const parseCompaniesForThread = async (threadUrl: string): Promise<PCompany[]> => {
+export const parseCompaniesForThread = async (threadUrl: string): Promise<DbCompanyInsert[]> => {
   const pagesUrls = await getThreadPagesUrlsForMonth(threadUrl);
 
-  const allCompanies: PCompany[] = [];
+  const allCompanies: DbCompanyInsert[] = [];
 
   for (const pageUrl of pagesUrls) {
     const companies = await parseCompaniesForPage(pageUrl);
