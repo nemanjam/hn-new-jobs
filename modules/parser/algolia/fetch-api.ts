@@ -35,7 +35,7 @@ export const fetchApi = async <T>(url: string): Promise<T> => {
   const apiResponse = response.data;
 
   // cache
-  await cache.set(url, apiResponse, cacheTtlHours * 60 * 60 * 1000);
+  await cache.set(url, apiResponse, cacheTtlHours * 60 * 60 * 1000); // pass as arg
 
   return apiResponse;
 };

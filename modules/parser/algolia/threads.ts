@@ -1,24 +1,23 @@
 import { fetchApi } from '@/modules/parser/algolia/fetch-api';
 import { convertDateToMonthName } from '@/libs/datetime';
-import { getPostIdFromHref } from '@/utils/strings';
 import { ALGOLIA } from '@/constants/algolia';
 
 import { APost, ASearch } from '@/types/algolia';
 import type { Thread } from '@/types/parser';
 
-// todo: Support pagination later.
+const { threadsBaseUrl, hitsPerPageMax, hasHiringRegex } = ALGOLIA.threads;
 
-/** Handle just first search page from pagination. 20 items, 6 months. */
+/** 455 threads, first thread 2011-03, no pagination */
 
 export const getThreads = async (): Promise<Thread[]> => {
-  const { threadsUrl, hasHiringRegex } = ALGOLIA.threads;
+  const threadsUrl = `${threadsBaseUrl}&hitsPerPage=${hitsPerPageMax}`;
 
   const searchResponse = await fetchApi<ASearch>(threadsUrl);
 
   const invalidFlag = 'invalid' as const;
 
-  const threads = searchResponse.hits
-    .map((post) => {
+  const threads: Thread[] = searchResponse.hits
+    .map((post: APost) => {
       const blankThread: Thread = {
         month: invalidFlag,
         threadId: invalidFlag,
@@ -51,10 +50,9 @@ export const getThreads = async (): Promise<Thread[]> => {
   return threads;
 };
 
-// this will return only the first page for now
 export const getAllMonths = async (): Promise<string[]> => {
-  const allThreads = await getThreads();
-  const allMonths = allThreads.map((thread) => thread.month);
+  const threads = await getThreads();
+  const months = threads.map((thread) => thread.month);
 
-  return allMonths;
+  return months;
 };

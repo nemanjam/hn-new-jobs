@@ -29,7 +29,7 @@ export interface MonthsPair {
   comparedToMonth: string;
 }
 
-export interface NewAndOldCompanies extends MonthsPair {
+export interface NOCompanies extends MonthsPair {
   newCompanies: DbCompany[];
   oldCompanies: DbCompany[];
   /** todo: First time appearing companies. */
@@ -51,7 +51,7 @@ export interface Thread {
 /*------------------ bellow old parser outdated -----------------*/
 
 export interface Input {
-  result: NewAndOldCompanies;
+  result: NOCompanies;
   month1: string;
   month2: string;
 }

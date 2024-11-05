@@ -13,12 +13,12 @@ async function parse({ whichMonths = 'last-two' }) {
     switch (whichMonths) {
       case 'last-two':
         // await compareLastTwoMonths();
-        // await parseNewMonth();
+        await parseNewMonth();
         // await parseOldMonth();
         // const threads = await getThreads();
         // console.log('threads', threads);
-        const parsedCompanies = await parseCompaniesForThread('42017580');
-        console.log('parsedCompanies', parsedCompanies);
+        // const parsedCompanies = await parseCompaniesForThread('42017580');
+        // console.log('parsedCompanies', parsedCompanies.length);
         // const htmlContent = await fetchHtml(SCRAPER.threads.threadsUrl);
         // const htmlContent = await fetchHtml(url1);
         // console.log('htmlContent 1', htmlContent);

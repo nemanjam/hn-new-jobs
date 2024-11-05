@@ -1,7 +1,8 @@
 export const ALGOLIA = {
   threads: {
-    threadsUrl: 'https://hn.algolia.com/api/v1/search_by_date?tags=story,author_whoishiring',
+    threadsBaseUrl: 'https://hn.algolia.com/api/v1/search_by_date?tags=story,author_whoishiring',
     hasHiringRegex: /hiring/i,
+    hitsPerPageMax: 1000,
   },
   thread: {},
   comments: {

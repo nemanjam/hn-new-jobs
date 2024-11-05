@@ -1,7 +1,7 @@
+import { parseCompaniesForThread } from '@/modules/parser/algolia/comments';
+import { getThreadIdFromMonth } from '@/modules/parser/algolia/thread';
+import { getAllMonths } from '@/modules/parser/algolia/threads';
 import { getFirstMonth, getLastMonth, saveMonth } from '@/modules/parser/database';
-import { parseCompaniesForThread } from '@/modules/parser/scraper/posts';
-import { getThreadUrlFromMonth } from '@/modules/parser/scraper/thread';
-import { getAllMonths } from './scraper/threads';
 
 import type { DbCompany } from '@/types/database';
 import type { PMonth } from '@/types/parser';
@@ -16,8 +16,8 @@ export const compareCompanies = (company1: DbCompany, company2: DbCompany): bool
 /** Main parsing function for month database updates. */
 
 export const parseMonth = async (monthName: string): Promise<void> => {
-  const threadUrl = await getThreadUrlFromMonth(monthName);
-  const companies = await parseCompaniesForThread(threadUrl);
+  const threadId = await getThreadIdFromMonth(monthName);
+  const companies = await parseCompaniesForThread(threadId);
 
   const pMonth: PMonth = { name: monthName, companies };
 
@@ -63,7 +63,7 @@ export const parseNewMonth = async (): Promise<void> => {
 export const getOldMonthName = async (): Promise<string | undefined> => {
   const firstMonth = getFirstMonth();
 
-  const parsedMonths = await getAllMonths(); // todo: this should be different, pagination
+  const parsedMonths = await getAllMonths();
   if (!(parsedMonths.length > 0)) return;
 
   let oldMonthName: string;
@@ -83,6 +83,7 @@ export const getOldMonthName = async (): Promise<string | undefined> => {
   return oldMonthName;
 };
 
+// todo: do for range
 export const parseOldMonth = async (): Promise<void> => {
   const oldMonthName = await getOldMonthName();
   console.log('oldMonthName', oldMonthName);

@@ -4,7 +4,7 @@ import { compareCompanies } from '@/modules/parser/parse';
 import { CONFIG } from '@/config/parser';
 
 import { DbCompany, DbMonth } from '@/types/database';
-import { CompanyMonths, MonthsPair, NewAndOldCompanies, PMonth } from '@/types/parser';
+import { CompanyMonths, MonthsPair, NOCompanies, PMonth } from '@/types/parser';
 import type { Database, RunResult } from 'better-sqlite3';
 
 const { databaseFilePath } = CONFIG;
@@ -23,7 +23,7 @@ db.exec(`
 
   CREATE TABLE IF NOT EXISTS company (
     name TEXT,
-    postId TEXT,
+    commentId TEXT,
     monthName TEXT,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (name, monthName),
@@ -40,7 +40,7 @@ export const saveMonth = (month: PMonth): void => {
     `INSERT OR REPLACE INTO month (name) VALUES (?)`
   );
   const insertCompany = db.prepare<[string, string, string], RunResult>(
-    `INSERT OR REPLACE INTO company (name, postId, monthName) VALUES (?, ?, ?)`
+    `INSERT OR REPLACE INTO company (name, commentId, monthName) VALUES (?, ?, ?)`
   );
 
   const transaction = db.transaction(() => {
@@ -74,7 +74,7 @@ export const getFirstMonth = (): DbMonth | undefined => {
 
 /** Compare two specific months by name. */
 
-export const getCompaniesForTwoMonths = (monthsPair: MonthsPair): NewAndOldCompanies => {
+export const getNOCompaniesForTwoMonths = (monthsPair: MonthsPair): NOCompanies => {
   const { forMonth, comparedToMonth } = monthsPair;
 
   const month1Companies = db
@@ -96,7 +96,7 @@ export const getCompaniesForTwoMonths = (monthsPair: MonthsPair): NewAndOldCompa
 
 /** Compare the last two months. */
 
-export const getCompaniesForLastTwoSubsequentMonths = (): NewAndOldCompanies => {
+export const getNOCompaniesForLastTwoMonths = (): NOCompanies => {
   const lastTwoMonths = db
     .prepare<[], DbMonth>(`SELECT name FROM month ORDER BY name DESC LIMIT 2`)
     .all();
@@ -106,14 +106,16 @@ export const getCompaniesForLastTwoSubsequentMonths = (): NewAndOldCompanies => 
     comparedToMonth: lastTwoMonths[0].name,
   };
 
-  return getCompaniesForTwoMonths(monthsPair);
+  return getNOCompaniesForTwoMonths(monthsPair);
+};
+
+export const getFirstTimeCompaniesForLastMonth = (): DbCompany[] => {
+  return [];
 };
 
 /** Compare from-to months for sliding window (pagination). */
 
-export const getCompaniesForFromToSubsequentMonths = (
-  monthsPair: MonthsPair
-): NewAndOldCompanies[] => {
+export const getNOCompaniesForFromToSubsequentMonths = (monthsPair: MonthsPair): NOCompanies[] => {
   const { forMonth, comparedToMonth } = monthsPair;
 
   const subsequentMonths = db
@@ -128,7 +130,7 @@ export const getCompaniesForFromToSubsequentMonths = (
       forMonth: month.name,
       comparedToMonth: subsequentMonths[index + 1].name,
     };
-    return getCompaniesForTwoMonths(subsequentMonthsPair);
+    return getNOCompaniesForTwoMonths(subsequentMonthsPair);
   });
 
   return comparisons;
