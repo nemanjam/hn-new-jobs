@@ -5,7 +5,7 @@ import rateLimit from 'axios-rate-limit';
 
 import { ALGOLIA } from '@/constants/algolia';
 
-import type { AxiosError, AxiosInstance, AxiosResponse, CreateAxiosDefaults } from 'axios';
+import type { AxiosError, AxiosInstance, CreateAxiosDefaults } from 'axios';
 
 export type ResponseData = string;
 
@@ -34,7 +34,7 @@ export default class MyAxiosInstance {
 /** Without retries. */
 export const axiosInstance = MyAxiosInstance.getInstance();
 
-/** Main retry instance to use. */
+/** Main rate limit instance to use. */
 export const axiosRateLimitInstance = rateLimit(axiosInstance, {
   maxRequests: 1, // Only one request at a time
   perMilliseconds: delayBetweenRequests,

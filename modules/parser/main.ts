@@ -4,15 +4,15 @@ import {
   getFirstTimeCompaniesForLastMonth,
   getNOCompaniesForLastTwoMonths,
 } from '@/modules/parser/database';
-import { parseNewMonth, parseOldMonth } from '@/modules/parser/parse';
+import { parseNewMonth, parseNOldMonths, parseOldMonth } from '@/modules/parser/parse';
 
 const main = async () => {
   // await compareLastTwoMonths();
   // await parseNewMonth();
   // await parseOldMonth();
-  const firstTimeCompanies = await getFirstTimeCompaniesForLastMonth();
-  console.log('firstTimeCompanies', firstTimeCompanies.length);
-
+  await parseNOldMonths(5);
+  // const firstTimeCompanies = await getFirstTimeCompaniesForLastMonth();
+  // console.log('firstTimeCompanies', firstTimeCompanies.length);
   // const noCompanies = getNOCompaniesForLastTwoMonths();
   // console.log('noCompanies.newCompanies.length', noCompanies.newCompanies.length);
   // console.log('noCompanies.oldCompanies.length', noCompanies.oldCompanies.length);

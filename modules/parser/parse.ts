@@ -1,9 +1,23 @@
 import { parseCompaniesForThread } from '@/modules/parser/algolia/comments';
-import { getThreadFromMonthName } from '@/modules/parser/algolia/thread';
+import { getThreads } from '@/modules/parser/algolia/threads';
 import { saveMonth } from '@/modules/parser/database';
+import { CONFIG } from '@/config/parser';
 import { getNewMonthName, getOldMonthName } from './months';
 
 import { DbCompanyInsert, DbMonthInsert } from '@/types/database';
+
+const { oldMonthsCount } = CONFIG;
+
+/** Thread === DbMonthInsert */
+
+export const getThreadFromMonthName = async (monthName: string): Promise<DbMonthInsert> => {
+  const threads = await getThreads();
+  const thread = threads.find((thread) => thread.name === monthName);
+
+  if (!thread) throw new Error(`Thread for ${monthName} not found.`);
+
+  return thread;
+};
 
 /** Main parsing function for month database updates. */
 
@@ -24,9 +38,14 @@ export const parseNewMonth = async (): Promise<void> => {
   if (newMonthName) await parseMonth(newMonthName);
 };
 
-// todo: do for range
 export const parseOldMonth = async (): Promise<void> => {
   const oldMonthName = await getOldMonthName();
 
   if (oldMonthName) await parseMonth(oldMonthName);
+};
+
+export const parseNOldMonths = async (count = oldMonthsCount): Promise<void> => {
+  for (let i = 0; i < count; i++) {
+    await parseOldMonth();
+  }
 };

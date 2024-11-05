@@ -25,28 +25,18 @@ export interface DbMonthInsert extends Pick<DbMonth, 'name' | 'threadId'> {}
 // NOCompanies
 
 export interface MonthPair {
-  month1: string;
-  month2: string;
-}
-
-export interface Months {
-  allMonths: string[];
-  monthPairs: MonthPair[];
-}
-
-export interface MonthsPair {
   forMonth: string;
   comparedToMonth: string;
 }
 
-export interface NOCompanies extends MonthsPair {
+export interface NewOldCompanies extends MonthPair {
   newCompanies: DbCompany[];
   oldCompanies: DbCompany[];
   /** todo: First time appearing companies. */
   firstTimeCompanies?: DbCompany[];
 }
 
-export interface CompanyMonths {
+export interface CompanyComments {
   companyName: string;
-  allMonths: DbCompany[];
+  comments: DbCompany[];
 }
