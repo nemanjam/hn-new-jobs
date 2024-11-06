@@ -25,16 +25,15 @@ export const parseMonth = async (monthName: string): Promise<void> => {
   const thread: DbMonthInsert = await getThreadFromMonthName(monthName);
   const companies: DbCompanyInsert[] = await parseCompaniesForThread(thread.threadId);
 
-  saveMonth(thread, companies);
-
   console.log(
-    `Parsed month: ${thread.name}, threadId: ${thread.threadId}, saved ${companies.length} companies.`
+    `Parsed month: ${thread.name}, threadId: ${thread.threadId}, parsed ${companies.length} companies.`
   );
+
+  saveMonth(thread, companies);
 };
 
 export const parseNewMonth = async (): Promise<void> => {
   const newMonthName = await getNewMonthName();
-
   if (newMonthName) await parseMonth(newMonthName);
 };
 

@@ -38,20 +38,6 @@ db.exec(`
     PRIMARY KEY (name, monthName),
     FOREIGN KEY (monthName) REFERENCES month(name)
   );
-
-  CREATE TRIGGER IF NOT EXISTS month_updated_at
-  AFTER UPDATE ON month
-  FOR EACH ROW
-  BEGIN
-    UPDATE month SET updatedAt = CURRENT_TIMESTAMP WHERE rowid = NEW.rowid;
-  END;
-
-  CREATE TRIGGER IF NOT EXISTS company_updated_at
-  AFTER UPDATE ON company
-  FOR EACH ROW
-  BEGIN
-    UPDATE company SET updatedAt = CURRENT_TIMESTAMP WHERE rowid = NEW.rowid;
-  END;
 `);
 
 /*-------------------------------- inserts ------------------------------*/
@@ -59,19 +45,32 @@ db.exec(`
 /** Insert a new month with companies. The only insert needed. */
 
 export const saveMonth = (month: DbMonthInsert, companies: DbCompanyInsert[]): void => {
-  const insertMonth = db.prepare<[string, string], RunResult>(
-    `INSERT OR REPLACE INTO month (name, threadId) VALUES (?, ?)`
+  const upsertMonth = db.prepare<[string, string], RunResult>(
+    `INSERT INTO month (name, threadId)
+     VALUES (?, ?)
+     ON CONFLICT(name) DO UPDATE SET updatedAt = CURRENT_TIMESTAMP`
   );
-  const insertCompany = db.prepare<[string, string, string], RunResult>(
-    `INSERT OR REPLACE INTO company (name, commentId, monthName) VALUES (?, ?, ?)`
+
+  const upsertCompany = db.prepare<[string, string, string], RunResult>(
+    `INSERT INTO company (name, commentId, monthName)
+     VALUES (?, ?, ?)
+     ON CONFLICT(name, monthName) DO UPDATE SET updatedAt = CURRENT_TIMESTAMP`
   );
 
   const transaction = db.transaction(() => {
-    insertMonth.run(month.name, month.threadId);
+    let totalUpdatedCompanyRows = 0;
 
+    // Run the upsert for month
+    const monthResult = upsertMonth.run(month.name, month.threadId);
+    console.log(`Month table, month.name: ${month.name} updated rows: ${monthResult.changes}`);
+
+    // Run the upsert for each company and count updated rows
     for (const company of companies) {
-      insertCompany.run(company.name, company.commentId, month.name);
+      const companyResult = upsertCompany.run(company.name, company.commentId, month.name);
+      totalUpdatedCompanyRows += companyResult.changes;
     }
+
+    console.log(`Company table, updated rows: ${totalUpdatedCompanyRows}`);
   });
 
   transaction();
