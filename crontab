@@ -1,0 +1,5 @@
+# Runs at 9:00 AM on the 1st through 15th of each month
+0 9 1-15 * * yarn hn:new >> /var/log/cron.log 2>&1
+
+# Runs every minute
+* * * * * echo "cron works" >> /var/log/cron.log 2>&1

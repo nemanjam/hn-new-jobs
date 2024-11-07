@@ -7,6 +7,7 @@ export const getNewMonthName = async (): Promise<string | undefined> => {
   const parsedMonths = await getAllMonths();
   if (!(parsedMonths.length > 0)) return;
 
+  // overwrite
   const newMonthName = parsedMonths[0];
   return newMonthName;
 };
@@ -30,7 +31,7 @@ export const getOldMonthName = async (): Promise<string | undefined> => {
   // index not found or out of bounds
   if (!(index !== -1 && index < parsedMonths.length - 1)) return;
 
-  // get item after
+  // get item after, do not overwrite
   oldMonthName = parsedMonths[index + 1];
   return oldMonthName;
 };

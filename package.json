@@ -6,7 +6,8 @@
     "dev": "NODE_NO_WARNINGS=1 next dev",
     "build": "next build",
     "start": "next start",
-    "hn:parse": "tsx modules/parser/main.ts",
+    "hn:new": "tsx modules/parser/main.ts new",
+    "hn:old": "tsx modules/parser/main.ts old",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "preview": "next build && next start",
@@ -36,8 +37,7 @@
     "react-dom": "^18.2.0",
     "sharp": "^0.33.5",
     "tailwind-merge": "^2.5.4",
-    "tailwindcss-animate": "^1.0.6",
-    "tsx": "^4.19.2"
+    "tailwindcss-animate": "^1.0.6"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
@@ -56,7 +56,8 @@
     "postcss": "^8.4.24",
     "prettier": "^3.3.3",
     "tailwindcss": "^3.3.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "tsx": "^4.19.2"
   },
   "resolutions": {
     "punycode": "^2.3.1"

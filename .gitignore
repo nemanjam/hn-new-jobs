@@ -42,12 +42,8 @@ tsconfig.tsbuildinfo
 data/cache/*
 !data/cache/.gitkeep
 
-# enable in prduction
-!data/result
-data/result/*
-!data/result/.gitkeep
-
-# enable in prduction
 !data/database
 data/database/*
 !data/database/.gitkeep
+# enable in production
+# !data/database/hn-parser-node-database-prod.sqlite3

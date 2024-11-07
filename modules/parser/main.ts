@@ -1,28 +1,30 @@
-import { parseCompaniesForThread } from '@/modules/parser/algolia/comments';
-import { getThreads } from '@/modules/parser/algolia/threads';
-import {
-  getFirstTimeCompaniesForLastMonth,
-  getNOCompaniesForLastTwoMonths,
-} from '@/modules/parser/database';
-import { parseNewMonth, parseNOldMonths, parseOldMonth } from '@/modules/parser/parse';
+import { parseNewMonth, parseNOldMonths } from '@/modules/parser/parse';
 
-const main = async () => {
-  // await compareLastTwoMonths();
-  await parseNewMonth();
-  // await parseOldMonth();
-  // await parseNOldMonths(5);
-  // const firstTimeCompanies = getFirstTimeCompaniesForLastMonth();
-  // console.log('firstTimeCompanies', firstTimeCompanies.length);
-  // const noCompanies = getNOCompaniesForLastTwoMonths();
-  // console.log('noCompanies.newCompanies.length', noCompanies.newCompanies.length);
-  // console.log('noCompanies.oldCompanies.length', noCompanies.oldCompanies.length);
-  // const threads = await getThreads();
-  // console.log('threads', threads);
-  // const parsedCompanies = await parseCompaniesForThread('42017580');
-  // console.log('parsedCompanies', parsedCompanies.length);
-  // const htmlContent = await fetchHtml(SCRAPER.threads.threadsUrl);
-  // const htmlContent = await fetchHtml(url1);
-  // console.log('htmlContent 1', htmlContent);
+/** This can be used as cli script only in dev or in prod WITH node_modules folder. */
+
+const main = async (script: string) => {
+  switch (script) {
+    case 'new':
+      await parseNewMonth();
+      break;
+    case 'old':
+      await parseNOldMonths();
+      break;
+
+    default:
+      break;
+  }
 };
 
-main();
+const mainDev = () => {
+  const args = process.argv.slice(2);
+  console.log('Received arguments:', args);
+
+  const script = args[0];
+
+  main(script);
+};
+
+if (process.env.NODE_ENV === 'development') {
+  mainDev();
+}

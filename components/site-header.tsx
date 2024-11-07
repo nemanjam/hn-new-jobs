@@ -21,7 +21,7 @@ export function SiteHeader() {
                   variant: 'ghost',
                 })}
               >
-                <Icons.gitHub className="h-5 w-5" />
+                <Icons.gitHub className="size-5" />
                 <span className="sr-only">GitHub</span>
               </div>
             </Link>
@@ -32,7 +32,7 @@ export function SiteHeader() {
                   variant: 'ghost',
                 })}
               >
-                <Icons.twitter className="h-5 w-5 fill-current" />
+                <Icons.twitter className="size-5 fill-current" />
                 <span className="sr-only">Twitter</span>
               </div>
             </Link>
