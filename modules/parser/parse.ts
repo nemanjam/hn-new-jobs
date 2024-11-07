@@ -5,6 +5,7 @@ import { CONFIG } from '@/config/parser';
 import { getNewMonthName, getOldMonthName } from './months';
 
 import { DbCompanyInsert, DbMonthInsert } from '@/types/database';
+import { ParserResult } from '@/types/parser';
 
 const { oldMonthsCount } = CONFIG;
 
@@ -21,30 +22,38 @@ export const getThreadFromMonthName = async (monthName: string): Promise<DbMonth
 
 /** Main parsing function for month database updates. */
 
-export const parseMonth = async (monthName: string): Promise<void> => {
+export const parseMonth = async (monthName: string): Promise<ParserResult> => {
   const thread: DbMonthInsert = await getThreadFromMonthName(monthName);
   const companies: DbCompanyInsert[] = await parseCompaniesForThread(thread.threadId);
 
-  console.log(
-    `Parsed month: ${thread.name}, threadId: ${thread.threadId}, parsed ${companies.length} companies.`
-  );
+  const numberOfRowsAffected = saveMonth(thread, companies);
 
-  saveMonth(thread, companies);
+  const parserResult: ParserResult = {
+    numberOfRowsAffected,
+    month: thread.name,
+    threadId: thread.threadId,
+  };
+
+  return parserResult;
 };
 
-export const parseNewMonth = async (): Promise<void> => {
+export const parseNewMonth = async (): Promise<ParserResult> => {
   const newMonthName = await getNewMonthName();
-  if (newMonthName) await parseMonth(newMonthName);
+  return await parseMonth(newMonthName);
 };
 
-export const parseOldMonth = async (): Promise<void> => {
+export const parseOldMonth = async (): Promise<ParserResult> => {
   const oldMonthName = await getOldMonthName();
-
-  if (oldMonthName) await parseMonth(oldMonthName);
+  return await parseMonth(oldMonthName);
 };
 
-export const parseNOldMonths = async (count = oldMonthsCount): Promise<void> => {
+export const parseNOldMonths = async (count = oldMonthsCount): Promise<ParserResult[]> => {
+  const parserResults: ParserResult[] = [];
+
   for (let i = 0; i < count; i++) {
-    await parseOldMonth();
+    const parserResult = await parseOldMonth();
+    parserResults.push(parserResult);
   }
+
+  return parserResults;
 };

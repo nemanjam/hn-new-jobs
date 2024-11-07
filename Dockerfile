@@ -47,6 +47,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/data /app/data
 COPY --from=builder --chown=root:root /app/crontab /etc/crontabs/root
 RUN chmod 0644 /etc/crontabs/root
 RUN touch /var/log/cron.log
+RUN chmod 0775 /var/log/cron.log
 
 USER nextjs
 

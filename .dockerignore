@@ -6,4 +6,5 @@ tsconfig.tsbuildinfo
 README.md
 .git
 .next
+.env*
 docs

@@ -42,9 +42,12 @@ db.exec(`
 
 /*-------------------------------- inserts ------------------------------*/
 
-/** Insert a new month with companies. The only insert needed. */
+/**
+ * Insert a new month with companies. The only insert needed.
+ * @returns {number} - Returns numberOfRowsAffected.
+ */
 
-export const saveMonth = (month: DbMonthInsert, companies: DbCompanyInsert[]): void => {
+export const saveMonth = (month: DbMonthInsert, companies: DbCompanyInsert[]): number => {
   const upsertMonth = db.prepare<[string, string], RunResult>(
     `INSERT INTO month (name, threadId)
      VALUES (?, ?)
@@ -57,23 +60,22 @@ export const saveMonth = (month: DbMonthInsert, companies: DbCompanyInsert[]): v
      ON CONFLICT(name, monthName) DO UPDATE SET updatedAt = CURRENT_TIMESTAMP`
   );
 
-  const transaction = db.transaction(() => {
-    let totalUpdatedCompanyRows = 0;
+  let numberOfRowsAffected = 0;
 
+  const transaction = db.transaction(() => {
     // Run the upsert for month
     const monthResult = upsertMonth.run(month.name, month.threadId);
-    console.log(`Month table, month.name: ${month.name} updated rows: ${monthResult.changes}`);
 
     // Run the upsert for each company and count updated rows
     for (const company of companies) {
       const companyResult = upsertCompany.run(company.name, company.commentId, month.name);
-      totalUpdatedCompanyRows += companyResult.changes;
+      numberOfRowsAffected += companyResult.changes;
     }
-
-    console.log(`Company table, updated rows: ${totalUpdatedCompanyRows}`);
   });
 
   transaction();
+
+  return numberOfRowsAffected;
 };
 
 /*-------------------------------- selects ------------------------------*/

@@ -3,20 +3,21 @@ import { getFirstMonth } from '@/modules/parser/database';
 
 /** Always update latest month. */
 
-export const getNewMonthName = async (): Promise<string | undefined> => {
+export const getNewMonthName = async (): Promise<string> => {
   const parsedMonths = await getAllMonths();
-  if (!(parsedMonths.length > 0)) return;
+  if (!(parsedMonths.length > 0))
+    throw new Error(`Invalid parsedMonths length: ${parsedMonths.length}`);
 
   // overwrite
-  const newMonthName = parsedMonths[0];
-  return newMonthName;
+  return parsedMonths[0];
 };
 
-export const getOldMonthName = async (): Promise<string | undefined> => {
+export const getOldMonthName = async (): Promise<string> => {
   const firstMonth = getFirstMonth();
 
   const parsedMonths = await getAllMonths();
-  if (!(parsedMonths.length > 0)) return;
+  if (!(parsedMonths.length > 0))
+    throw new Error(`Invalid parsedMonths length: ${parsedMonths.length}`);
 
   let oldMonthName: string;
 
@@ -29,7 +30,10 @@ export const getOldMonthName = async (): Promise<string | undefined> => {
 
   const index = parsedMonths.indexOf(firstMonth.name);
   // index not found or out of bounds
-  if (!(index !== -1 && index < parsedMonths.length - 1)) return;
+  if (!(index !== -1 && index < parsedMonths.length - 1))
+    throw new Error(
+      `IndexOf firstMonth.name: ${firstMonth.name} from database not found in parsedMonths.`
+    );
 
   // get item after, do not overwrite
   oldMonthName = parsedMonths[index + 1];

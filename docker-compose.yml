@@ -1,5 +1,7 @@
 version: '3.8'
 
+# prod file
+
 services:
   hn-parser-node:
     container_name: hn-parser-node
@@ -10,11 +12,13 @@ services:
     restart: unless-stopped
     environment:
       - PORT=3007
-    networks:
-      - proxy
+    env_file:
+      - .env.local
     volumes:
       - ./data:/app/data
       - ./data/cron.log:/var/log/cron.log # fix root
+    networks:
+      - proxy
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=proxy'
