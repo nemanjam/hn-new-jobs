@@ -9,7 +9,8 @@
 cache duration
 parse entire history, scheduler
     idempotent retry new month
-new month should run every day between 1st and 15th in month, insert or update
-data folder must use volume for sqlite db and cache
-add api endpoints for cron
+    new month should run every day between 1st and 15th in month, insert or update
+    data folder must use volume for sqlite db and cache
+    add api endpoints for cron
+isr after cron for sqlite
 ```
