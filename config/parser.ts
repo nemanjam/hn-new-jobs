@@ -20,4 +20,4 @@ export const CONFIG = {
   scripts: ['new', 'old', 'old-many'],
 } as const;
 
-prettyPrintObject(CONFIG, 'parser CONFIG');
+export const logConfig = () => prettyPrintObject(CONFIG, 'parser CONFIG');

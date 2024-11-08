@@ -1,5 +1,0 @@
-# Runs at 9:00 AM on the 1st through 15th of each month
-# 0 9 1-15 * * nextjs curl "http://localhost:3007/api/parser/new?parser-secret=$PARSER_SECRET" >> /var/log/cron.log 2>&1
-# Runs every minute
-* * * * * nextjs echo "cron works" >> /var/log/cron.log 2>&1
-# new line

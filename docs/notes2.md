@@ -27,3 +27,11 @@ ls -la /etc/crontab/nextjs
 
 node:x:1000:1000:Linux User,,,:/home/node:/bin/sh
 nextjs:x:1001:65533:Linux User,,,:/home/nextjs:/sbin/nologin
+
+cron -f
+
+cant start cron in docker as non root user
+setpgid: Operation not permitted
+
+instrumentation.ts conditional import
+https://github.com/vercel/next.js/issues/49565
