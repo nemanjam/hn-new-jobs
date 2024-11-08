@@ -15,8 +15,10 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
     "format": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
     "clean": "rm -rf node_modules yarn.lock",
-    "docker:build:push:arm": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-parser-node --platform linux/arm64 --push .",
-    "docker:build:push:x86": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-parser-node --platform linux/amd64 --push ."
+    "dc:build": "DOCKER_BUILDKIT=0 docker compose build",
+    "dc:up": "docker compose up -d",
+    "docker:build:push:x86": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-parser-node --platform linux/amd64 .",
+    "docker:build:push:arm": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-parser-node --platform linux/arm64 --push ."
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",

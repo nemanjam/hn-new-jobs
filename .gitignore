@@ -42,5 +42,9 @@ data/cache/*
 !data/database
 data/database/*
 !data/database/.gitkeep
-# enable in production
+# enable seeding history
 # !data/database/hn-parser-node-database-prod.sqlite3
+
+# enable in production
+# data/cron/cron.log
+

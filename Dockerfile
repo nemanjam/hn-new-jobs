@@ -9,7 +9,8 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* ./
-RUN yarn install --production=true --frozen-lockfile
+# important, must use --production=false to include typescript from devDependencies for path aliases
+RUN yarn install --production=false --frozen-lockfile
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -43,11 +44,17 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/data /app/data
 
-# Cron configuration and set permissions
-COPY --from=builder --chown=root:root /app/crontab /etc/crontabs/root
-RUN chmod 0644 /etc/crontabs/root
+# crontab file
+COPY --from=builder --chown=nextjs:nodejs /app/crontab /etc/cron.d/nextjs
+RUN chmod 0644 /etc/cron.d/nextjs
+
+# log file
 RUN touch /var/log/cron.log
 RUN chmod 0775 /var/log/cron.log
+RUN chown nextjs:nodejs /var/log/cron.log
+
+# exec file permissions
+RUN chmod +x /usr/sbin/crond
 
 USER nextjs
 
