@@ -3,17 +3,22 @@
 services:
   hn-parser-node:
     container_name: hn-parser-node
+    restart: unless-stopped
     image: nemanjamitic/hn-parser-node:latest
     build:
       context: .
       dockerfile: Dockerfile
       # args:
       #   - BUILDKIT_PROGRESS=plain
-    restart: unless-stopped
-    environment:
-      - PORT=3007
     env_file:
       - .env.local
+    ports:
+      - '3007:3007'
+    environment:
+      - PORT=3007
+    # fixes file permissions for volume
+    # uid=1000(username) gid=1000(username)
+    user: '${MY_UID}:${MY_GID}'
     volumes:
       - ./data:/app/data
       - ./data/cron/cron.log:/var/log/cron.log # fix root

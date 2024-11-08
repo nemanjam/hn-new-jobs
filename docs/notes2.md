@@ -24,3 +24,6 @@ ls -la /var/log/cron.log
 
 cat /etc/crontab/nextjs
 ls -la /etc/crontab/nextjs
+
+node:x:1000:1000:Linux User,,,:/home/node:/bin/sh
+nextjs:x:1001:65533:Linux User,,,:/home/nextjs:/sbin/nologin

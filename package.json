@@ -17,6 +17,7 @@
     "clean": "rm -rf node_modules yarn.lock",
     "dc:build": "DOCKER_BUILDKIT=0 docker compose build",
     "dc:up": "docker compose up -d",
+    "dc:down": "docker compose down",
     "docker:build:push:x86": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-parser-node --platform linux/amd64 .",
     "docker:build:push:arm": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-parser-node --platform linux/arm64 --push ."
   },

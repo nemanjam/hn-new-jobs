@@ -54,7 +54,7 @@ RUN chmod 0775 /var/log/cron.log
 RUN chown nextjs:nodejs /var/log/cron.log
 
 # exec file permissions
-# RUN chmod +x /usr/sbin/crond
+RUN chmod +x /usr/sbin/crond
 # run crond and non-root user
 RUN chown nextjs:nodejs /usr/sbin/crond
 RUN setcap cap_setgid=ep /usr/sbin/crond
