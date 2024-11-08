@@ -23,7 +23,7 @@ RUN yarn build
 # Production image, copy all the files and run next
 FROM base AS runner
 
-RUN apk add --no-cache dcron
+RUN apk add --no-cache dcron libcap
 WORKDIR /app
 
 ENV NODE_ENV=production
@@ -45,8 +45,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/data /app/data
 
 # crontab file
-COPY --from=builder --chown=nextjs:nodejs /app/crontab /etc/cron.d/nextjs
-RUN chmod 0644 /etc/cron.d/nextjs
+COPY --from=builder --chown=nextjs:nodejs /app/crontab /etc/crontab/nextjs
+RUN chmod 0644 /etc/crontab/nextjs
 
 # log file
 RUN touch /var/log/cron.log
@@ -54,7 +54,10 @@ RUN chmod 0775 /var/log/cron.log
 RUN chown nextjs:nodejs /var/log/cron.log
 
 # exec file permissions
-RUN chmod +x /usr/sbin/crond
+# RUN chmod +x /usr/sbin/crond
+# run crond and non-root user
+RUN chown nextjs:nodejs /usr/sbin/crond
+RUN setcap cap_setgid=ep /usr/sbin/crond
 
 USER nextjs
 
@@ -64,4 +67,4 @@ ENV PORT=3007
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
 ENV HOSTNAME="0.0.0.0"
-CMD crond -f -l 2 & node server.js
+CMD /usr/sbin/crond -f -l 2 & node server.js

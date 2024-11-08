@@ -18,7 +18,9 @@ isr after cron for sqlite
 cron debugging
 
 ps aux | grep crond
+
 cat /var/log/cron.log
 ls -la /var/log/cron.log
-cat /etc/cron.d/nextjs
-ls -la /etc/cron.d/nextjs
+
+cat /etc/crontab/nextjs
+ls -la /etc/crontab/nextjs
