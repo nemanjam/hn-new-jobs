@@ -1,13 +1,9 @@
-import {
-  differenceInSeconds,
-  format,
-  getDate,
-  getHours,
-  isSaturday,
-  isWeekend,
-  subDays,
-} from 'date-fns';
+import { differenceInSeconds, format, getDate, isSaturday, isWeekend } from 'date-fns';
 import { format as formatTz, toZonedTime } from 'date-fns-tz';
+
+import { CONFIG } from '@/config/parser';
+
+const { appTimeZone } = CONFIG;
 
 export const DATETIME = {
   monthNameFormat: 'yyyy-MM',
@@ -16,7 +12,7 @@ export const DATETIME = {
   sanFranciscoTimeZone: 'America/Los_Angeles',
 } as const;
 
-const { monthNameFormat, europeanFormat, belgradeTimeZone, sanFranciscoTimeZone } = DATETIME;
+const { monthNameFormat, europeanFormat, sanFranciscoTimeZone } = DATETIME;
 
 /**
  * Format to 'YYYY-MM'.
@@ -29,9 +25,11 @@ export const convertDateToMonthName = (date: Date): string => format(date, month
  * @example 05/11/2024 14:30:01
  */
 export const humanFormat = (date: Date): string =>
-  formatTz(date, europeanFormat, { timeZone: belgradeTimeZone });
+  formatTz(date, europeanFormat, { timeZone: appTimeZone });
 
-export const getBelgradeTime = (dateTime: Date): Date => toZonedTime(dateTime, belgradeTimeZone);
+export const getAppTime = (dateTime: Date): Date => toZonedTime(dateTime, appTimeZone);
+
+export const getAppNow = (): Date => getAppTime(new Date());
 
 export const createNumberOfSecondsSincePreviousCall = (): (() => number) => {
   let previousCallTime: Date | null = null;

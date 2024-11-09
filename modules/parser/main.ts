@@ -1,8 +1,8 @@
-import { parseNewMonth, parseNOldMonths, parseOldMonth } from '@/modules/parser/parse';
+import { callParseNewMonth, callParseNOldMonths, callParseOldMonth } from '@/modules/parser/calls';
+import { SCRIPTS } from '@/constants/scripts';
 import { CONFIG } from '@/config/parser';
 
-import { ScriptType } from '@/types/api';
-import { ParserResult } from '@/types/parser';
+import { ParserResponse, ScriptType } from '@/types/api';
 
 const { nodeEnv } = CONFIG;
 
@@ -10,24 +10,21 @@ const { nodeEnv } = CONFIG;
 
 const main = async (script: ScriptType) => {
   switch (script) {
-    case 'new': {
-      const parserResult: ParserResult = await parseNewMonth();
-      console.log('parserResult', parserResult);
+    case SCRIPTS.parseNew: {
+      const parserResponse: ParserResponse = await callParseNewMonth();
+      console.log(parserResponse);
       break;
     }
-    case 'old': {
-      const parserResult: ParserResult = await parseOldMonth();
-      console.log('parserResult', parserResult);
+    case SCRIPTS.parseOld: {
+      const parserResponse: ParserResponse = await callParseOldMonth();
+      console.log(parserResponse);
       break;
     }
-    case 'old-many': {
-      const parserResults: ParserResult[] = await parseNOldMonths();
-      console.log('parserResult', parserResults);
+    case SCRIPTS.parseOldMany: {
+      const parserResponse: ParserResponse = await callParseNOldMonths();
+      console.log(parserResponse);
       break;
     }
-
-    default:
-      break;
   }
 };
 

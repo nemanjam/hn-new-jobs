@@ -1,8 +1,7 @@
-import { CONFIG } from '@/config/parser';
+import { SCRIPTS } from '@/constants/scripts';
 
 import type { ParserResult } from '@/types/parser';
 
-const { scripts } = CONFIG;
 /*-------------------------------- general api ------------------------------*/
 
 export interface ErrorResponse {
@@ -16,7 +15,7 @@ export interface ParserResponse {
   message: string;
 }
 
-export type ScriptType = (typeof scripts)[number];
+export type ScriptType = (typeof SCRIPTS)[keyof typeof SCRIPTS];
 
 export interface ParserRouteParam {
   params: Promise<{

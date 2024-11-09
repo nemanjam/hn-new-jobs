@@ -17,7 +17,7 @@ export const CONFIG = {
   cacheFilePath: join(projectRootFolder, './data/cache/', 'cache.json'),
   cacheTtlHours: 1,
   oldMonthsCount: 5,
-  scripts: ['new', 'old', 'old-many'],
+  appTimeZone: 'Europe/Belgrade',
 } as const;
 
 export const logConfig = () => prettyPrintObject(CONFIG, 'parser CONFIG');

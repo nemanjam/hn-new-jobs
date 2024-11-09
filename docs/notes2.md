@@ -7,12 +7,14 @@
   const firstMonth = db.prepare<[], Pick<DbMonth, 'name'>>(`SELECT name FROM month ORDER BY name ASC LIMIT 1`).get();
 
 cache duration
-parse entire history, scheduler
+    parse entire history, scheduler, limit on number of calls
     idempotent retry new month
     new month should run every day between 1st and 15th in month, insert or update
     data folder must use volume for sqlite db and cache
     add api endpoints for cron
-isr after cron for sqlite
+incremental static regeneration, invalidate after parseNewMonth
+cache time for search thread and hiring thread?
+logger instance with timestamp
 ```
 
 cron debugging

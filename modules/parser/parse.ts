@@ -7,8 +7,6 @@ import { getNewMonthName, getOldMonthName } from './months';
 import { DbCompanyInsert, DbMonthInsert } from '@/types/database';
 import { ParserResult } from '@/types/parser';
 
-const { oldMonthsCount } = CONFIG;
-
 /** Thread === DbMonthInsert */
 
 export const getThreadFromMonthName = async (monthName: string): Promise<DbMonthInsert> => {
@@ -47,7 +45,7 @@ export const parseOldMonth = async (): Promise<ParserResult> => {
   return await parseMonth(oldMonthName);
 };
 
-export const parseNOldMonths = async (count = oldMonthsCount): Promise<ParserResult[]> => {
+export const parseNOldMonths = async (count: number): Promise<ParserResult[]> => {
   const parserResults: ParserResult[] = [];
 
   for (let i = 0; i < count; i++) {

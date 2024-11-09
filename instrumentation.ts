@@ -3,10 +3,18 @@ export const register = async () => {
   if (process.env.NEXT_RUNTIME === 'nodejs') {
     // conditional imports
     const { logConfig } = await import('@/config/parser');
-    const { initScheduler } = await import('@/modules/scheduler/main');
+    const { debuggingScheduler, newMonthScheduler, seedOldMonthsScheduler } = await import(
+      '@/modules/scheduler/main'
+    );
 
-    // calls
+    // debugging
     logConfig();
-    initScheduler();
+    debuggingScheduler();
+
+    // main call
+    newMonthScheduler();
+
+    // seed
+    seedOldMonthsScheduler();
   }
 };

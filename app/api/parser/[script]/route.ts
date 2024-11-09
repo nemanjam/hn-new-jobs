@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server';
 
-import { parseNewMonth, parseNOldMonths, parseOldMonth } from '@/modules/parser/parse';
+import { callParseNewMonth, callParseNOldMonths, callParseOldMonth } from '@/modules/parser/calls';
+import { SCRIPTS } from '@/constants/scripts';
 import { CONFIG } from '@/config/parser';
 
 import type { ErrorResponse, ParserResponse, ParserRouteParam } from '@/types/api';
-import type { ParserResult } from '@/types/parser';
 
-const { parserSecret, scripts } = CONFIG;
+const { parserSecret } = CONFIG;
+
+const scripts = Object.values(SCRIPTS);
 
 export const dynamic = 'force-dynamic';
 
@@ -39,26 +41,17 @@ export const GET = async (
 
   try {
     switch (script) {
-      case 'new': {
-        const parserResult: ParserResult = await parseNewMonth();
-        return NextResponse.json({
-          parserResults: [parserResult],
-          message: 'Parsing new month successful.',
-        });
+      case SCRIPTS.parseNew: {
+        const parserResponse: ParserResponse = await callParseNewMonth();
+        return NextResponse.json(parserResponse);
       }
-      case 'old': {
-        const parserResult: ParserResult = await parseOldMonth();
-        return NextResponse.json({
-          parserResults: [parserResult],
-          message: 'Parsing one old month successful.',
-        });
+      case SCRIPTS.parseOld: {
+        const parserResponse: ParserResponse = await callParseOldMonth();
+        return NextResponse.json(parserResponse);
       }
-      case 'old-many': {
-        const parserResults: ParserResult[] = await parseNOldMonths();
-        return NextResponse.json({
-          parserResults,
-          message: `Parsing ${parserResults.length} old months successful.`,
-        });
+      case SCRIPTS.parseOldMany: {
+        const parserResponse: ParserResponse = await callParseNOldMonths();
+        return NextResponse.json(parserResponse);
       }
     }
   } catch (error) {
