@@ -1,6 +1,6 @@
 import BetterSqlite3 from 'better-sqlite3';
 
-import { CONFIG } from '@/config/parser';
+import { PARSER_CONFIG } from '@/config/parser';
 
 import {
   CompanyComments,
@@ -13,7 +13,7 @@ import {
 } from '@/types/database';
 import type { Database, RunResult } from 'better-sqlite3';
 
-const { databaseFilePath } = CONFIG;
+const { databaseFilePath } = PARSER_CONFIG;
 
 /*-------------------------------- schema ------------------------------*/
 

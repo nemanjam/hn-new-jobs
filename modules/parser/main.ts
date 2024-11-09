@@ -1,10 +1,10 @@
 import { callParseNewMonth, callParseNOldMonths, callParseOldMonth } from '@/modules/parser/calls';
 import { SCRIPTS } from '@/constants/scripts';
-import { CONFIG } from '@/config/parser';
+import { PARSER_CONFIG } from '@/config/parser';
 
 import { ParserResponse, ScriptType } from '@/types/api';
 
-const { nodeEnv } = CONFIG;
+const { nodeEnv } = PARSER_CONFIG;
 
 /** This can be used as cli script only in dev or in prod WITH node_modules folder. */
 

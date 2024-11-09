@@ -5,9 +5,9 @@ import KeyvFile from 'keyv-file';
 
 import { axiosRateLimitInstance } from '@/libs/axios';
 import { createNumberOfSecondsSincePreviousCall, humanFormat } from '@/libs/datetime';
-import { CONFIG } from '@/config/parser';
+import { PARSER_CONFIG } from '@/config/parser';
 
-const { cacheFilePath, cacheTtlHours } = CONFIG;
+const { cacheFilePath, cacheTtlHours } = PARSER_CONFIG;
 
 // disables cache for testing
 try {

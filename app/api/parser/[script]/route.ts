@@ -2,11 +2,11 @@ import { NextResponse } from 'next/server';
 
 import { callParseNewMonth, callParseNOldMonths, callParseOldMonth } from '@/modules/parser/calls';
 import { SCRIPTS } from '@/constants/scripts';
-import { CONFIG } from '@/config/parser';
+import { PARSER_CONFIG } from '@/config/parser';
 
 import type { ErrorResponse, ParserResponse, ParserRouteParam } from '@/types/api';
 
-const { parserSecret } = CONFIG;
+const { parserSecret } = PARSER_CONFIG;
 
 const scripts = Object.values(SCRIPTS);
 

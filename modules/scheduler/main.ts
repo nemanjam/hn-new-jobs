@@ -1,13 +1,13 @@
 import cron from 'node-cron';
 
 import { callParseNewMonth, callParseNOldMonths } from '@/modules/parser/calls';
-import { getAppNow, getAppTime, isWeekendAndStartOfMonth } from '@/libs/datetime';
+import { getAppNow, isWeekendAndStartOfMonth } from '@/libs/datetime';
 import { SCRIPTS } from '@/constants/scripts';
-import { CONFIG } from '@/config/parser';
+import { PARSER_CONFIG } from '@/config/parser';
 
 import type { ParserResponse } from '@/types/api';
 
-const { appTimeZone } = CONFIG;
+const { appTimeZone } = PARSER_CONFIG;
 
 const fiveMinutes = 5 * 60 * 1000;
 

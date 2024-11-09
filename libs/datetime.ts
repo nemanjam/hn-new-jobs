@@ -1,9 +1,9 @@
 import { differenceInSeconds, format, getDate, isSaturday, isWeekend } from 'date-fns';
 import { format as formatTz, toZonedTime } from 'date-fns-tz';
 
-import { CONFIG } from '@/config/parser';
+import { PARSER_CONFIG } from '@/config/parser';
 
-const { appTimeZone } = CONFIG;
+const { appTimeZone } = PARSER_CONFIG;
 
 export const DATETIME = {
   monthNameFormat: 'yyyy-MM',
