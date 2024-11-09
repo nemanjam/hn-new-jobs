@@ -2,6 +2,7 @@ import cron from 'node-cron';
 
 import { callParseNewMonth, callParseNOldMonths } from '@/modules/parser/calls';
 import { getAppNow, isWeekendAndStartOfMonth } from '@/libs/datetime';
+import { logPrettyPrintObject } from '@/utils/log';
 import { SCRIPTS } from '@/constants/scripts';
 import { PARSER_CONFIG } from '@/config/parser';
 
@@ -13,7 +14,7 @@ const fiveMinutes = 5 * 60 * 1000;
 
 export const debuggingScheduler = () => {
   const debuggingTask = cron.schedule(
-    '* * * * *',
+    validateCronString('* * * * *'),
     () => {
       console.log('running a task every minute');
     },
@@ -32,7 +33,7 @@ export const debuggingScheduler = () => {
 
 export const newMonthScheduler = () => {
   cron.schedule(
-    '0 9 2-15 * *',
+    validateCronString('0 9 2-15 * *'),
     async () => {
       const now = new Date();
 
@@ -61,7 +62,7 @@ export const seedOldMonthsScheduler = () => {
   let numberOfCalls = 0;
 
   const seedOldMonthsTask = cron.schedule(
-    '*/10 * * * *',
+    validateCronString('*/10 * * * *'),
     async () => {
       try {
         const parserResponse: ParserResponse = await callParseNOldMonths();
@@ -85,3 +86,29 @@ export const seedOldMonthsScheduler = () => {
     console.log(`seedOldMonthsTask stopped after numberOfCalls: ${numberOfCalls}`);
   }
 };
+
+const validateCronString = (cronString: string) => {
+  const isValid = cron.validate(cronString);
+
+  if (!isValid) {
+    const message = `Invalid cronString: ${cronString}`;
+
+    console.error(message);
+    throw new Error(message);
+  }
+  return cronString;
+};
+
+const getScheduledTasksObject = (): Record<string, { options: any }> => {
+  const tasks = cron.getTasks();
+
+  // keep only task.options
+  const tasksObject = Object.fromEntries(
+    Array.from(tasks.entries()).map(([key, value]) => [key, { options: (value as any).options }])
+  );
+
+  return tasksObject;
+};
+
+export const logScheduledTasks = () =>
+  logPrettyPrintObject(getScheduledTasksObject(), 'Scheduled tasks');
