@@ -2,6 +2,7 @@ import cron from 'node-cron';
 
 import { callParseNewMonth, callParseNOldMonths } from '@/modules/parser/calls';
 import { getAppNow, isWeekendAndStartOfMonth } from '@/libs/datetime';
+import logger from '@/libs/winston';
 import { logPrettyPrintObject } from '@/utils/log';
 import { SCRIPTS } from '@/constants/scripts';
 import { PARSER_CONFIG } from '@/config/parser';
@@ -16,7 +17,7 @@ export const debuggingScheduler = () => {
   const debuggingTask = cron.schedule(
     validateCronString('* * * * *'),
     () => {
-      console.log('running a task every minute');
+      logger.info('running a task every minute');
     },
     {
       name: 'debugging',

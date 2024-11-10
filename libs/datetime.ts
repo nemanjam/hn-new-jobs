@@ -3,16 +3,14 @@ import { format as formatTz, toZonedTime } from 'date-fns-tz';
 
 import { PARSER_CONFIG } from '@/config/parser';
 
-const { appTimeZone } = PARSER_CONFIG;
+const { appTimeZone, appDateTimeFormat } = PARSER_CONFIG;
 
 export const DATETIME = {
   monthNameFormat: 'yyyy-MM',
-  europeanFormat: 'dd/MM/yyyy HH:mm:ss',
-  belgradeTimeZone: 'Europe/Belgrade',
   sanFranciscoTimeZone: 'America/Los_Angeles',
 } as const;
 
-const { monthNameFormat, europeanFormat, sanFranciscoTimeZone } = DATETIME;
+const { monthNameFormat, sanFranciscoTimeZone } = DATETIME;
 
 /**
  * Format to 'YYYY-MM'.
@@ -25,7 +23,7 @@ export const convertDateToMonthName = (date: Date): string => format(date, month
  * @example 05/11/2024 14:30:01
  */
 export const humanFormat = (date: Date): string =>
-  formatTz(date, europeanFormat, { timeZone: appTimeZone });
+  formatTz(date, appDateTimeFormat, { timeZone: appTimeZone });
 
 export const getAppTime = (dateTime: Date): Date => toZonedTime(dateTime, appTimeZone);
 
