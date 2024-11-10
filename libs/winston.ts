@@ -7,12 +7,14 @@ import type { Logform, Logger } from 'winston';
 
 const { combine, timestamp, colorize, printf } = format;
 
+// ! because of this cant be used in config
 const { nodeEnv, logFilePath } = PARSER_CONFIG;
 
+// todo: add tailwind css
 const htmlFormat: Logform.Format = printf(({ timestamp, level, message }) => {
   return `<div class="log-entry">
-    <span class="timestamp">${timestamp}</span> - 
     <span class="level">${level.toUpperCase()}</span>: 
+    <span class="timestamp">${timestamp}</span> - 
     <span class="message">${message}</span>
   </div>`;
 });
@@ -25,7 +27,10 @@ const consoleFormat: Logform.Format = printf(({ timestamp, level, message }) => 
   return `${level} ${timestamp} - ${message}`;
 });
 
-// important: must level.toUpperCase() before ANSI color codes in colorize, format(), not printf() from consoleFormat
+/**
+ * impoortant: must level.toUpperCase() before ANSI color codes in colorize
+ * format(), not printf() from consoleFormat
+ */
 const uppercaseLevel = format((info: Logform.TransformableInfo) => {
   info.level = info.level.toUpperCase();
   return info;
@@ -63,4 +68,5 @@ const logger: Logger = nodeEnv === 'production' ? prodLogger : devLogger;
  */
 export default logger;
 
-logger.info('my test message');
+// todo: pass context object
+logger.info('my test message', { k: 999, yy: 777 });
