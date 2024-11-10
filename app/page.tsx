@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { buttonVariants } from '@/components/ui/button';
+import { TestChart } from '@/components/charts/test-chart';
 
 import { siteConfig } from '@/config/site';
 
@@ -34,6 +35,11 @@ export default function IndexPage() {
         >
           GitHub
         </Link>
+      </div>
+
+      {/* content */}
+      <div className="max-w-lg">
+        <TestChart />
       </div>
     </section>
   );

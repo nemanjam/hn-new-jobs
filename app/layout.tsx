@@ -1,5 +1,3 @@
-import '@/styles/globals.css';
-
 import { Metadata } from 'next';
 
 import { SiteHeader } from '@/components/site-header';
@@ -9,6 +7,8 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { fontSans } from '@/libs/fonts';
 import { cn } from '@/utils/styles';
 import { siteConfig } from '@/config/site';
+
+import '@/styles/globals.css';
 
 export const metadata: Metadata = {
   title: {
@@ -45,6 +45,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               <SiteHeader />
               <div className="flex-1">{children}</div>
             </div>
+
             <TailwindIndicator />
           </ThemeProvider>
         </body>
