@@ -45,6 +45,8 @@ data/database/*
 # enable seeding history
 # !data/database/hn-parser-node-database-prod.sqlite3
 
-# enable in production
-# data/cron/cron.log
+# ignore app logs
+!data/logs
+data/logs/*
+!data/logs/.gitkeep
 

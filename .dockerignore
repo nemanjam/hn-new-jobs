@@ -9,4 +9,5 @@ README.md
 .next
 .env*
 docs
-data/cron/cron.log
+data/logs
+
