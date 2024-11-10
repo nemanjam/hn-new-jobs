@@ -22,7 +22,7 @@ const timestampWithTimezone: Logform.Format = timestamp({
 });
 
 const consoleFormat: Logform.Format = printf(({ timestamp, level, message }) => {
-  return `${level} - ${timestamp} - ${message}`;
+  return `${level} ${timestamp} - ${message}`;
 });
 
 // important: must level.toUpperCase() before ANSI color codes in colorize, format(), not printf() from consoleFormat
