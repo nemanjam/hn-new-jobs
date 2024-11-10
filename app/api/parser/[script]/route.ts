@@ -6,11 +6,11 @@ import { PARSER_CONFIG } from '@/config/parser';
 
 import type { ErrorResponse, ParserResponse, ParserRouteParam } from '@/types/api';
 
+export const dynamic = 'force-dynamic';
+
 const { parserSecret } = PARSER_CONFIG;
 
 const scripts = Object.values(SCRIPTS);
-
-export const dynamic = 'force-dynamic';
 
 /**
  * Called by cron with curl. Benefit: single Next.js build context without node_modules for .ts scripts.

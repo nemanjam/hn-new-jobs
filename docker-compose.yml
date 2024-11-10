@@ -21,7 +21,6 @@ services:
     user: '${MY_UID}:${MY_GID}'
     volumes:
       - ./data:/app/data
-      - ./data/cron/cron.log:/var/log/cron.log # fix root
     networks:
       - default
 

@@ -91,7 +91,7 @@ const validateCronString = (cronString: string) => {
   const isValid = cron.validate(cronString);
 
   if (!isValid) {
-    const message = `Invalid cronString: ${cronString}`;
+    const message = `Invalid cronString: ${cronString}.`;
 
     console.error(message);
     throw new Error(message);

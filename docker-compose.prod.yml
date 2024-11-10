@@ -1,19 +1,20 @@
-version: '3.8'
-
 # prod file
 
 services:
   hn-parser-node:
-    image: nemanjamitic/hn-parser-node:latest
     container_name: hn-parser-node
     restart: unless-stopped
+    image: nemanjamitic/hn-parser-node:latest
+    # use single .env
+    env_file:
+      - .env.local
     environment:
       - PORT=3007
-    env_file:
-      - .env.local # use single .env
+    # fixes file permissions for volume
+    # uid=1000(username) gid=1000(username)
+    user: '${MY_UID}:${MY_GID}'
     volumes:
       - ./data:/app/data
-      - ./data/cron/cron.log:/var/log/cron.log # fix root
     networks:
       - proxy
     labels:

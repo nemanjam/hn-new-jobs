@@ -1,6 +1,6 @@
 import { join } from 'path';
 
-import { logPrettyPrintConfig } from '@/utils/log';
+import { logPrettyPrintObject } from '@/utils/log';
 
 // !important, build, dev
 const projectRootFolder = process.cwd();
@@ -20,4 +20,4 @@ export const PARSER_CONFIG = {
   appTimeZone: 'Europe/Belgrade',
 } as const;
 
-export const logConfig = () => logPrettyPrintConfig(PARSER_CONFIG, 'PARSER_CONFIG');
+export const logConfig = () => logPrettyPrintObject(PARSER_CONFIG, 'PARSER_CONFIG');
