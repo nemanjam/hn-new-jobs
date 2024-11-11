@@ -40,6 +40,7 @@ export interface NewOldCompanies extends MonthPair {
   newCompanies: DbCompany[];
   oldCompanies: DbCompany[];
   firstTimeCompanies: DbCompany[];
+  totalCompaniesCount: number;
 }
 
 export interface CompanyComments {

@@ -8,15 +8,21 @@ import { DbCompany, NewOldCompanies } from '@/types/database';
 
 const IndexPage: FC = () => {
   const newOldCompanies = getNewOldCompaniesForLastTwoMonths();
-  const { forMonth, comparedToMonth, newCompanies, oldCompanies, firstTimeCompanies } =
-    newOldCompanies;
+  const {
+    forMonth,
+    comparedToMonth,
+    newCompanies,
+    oldCompanies,
+    firstTimeCompanies,
+    totalCompaniesCount,
+  } = newOldCompanies;
 
   const printNumbers = () => {
     return (
       <p>
         For month: {forMonth}, compared to month: {comparedToMonth}, first time companies:
         {firstTimeCompanies.length}, new companies: {newCompanies.length}, old companies:{' '}
-        {oldCompanies.length}
+        {oldCompanies.length}, total companies count: {totalCompaniesCount}
       </p>
     );
   };

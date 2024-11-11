@@ -126,23 +126,44 @@ export const getFirstTimeCompaniesForMonth = (monthName: string): DbCompany[] =>
 export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldCompanies => {
   const { forMonth, comparedToMonth } = monthPair;
 
-  const month1Companies = db
-    .prepare<string, DbCompany>(`SELECT * FROM company WHERE monthName = ?`)
-    .all(forMonth);
-  const month2Companies = db
-    .prepare<string, DbCompany>(`SELECT * FROM company WHERE monthName = ?`)
-    .all(comparedToMonth);
+  // Companies present in forMonth but not in comparedToMonth
+  const newCompanies = db
+    .prepare<[string, string], DbCompany>(
+      `SELECT c2.*
+       FROM company AS c2
+       WHERE c2.monthName = ? 
+         AND c2.name NOT IN (
+           SELECT c1.name
+           FROM company AS c1
+           WHERE c1.monthName = ?
+         )`
+    )
+    .all(forMonth, comparedToMonth);
 
-  const newCompanies = month2Companies.filter(
-    (c1) => !month1Companies.some((c2) => compareCompanies(c1, c2))
-  );
-  const oldCompanies = month1Companies.filter(
-    (c1) => !month2Companies.some((c2) => compareCompanies(c1, c2))
-  );
+  // Companies present in both forMonth and comparedToMonth
+  const oldCompanies = db
+    .prepare<[string, string], DbCompany>(
+      `SELECT c1.*
+       FROM company AS c1
+       WHERE c1.monthName = ? 
+         AND c1.name IN (
+           SELECT c2.name
+           FROM company AS c2
+           WHERE c2.monthName = ?
+         )`
+    )
+    .all(forMonth, comparedToMonth);
+
+  // Total count of companies in forMonth
+  const totalCompaniesCount =
+    db
+      .prepare<[string], number>(`SELECT COUNT(*) FROM company WHERE monthName = ?`)
+      .pluck()
+      .get(forMonth) ?? 0;
 
   const firstTimeCompanies = getFirstTimeCompaniesForMonth(forMonth);
 
-  return { ...monthPair, newCompanies, oldCompanies, firstTimeCompanies };
+  return { ...monthPair, newCompanies, oldCompanies, firstTimeCompanies, totalCompaniesCount };
 };
 
 /** Compare the last two months. */
