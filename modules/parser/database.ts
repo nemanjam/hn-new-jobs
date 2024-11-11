@@ -103,17 +103,20 @@ export const getFirstMonth = (): DbMonth | undefined => {
   return firstMonth;
 };
 
-export const getFirstTimeCompaniesForTwoMonths = (monthsPair: MonthPair): DbCompany[] => {
-  const { forMonth, comparedToMonth } = monthsPair;
-
+export const getFirstTimeCompaniesForMonth = (monthName: string): DbCompany[] => {
   const firstTimeCompanies = db
     .prepare<[string, string], DbCompany>(
-      `SELECT c.* FROM company AS c
-     WHERE c.monthName = ? AND c.name NOT IN (
-       SELECT name FROM company WHERE monthName = ?
-     )`
+      `SELECT c.*
+       FROM company AS c
+       WHERE c.monthName = ? 
+         AND NOT EXISTS (
+           SELECT 1 
+           FROM company AS older
+           WHERE older.name = c.name
+             AND older.monthName < ?
+       )`
     )
-    .all(forMonth, comparedToMonth);
+    .all(monthName, monthName);
 
   return firstTimeCompanies;
 };
@@ -137,7 +140,7 @@ export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldComp
     (c1) => !month2Companies.some((c2) => compareCompanies(c1, c2))
   );
 
-  const firstTimeCompanies = getFirstTimeCompaniesForTwoMonths(monthPair);
+  const firstTimeCompanies = getFirstTimeCompaniesForMonth(forMonth);
 
   return { ...monthPair, newCompanies, oldCompanies, firstTimeCompanies };
 };

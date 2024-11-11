@@ -4,16 +4,26 @@ import { TestChart } from '@/components/charts/test-chart';
 
 import { getNewOldCompaniesForLastTwoMonths } from '@/modules/parser/database';
 
-import { DbCompany } from '@/types/database';
+import { DbCompany, NewOldCompanies } from '@/types/database';
 
 const IndexPage: FC = () => {
   const newOldCompanies = getNewOldCompaniesForLastTwoMonths();
   const { forMonth, comparedToMonth, newCompanies, oldCompanies, firstTimeCompanies } =
     newOldCompanies;
 
+  const printNumbers = () => {
+    return (
+      <p>
+        For month: {forMonth}, compared to month: {comparedToMonth}, first time companies:
+        {firstTimeCompanies.length}, new companies: {newCompanies.length}, old companies:{' '}
+        {oldCompanies.length}
+      </p>
+    );
+  };
+
   const printCompanies = (label: string, companies: DbCompany[]) => {
     return (
-      <div className="max-w-xl">
+      <div>
         <label className="font-bold">{label}</label>
 
         <table>
@@ -52,10 +62,8 @@ const IndexPage: FC = () => {
         </p>
       </div>
       {/* companies lists */}
-      <div className="flex flex-col items-center gap-4">
-        <label className="block font-bold">
-          For month: {forMonth}, compared to month: {comparedToMonth}
-        </label>
+      <div className="max-w-xl flex flex-col gap-4">
+        {printNumbers()}
 
         {printCompanies('First time companies:', firstTimeCompanies)}
 
