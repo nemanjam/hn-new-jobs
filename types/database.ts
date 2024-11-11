@@ -5,6 +5,7 @@ export interface DbMonth {
   name: string;
   threadId: string;
   createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface DbCompany {
@@ -12,6 +13,7 @@ export interface DbCompany {
   commentId: string;
   monthName: string;
   createdAt: Date;
+  updatedAt: Date;
 }
 
 /*-------------------------------- Insert ------------------------------*/
@@ -29,11 +31,15 @@ export interface MonthPair {
   comparedToMonth: string;
 }
 
+export interface MonthRange {
+  fromMonth: string;
+  toMonth: string;
+}
+
 export interface NewOldCompanies extends MonthPair {
   newCompanies: DbCompany[];
   oldCompanies: DbCompany[];
-  /** todo: First time appearing companies. */
-  firstTimeCompanies?: DbCompany[];
+  firstTimeCompanies: DbCompany[];
 }
 
 export interface CompanyComments {

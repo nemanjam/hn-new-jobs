@@ -9,6 +9,7 @@ import {
   DbMonth,
   DbMonthInsert,
   MonthPair,
+  MonthRange,
   NewOldCompanies,
 } from '@/types/database';
 import type { Database, RunResult } from 'better-sqlite3';
@@ -65,6 +66,7 @@ export const saveMonth = (month: DbMonthInsert, companies: DbCompanyInsert[]): n
   const transaction = db.transaction(() => {
     // Run the upsert for month
     const monthResult = upsertMonth.run(month.name, month.threadId);
+    numberOfRowsAffected += monthResult.changes;
 
     // Run the upsert for each company and count updated rows
     for (const company of companies) {
@@ -101,10 +103,25 @@ export const getFirstMonth = (): DbMonth | undefined => {
   return firstMonth;
 };
 
+export const getFirstTimeCompaniesForTwoMonths = (monthsPair: MonthPair): DbCompany[] => {
+  const { forMonth, comparedToMonth } = monthsPair;
+
+  const firstTimeCompanies = db
+    .prepare<[string, string], DbCompany>(
+      `SELECT c.* FROM company AS c
+     WHERE c.monthName = ? AND c.name NOT IN (
+       SELECT name FROM company WHERE monthName = ?
+     )`
+    )
+    .all(forMonth, comparedToMonth);
+
+  return firstTimeCompanies;
+};
+
 /** Compare two specific months by name. */
 
-export const getNewOldCompaniesForTwoMonths = (monthsPair: MonthPair): NewOldCompanies => {
-  const { forMonth, comparedToMonth } = monthsPair;
+export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldCompanies => {
+  const { forMonth, comparedToMonth } = monthPair;
 
   const month1Companies = db
     .prepare<string, DbCompany>(`SELECT * FROM company WHERE monthName = ?`)
@@ -120,7 +137,9 @@ export const getNewOldCompaniesForTwoMonths = (monthsPair: MonthPair): NewOldCom
     (c1) => !month2Companies.some((c2) => compareCompanies(c1, c2))
   );
 
-  return { ...monthsPair, newCompanies, oldCompanies };
+  const firstTimeCompanies = getFirstTimeCompaniesForTwoMonths(monthPair);
+
+  return { ...monthPair, newCompanies, oldCompanies, firstTimeCompanies };
 };
 
 /** Compare the last two months. */
@@ -131,26 +150,26 @@ export const getNewOldCompaniesForLastTwoMonths = (): NewOldCompanies => {
     .all();
 
   const monthsPair: MonthPair = {
-    forMonth: lastTwoMonths[1].name,
-    comparedToMonth: lastTwoMonths[0].name,
+    forMonth: lastTwoMonths[0].name,
+    comparedToMonth: lastTwoMonths[1].name,
   };
 
   return getNewOldCompaniesForTwoMonths(monthsPair);
 };
 
-/** Compare from-to months for sliding window (pagination). */
+/** Compare range of subsequent month pairs. */
 
 export const getNewOldCompaniesForFromToSubsequentMonths = (
-  monthsPair: MonthPair
+  monthsPair: MonthRange
 ): NewOldCompanies[] => {
-  const { forMonth, comparedToMonth } = monthsPair;
+  const { fromMonth, toMonth } = monthsPair;
 
   const subsequentMonths = db
     .prepare<
       [string, string],
       Pick<DbMonth, 'name'>
     >(`SELECT name FROM month WHERE name BETWEEN ? AND ? ORDER BY name`)
-    .all(forMonth, comparedToMonth);
+    .all(fromMonth, toMonth);
 
   const comparisons = subsequentMonths.slice(0, -1).map((month, index) => {
     const subsequentMonthsPair = {
@@ -165,7 +184,7 @@ export const getNewOldCompaniesForFromToSubsequentMonths = (
 
 /** Get all months in which companies from the last month appeared */
 
-export const getCommentsForLastMonthsCompanies = (): CompanyComments[] => {
+export const getCommentsForLastMonthCompanies = (): CompanyComments[] => {
   // handle undefined
   const lastMonth = getLastMonth();
   if (!lastMonth) return [];
@@ -187,22 +206,6 @@ export const getCommentsForLastMonthsCompanies = (): CompanyComments[] => {
   });
 
   return companiesMonths;
-};
-
-export const getFirstTimeCompaniesForLastMonth = (): DbCompany[] => {
-  const lastMonth = getLastMonth();
-  if (!lastMonth) return [];
-
-  const firstTimeCompanies = db
-    .prepare<[string, string], DbCompany>(
-      `SELECT c.* FROM company AS c
-     WHERE c.monthName = ? AND c.name NOT IN (
-       SELECT name FROM company WHERE monthName != ?
-     )`
-    )
-    .all(lastMonth.name, lastMonth.name);
-
-  return firstTimeCompanies;
 };
 
 /*-------------------------------- utils ------------------------------*/
