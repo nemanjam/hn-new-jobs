@@ -14,7 +14,7 @@ cache duration
     add api endpoints for cron
 incremental static regeneration, invalidate after parseNewMonth
 cache time for search thread and hiring thread?
-logger instance with timestamp
+    logger instance with timestamp
 replace console.log with winston logger
 ```
 
