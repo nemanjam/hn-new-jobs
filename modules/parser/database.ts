@@ -213,23 +213,37 @@ export const getCommentsForLastMonthCompanies = (): CompanyComments[] => {
   const lastMonth = getLastMonth();
   if (!lastMonth) return [];
 
-  const lastMonthCompanies: DbCompany[] = db
-    // .prepare<string, DbCompany>(`SELECT DISTINCT name FROM company WHERE monthName = ?`)
-    .prepare<string, DbCompany>(`SELECT * FROM company WHERE monthName = ? GROUP BY name`)
+  const query = `
+    WITH LastMonthCompanies AS (
+      SELECT * FROM company WHERE monthName = ? GROUP BY name
+    )
+    SELECT 
+      c.name as companyName,
+      json_group_array(
+        json_object(
+          'name', c.name,
+          'monthName', c.monthName,
+          'commentId', c.commentId,
+          'createdAt', c.createdAt,
+          'updatedAt', c.updatedAt
+        )
+        ORDER BY c.monthName DESC
+      ) as comments,
+      COUNT(c.commentId) as commentsCount
+    FROM company c
+    INNER JOIN LastMonthCompanies lmc ON c.name = lmc.name
+    GROUP BY c.name
+    ORDER BY commentsCount DESC
+  `;
+
+  const result = db
+    .prepare<string, { companyName: string; comments: string; commentsCount: number }>(query)
     .all(lastMonth.name);
 
-  const companiesMonths: CompanyComments[] = lastMonthCompanies.map((company) => {
-    const { name: companyName } = company;
-
-    const comments: DbCompany[] = db
-      // .prepare<string, DbCompany>(`SELECT DISTINCT monthName FROM company WHERE name = ?`)
-      .prepare<string, DbCompany>(`SELECT * FROM company WHERE name = ? GROUP BY monthName`)
-      .all(companyName);
-
-    return { companyName, comments };
-  });
-
-  return companiesMonths;
+  return result.map((row) => ({
+    companyName: row.companyName,
+    comments: JSON.parse(row.comments) as CompanyComments['comments'],
+  }));
 };
 
 /*-------------------------------- utils ------------------------------*/

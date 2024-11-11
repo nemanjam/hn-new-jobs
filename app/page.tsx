@@ -2,9 +2,12 @@ import { FC } from 'react';
 
 import { TestChart } from '@/components/charts/test-chart';
 
-import { getNewOldCompaniesForLastTwoMonths } from '@/modules/parser/database';
+import {
+  getCommentsForLastMonthCompanies,
+  getNewOldCompaniesForLastTwoMonths,
+} from '@/modules/parser/database';
 
-import { DbCompany, NewOldCompanies } from '@/types/database';
+import { DbCompany } from '@/types/database';
 
 const IndexPage: FC = () => {
   const newOldCompanies = getNewOldCompaniesForLastTwoMonths();
@@ -16,6 +19,46 @@ const IndexPage: FC = () => {
     firstTimeCompanies,
     totalCompaniesCount,
   } = newOldCompanies;
+
+  const companyComments = getCommentsForLastMonthCompanies();
+
+  const printCompaniesComments = () => {
+    return (
+      <div>
+        <p>Comments for companies from month: {forMonth}</p>
+
+        <table>
+          <tbody>
+            {companyComments.map((company) => {
+              const { companyName, comments } = company;
+
+              return (
+                <tr key={companyName}>
+                  <td>
+                    <label className="font-bold">{companyName}</label>
+                  </td>
+
+                  <td className="px-8">{comments.length}</td>
+
+                  <td>
+                    {comments.map((comment) => {
+                      const { monthName, commentId } = comment;
+
+                      return (
+                        <span key={commentId} className="mr-2">
+                          {monthName}
+                        </span>
+                      );
+                    })}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
 
   const printNumbers = () => {
     return (
@@ -69,6 +112,8 @@ const IndexPage: FC = () => {
       </div>
       {/* companies lists */}
       <div className="max-w-xl flex flex-col gap-4">
+        {printCompaniesComments()}
+
         {printNumbers()}
 
         {printCompanies('First time companies:', firstTimeCompanies)}
