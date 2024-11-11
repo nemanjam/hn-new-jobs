@@ -1,3 +1,4 @@
+import pretty from 'pretty';
 import winston, { format, transports } from 'winston';
 
 import { getAppNow, humanFormat } from '@/libs/datetime';
@@ -17,12 +18,14 @@ const printContext = (meta: unknown) =>
 const htmlFormat: Logform.Format = printf(({ timestamp, level, message, ...meta }) => {
   const metaString = printContext(meta);
 
-  return `<div class="log-entry">
+  const htmlString = `<div class="log-entry">
     <span class="level">${level.toUpperCase()}</span>: 
     <span class="timestamp">${timestamp}</span> - 
     <span class="message">${message}</span>
     ${metaString ? `<span class="meta">${metaString}</span>` : ''}
   </div>`;
+
+  return pretty(htmlString, { ocd: true });
 });
 
 const timestampWithTimezone: Logform.Format = timestamp({
@@ -62,7 +65,12 @@ const prodLogger: Logger = winston.createLogger({
     new transports.File({
       filename: logFilePath,
       format: combine(timestampWithTimezone, htmlFormat),
-      maxsize: 10 * 1024, // 10kB max file size
+      /**
+       * 1 line - 30 bytes
+       * 1 page - 3kB
+       */
+      // ! creates new file, useless
+      maxsize: 300, // 10kB max file size
     }),
   ],
 });
