@@ -26,7 +26,7 @@ export const debuggingScheduler = () => {
 
   setTimeout(() => {
     debuggingTask.stop();
-    console.log('debuggingTask stopped after 5 minutes');
+    logger.info('debuggingTask stopped after 5 minutes');
   }, fiveMinutes);
 };
 
@@ -39,15 +39,15 @@ export const newMonthScheduler = () => {
       const now = new Date();
 
       if (isWeekendAndStartOfMonth(now)) {
-        console.log(`Skipping parsing new month, month starts with weekend, now: ${getAppNow()}`);
+        logger.info(`Skipping parsing new month, month starts with weekend, now: ${getAppNow()}`);
         return;
       }
 
       try {
         const parserResponse: ParserResponse = await callParseNewMonth();
-        console.log(parserResponse);
+        logger.info(parserResponse);
       } catch (error) {
-        console.error('Parsing new month failed.', error);
+        logger.error('Parsing new month failed.', error);
       }
     },
     {
@@ -67,11 +67,11 @@ export const seedOldMonthsScheduler = () => {
     async () => {
       try {
         const parserResponse: ParserResponse = await callParseNOldMonths();
-        console.log(parserResponse);
+        logger.info(parserResponse);
 
         numberOfCalls++;
       } catch (error) {
-        console.error('Parsing old months failed.', error);
+        logger.error('Parsing old months failed.', error);
       }
     },
     {
@@ -84,7 +84,7 @@ export const seedOldMonthsScheduler = () => {
   // 5 x 5 calls
   if (numberOfCalls > 4) {
     seedOldMonthsTask.stop();
-    console.log(`seedOldMonthsTask stopped after numberOfCalls: ${numberOfCalls}`);
+    logger.info(`seedOldMonthsTask stopped after numberOfCalls: ${numberOfCalls}`);
   }
 };
 
@@ -94,7 +94,7 @@ const validateCronString = (cronString: string) => {
   if (!isValid) {
     const message = `Invalid cronString: ${cronString}.`;
 
-    console.error(message);
+    logger.error(message);
     throw new Error(message);
   }
   return cronString;

@@ -1,4 +1,5 @@
 import { callParseNewMonth, callParseNOldMonths, callParseOldMonth } from '@/modules/parser/calls';
+import logger from '@/libs/winston';
 import { SCRIPTS } from '@/constants/scripts';
 import { PARSER_CONFIG } from '@/config/parser';
 
@@ -12,17 +13,17 @@ const main = async (script: ScriptType) => {
   switch (script) {
     case SCRIPTS.parseNew: {
       const parserResponse: ParserResponse = await callParseNewMonth();
-      console.log(parserResponse);
+      logger.info('main.ts script', parserResponse);
       break;
     }
     case SCRIPTS.parseOld: {
       const parserResponse: ParserResponse = await callParseOldMonth();
-      console.log(parserResponse);
+      logger.info('main.ts script', parserResponse);
       break;
     }
     case SCRIPTS.parseOldMany: {
       const parserResponse: ParserResponse = await callParseNOldMonths();
-      console.log(parserResponse);
+      logger.info('main.ts script', parserResponse);
       break;
     }
   }
@@ -30,7 +31,7 @@ const main = async (script: ScriptType) => {
 
 const mainDev = () => {
   const args = process.argv.slice(2);
-  console.log('Received arguments:', args);
+  logger.info('Received arguments:', args);
 
   const script = args[0] as ScriptType;
 

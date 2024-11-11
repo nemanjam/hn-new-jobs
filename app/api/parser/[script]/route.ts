@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { callParseNewMonth, callParseNOldMonths, callParseOldMonth } from '@/modules/parser/calls';
+import logger from '@/libs/winston';
 import { SCRIPTS } from '@/constants/scripts';
 import { PARSER_CONFIG } from '@/config/parser';
 
@@ -27,7 +28,7 @@ export const GET = async (
   const secretParam = searchParams.get('parser-secret');
 
   if (secretParam !== parserSecret) {
-    console.error(`Wrong parser-secret: ${secretParam}`);
+    logger.error(`Wrong parser-secret: ${secretParam}`);
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -35,7 +36,7 @@ export const GET = async (
   const { script } = await params;
 
   if (!scripts.includes(script)) {
-    console.error(`Wrong route param script: ${script}`);
+    logger.error(`Wrong route param script: ${script}`);
     return NextResponse.json({ error: 'Invalid route param.' }, { status: 400 });
   }
 
@@ -55,7 +56,7 @@ export const GET = async (
       }
     }
   } catch (error) {
-    console.error('Parsing failed.', error);
+    logger.error('Parsing failed.', error);
     return NextResponse.json({ error: 'Parsing failed.' }, { status: 400 });
   }
 };

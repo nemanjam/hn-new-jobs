@@ -3,6 +3,7 @@ import { Agent } from 'https';
 import axios from 'axios';
 import rateLimit from 'axios-rate-limit';
 
+import logger from '@/libs/winston';
 import { ALGOLIA } from '@/constants/algolia';
 
 import type { AxiosError, AxiosInstance, CreateAxiosDefaults } from 'axios';
@@ -41,7 +42,7 @@ export const axiosRateLimitInstance = rateLimit(axiosInstance, {
 });
 
 const onResponseError = (error: AxiosError<ResponseData>): void => {
-  console.error(`interceptor, error, code: ${error.code}`);
+  logger.error(`interceptor, error, code: ${error.code}`);
 
   // http fail silently
   // return Promise.reject(error);
