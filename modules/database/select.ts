@@ -1,86 +1,13 @@
-import BetterSqlite3 from 'better-sqlite3';
-
-import { PARSER_CONFIG } from '@/config/parser';
+import { db } from '@/modules/database/schema';
 
 import {
   CompanyComments,
   DbCompany,
-  DbCompanyInsert,
   DbMonth,
-  DbMonthInsert,
   MonthPair,
   MonthRange,
   NewOldCompanies,
 } from '@/types/database';
-import type { Database, RunResult } from 'better-sqlite3';
-
-const { databaseFilePath } = PARSER_CONFIG;
-
-/*-------------------------------- schema ------------------------------*/
-
-const db: Database = new BetterSqlite3(databaseFilePath);
-
-// todo: must invalidate cache for updatedAt
-
-db.exec(`
-  CREATE TABLE IF NOT EXISTS month (
-    name TEXT PRIMARY KEY, -- "YYYY-MM" format for uniqueness
-    threadId TEXT UNIQUE,
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, -- auto-populated
-    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP -- auto-populated on creation
-  );
-
-  CREATE TABLE IF NOT EXISTS company (
-    name TEXT,
-    monthName TEXT,
-    commentId TEXT UNIQUE,
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP, 
-    PRIMARY KEY (name, monthName),
-    FOREIGN KEY (monthName) REFERENCES month(name)
-  );
-`);
-
-/*-------------------------------- inserts ------------------------------*/
-
-/**
- * Insert a new month with companies. The only insert needed.
- * @returns {number} - Returns numberOfRowsAffected.
- */
-
-export const saveMonth = (month: DbMonthInsert, companies: DbCompanyInsert[]): number => {
-  const upsertMonth = db.prepare<[string, string], RunResult>(
-    `INSERT INTO month (name, threadId)
-     VALUES (?, ?)
-     ON CONFLICT(name) DO UPDATE SET updatedAt = CURRENT_TIMESTAMP`
-  );
-
-  const upsertCompany = db.prepare<[string, string, string], RunResult>(
-    `INSERT INTO company (name, commentId, monthName)
-     VALUES (?, ?, ?)
-     ON CONFLICT(name, monthName) DO UPDATE SET updatedAt = CURRENT_TIMESTAMP`
-  );
-
-  let numberOfRowsAffected = 0;
-
-  const transaction = db.transaction(() => {
-    // Run the upsert for month
-    const monthResult = upsertMonth.run(month.name, month.threadId);
-    numberOfRowsAffected += monthResult.changes;
-
-    // Run the upsert for each company and count updated rows
-    for (const company of companies) {
-      const companyResult = upsertCompany.run(company.name, company.commentId, month.name);
-      numberOfRowsAffected += companyResult.changes;
-    }
-  });
-
-  transaction();
-
-  return numberOfRowsAffected;
-};
-
-/*-------------------------------- selects ------------------------------*/
 
 /**
  * @returns {DbMonth | undefined} - Returns entire DbMonth object.
@@ -117,14 +44,14 @@ export const getFirstTimeCompaniesForMonth = (monthName: string): DbCompany[] =>
   const firstTimeCompanies = db
     .prepare<[string, string], DbCompany>(
       `SELECT c.*
-       FROM company AS c
-       WHERE c.monthName = ? 
-         AND NOT EXISTS (
-           SELECT 1 
-           FROM company AS older
-           WHERE older.name = c.name
-             AND older.monthName < ?
-       )`
+         FROM company AS c
+         WHERE c.monthName = ? 
+           AND NOT EXISTS (
+             SELECT 1 
+             FROM company AS older
+             WHERE older.name = c.name
+               AND older.monthName < ?
+         )`
     )
     .all(monthName, monthName);
 
@@ -146,13 +73,13 @@ export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldComp
   const newCompanies = db
     .prepare<[string, string], DbCompany>(
       `SELECT c2.*
-       FROM company AS c2
-       WHERE c2.monthName = ? 
-         AND c2.name NOT IN (
-           SELECT c1.name
-           FROM company AS c1
-           WHERE c1.monthName = ?
-         )`
+         FROM company AS c2
+         WHERE c2.monthName = ? 
+           AND c2.name NOT IN (
+             SELECT c1.name
+             FROM company AS c1
+             WHERE c1.monthName = ?
+           )`
     )
     .all(forMonth, comparedToMonth);
 
@@ -160,13 +87,13 @@ export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldComp
   const oldCompanies = db
     .prepare<[string, string], DbCompany>(
       `SELECT c1.*
-       FROM company AS c1
-       WHERE c1.monthName = ? 
-         AND c1.name IN (
-           SELECT c2.name
-           FROM company AS c2
-           WHERE c2.monthName = ?
-         )`
+         FROM company AS c1
+         WHERE c1.monthName = ? 
+           AND c1.name IN (
+             SELECT c2.name
+             FROM company AS c2
+             WHERE c2.monthName = ?
+           )`
     )
     .all(forMonth, comparedToMonth);
 
@@ -238,32 +165,32 @@ export const getCommentsForLastMonthCompanies = (): CompanyComments[] => {
 
   // compare only with older or equal months
   const query = `
-    WITH LastMonthCompanies AS (
-      SELECT * FROM company WHERE monthName = ? GROUP BY name
-    )
-    SELECT 
-      c.name,
-      c.commentId,
-      c.monthName,
-      c.createdAt,
-      c.updatedAt,
-      json_group_array(
-        json_object(
-          'name', c.name,
-          'monthName', c.monthName,
-          'commentId', c.commentId,
-          'createdAt', c.createdAt,
-          'updatedAt', c.updatedAt
-        )
-        ORDER BY c.monthName DESC
-      ) as comments,
-      COUNT(c.commentId) as commentsCount
-    FROM company c
-    INNER JOIN LastMonthCompanies lmc ON c.name = lmc.name
-    WHERE c.monthName <= lmc.monthName
-    GROUP BY c.name
-    ORDER BY commentsCount DESC
-  `;
+      WITH LastMonthCompanies AS (
+        SELECT * FROM company WHERE monthName = ? GROUP BY name
+      )
+      SELECT 
+        c.name,
+        c.commentId,
+        c.monthName,
+        c.createdAt,
+        c.updatedAt,
+        json_group_array(
+          json_object(
+            'name', c.name,
+            'monthName', c.monthName,
+            'commentId', c.commentId,
+            'createdAt', c.createdAt,
+            'updatedAt', c.updatedAt
+          )
+          ORDER BY c.monthName DESC
+        ) as comments,
+        COUNT(c.commentId) as commentsCount
+      FROM company c
+      INNER JOIN LastMonthCompanies lmc ON c.name = lmc.name
+      WHERE c.monthName <= lmc.monthName
+      GROUP BY c.name
+      ORDER BY commentsCount DESC
+    `;
 
   const result = db
     .prepare<
@@ -294,12 +221,4 @@ export const getCommentsForLastMonthCompanies = (): CompanyComments[] => {
     comments: JSON.parse(row.comments) as DbCompany[],
     commentsCount: row.commentsCount,
   }));
-};
-
-/*-------------------------------- utils ------------------------------*/
-
-export const compareCompanies = (company1: DbCompany, company2: DbCompany): boolean => {
-  const isEqual = company1.name === company2.name;
-
-  return isEqual;
 };

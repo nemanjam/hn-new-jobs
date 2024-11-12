@@ -6,7 +6,7 @@ import { TestChart } from '@/components/charts/test-chart';
 import {
   getCommentsForLastMonthCompanies,
   getNewOldCompaniesForLastTwoMonths,
-} from '@/modules/parser/database';
+} from '@/modules/database/select';
 import { getThreadOrCommentUrlFromId } from '@/utils/urls';
 
 import { DbCompany } from '@/types/database';

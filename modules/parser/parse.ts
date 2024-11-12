@@ -1,6 +1,6 @@
 import { parseCompaniesForThread } from '@/modules/parser/algolia/comments';
 import { getThreads } from '@/modules/parser/algolia/threads';
-import { saveMonth } from '@/modules/parser/database';
+import { saveMonth } from '@/modules/database/insert';
 import { getNewMonthName, getOldMonthName } from './months';
 
 import { DbCompanyInsert, DbMonthInsert } from '@/types/database';
