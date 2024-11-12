@@ -12,4 +12,7 @@ parser config, sever client config
 single .env file
 handle undefined in database
 divide select for latest month and all months
+iframe or csr comment expand
+links color
+metadata seo, plausible partytown script
 ```
