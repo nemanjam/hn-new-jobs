@@ -1,6 +1,7 @@
 import cron from 'node-cron';
 
 import { callParseNewMonth, callParseNOldMonths } from '@/modules/parser/calls';
+import { getScheduledTasksObject, validateCronString } from '@/modules/scheduler/utils';
 import { getAppNow, isWeekendAndStartOfMonth } from '@/libs/datetime';
 import logger from '@/libs/winston';
 import { logPrettyPrintObject } from '@/utils/pretty-print';
@@ -86,29 +87,6 @@ export const seedOldMonthsScheduler = () => {
     seedOldMonthsTask.stop();
     logger.info(`seedOldMonthsTask stopped after numberOfCalls: ${numberOfCalls}`);
   }
-};
-
-const validateCronString = (cronString: string) => {
-  const isValid = cron.validate(cronString);
-
-  if (!isValid) {
-    const message = `Invalid cronString: ${cronString}.`;
-
-    logger.error(message);
-    throw new Error(message);
-  }
-  return cronString;
-};
-
-const getScheduledTasksObject = (): Record<string, { options: any }> => {
-  const tasks = cron.getTasks();
-
-  // keep only task.options
-  const tasksObject = Object.fromEntries(
-    Array.from(tasks.entries()).map(([key, value]) => [key, { options: (value as any).options }])
-  );
-
-  return tasksObject;
 };
 
 export const logScheduledTasks = () =>
