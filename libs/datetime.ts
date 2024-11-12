@@ -1,4 +1,4 @@
-import { differenceInSeconds, format, getDate, isSaturday, isWeekend } from 'date-fns';
+import { differenceInSeconds, format, getDate, isSaturday, isWeekend, parse } from 'date-fns';
 import { format as formatTz, toZonedTime } from 'date-fns-tz';
 
 import { PARSER_CONFIG } from '@/config/parser';
@@ -17,6 +17,12 @@ const { monthNameFormat, sanFranciscoTimeZone } = DATETIME;
  * @example 2024-11
  */
 export const convertDateToMonthName = (date: Date): string => format(date, monthNameFormat);
+
+/**
+ * Converts a 'YYYY-MM' formatted string to a Date object.
+ */
+export const convertMonthNameToDate = (monthString: string): Date =>
+  parse(monthString, monthNameFormat, new Date());
 
 /**
  * Format to 'dd/MM/yyyy HH:mm:ss' to Belgrade time zone.

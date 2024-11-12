@@ -1,6 +1,9 @@
 import { FC } from 'react';
 import Link from 'next/link';
 
+import AreaChartInteractive, {
+  AreaChartInteractiveData,
+} from '@/components/charts/area-chart-interactive';
 import { TestChart } from '@/components/charts/test-chart';
 
 import {
@@ -11,7 +14,7 @@ import {
 } from '@/modules/database/select';
 import { getThreadOrCommentUrlFromId } from '@/utils/urls';
 
-import { CompanyComments, DbCompany, DbMonth, NewOldCompanies } from '@/types/database';
+import { CompanyComments, DbCompany, NewOldCompanies } from '@/types/database';
 
 const IndexPage: FC = () => {
   const newOldCompanies = getNewOldCompaniesForLastTwoMonths();
@@ -19,6 +22,15 @@ const IndexPage: FC = () => {
   const allNewOldCompanies = getNewOldCompaniesForAllMonths();
 
   const companiesComments = getCommentsForLastMonthCompanies();
+
+  const areaChartInteractiveData: AreaChartInteractiveData[] = allNewOldCompanies
+    .map((month) => ({
+      monthName: month.forMonth.name,
+      firstTimeCompaniesCount: month.firstTimeCompanies.length,
+      newCompaniesCount: month.newCompanies.length,
+      oldCompaniesCount: month.oldCompanies.length,
+    }))
+    .reverse();
 
   const printCompaniesComments = (companiesComments: CompanyComments[]) => {
     const { monthName } = companiesComments[0].company;
@@ -183,11 +195,13 @@ const IndexPage: FC = () => {
       </div>
       {/* companies lists */}
       <div className="flex flex-col gap-4">
-        {printCompaniesComments(companiesComments)}
+        {/* {printCompaniesComments(companiesComments)} */}
 
-        {printCompanies(newOldCompanies)}
+        {/* {printCompanies(newOldCompanies)} */}
 
-        {printAllCompanies(allNewOldCompanies)}
+        {/* {printAllCompanies(allNewOldCompanies)} */}
+
+        <AreaChartInteractive chartData={areaChartInteractiveData} />
       </div>
 
       {/* content */}
