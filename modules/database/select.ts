@@ -131,19 +131,24 @@ export const getNewOldCompaniesForLastTwoMonths = (): NewOldCompanies => {
   return getNewOldCompaniesForTwoMonths(monthsPair);
 };
 
-/** Compare range of subsequent month pairs. */
+/** Compare range of subsequent month pairs. For pagination. */
 
 export const getNewOldCompaniesForFromToSubsequentMonths = (
-  monthsPair: MonthRange
+  monthRange: MonthRange
 ): NewOldCompanies[] => {
-  const { fromMonth, toMonth } = monthsPair;
+  //
+  // fromMonth 2024-11, toMonth 2023-06
+  const { fromMonth, toMonth } = monthRange;
 
   const subsequentMonths = db
     .prepare<
       [string, string],
       Pick<DbMonth, 'name'>
-    >(`SELECT name FROM month WHERE name BETWEEN ? AND ? ORDER BY name`)
+    >(`SELECT name FROM month WHERE name <= ? AND name >= ? ORDER BY name DESC`)
     .all(fromMonth, toMonth);
+
+  // (`SELECT name FROM month WHERE name BETWEEN ? AND ? ORDER BY name DESC`)
+  // .all(toMonth, fromMonth); // order of args is important, works
 
   const comparisons = subsequentMonths.slice(0, -1).map((month, index) => {
     const subsequentMonthsPair = {
@@ -154,6 +159,19 @@ export const getNewOldCompaniesForFromToSubsequentMonths = (
   });
 
   return comparisons;
+};
+
+export const getNewOldCompaniesForAllMonths = (): NewOldCompanies[] => {
+  const firstMonth = getFirstMonth();
+  const lastMonth = getLastMonth();
+
+  // go backwards
+  const monthRange: MonthRange = {
+    fromMonth: lastMonth!.name,
+    toMonth: firstMonth!.name,
+  };
+
+  return getNewOldCompaniesForFromToSubsequentMonths(monthRange);
 };
 
 /** Get all months in which companies from the last month appeared */

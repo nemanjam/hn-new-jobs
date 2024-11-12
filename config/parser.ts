@@ -2,7 +2,7 @@ import { join } from 'path';
 
 import { logPrettyPrintObject } from '@/utils/pretty-print';
 
-// !important, build, dev
+// !important, needs to work with both yarn build (.next) and yarn dev (src)
 const projectRootFolder = process.cwd();
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -10,7 +10,7 @@ const isProd = process.env.NODE_ENV === 'production';
 const dbSuffix = isProd ? 'prod' : 'dev';
 const databaseFileName = `hn-parser-node-database-${dbSuffix}.sqlite3`;
 
-// todo: this is app config, not just parser
+// todo: this is app config, not just parser, server, client
 
 export const PARSER_CONFIG = {
   parserSecret: process.env.PARSER_SECRET,

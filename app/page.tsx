@@ -5,27 +5,25 @@ import { TestChart } from '@/components/charts/test-chart';
 
 import {
   getCommentsForLastMonthCompanies,
+  getMonthByName,
+  getNewOldCompaniesForAllMonths,
   getNewOldCompaniesForLastTwoMonths,
 } from '@/modules/database/select';
 import { getThreadOrCommentUrlFromId } from '@/utils/urls';
 
-import { DbCompany } from '@/types/database';
+import { CompanyComments, DbCompany, DbMonth, NewOldCompanies } from '@/types/database';
 
 const IndexPage: FC = () => {
   const newOldCompanies = getNewOldCompaniesForLastTwoMonths();
-  const {
-    forMonth,
-    comparedToMonth,
-    newCompanies,
-    oldCompanies,
-    firstTimeCompanies,
-    totalCompaniesCount,
-  } = newOldCompanies;
+
+  const allNewOldCompanies = getNewOldCompaniesForAllMonths();
 
   const companiesComments = getCommentsForLastMonthCompanies();
 
-  const printCompaniesComments = () => {
-    const { name, threadId } = forMonth;
+  const printCompaniesComments = (companiesComments: CompanyComments[]) => {
+    const { monthName } = companiesComments[0].company;
+    const month = getMonthByName(monthName);
+    const { name, threadId } = month!;
 
     return (
       <div>
@@ -84,25 +82,44 @@ const IndexPage: FC = () => {
     );
   };
 
-  const printNumbers = () => {
+  const printNumbers = (newOldCompanies: NewOldCompanies) => {
+    const {
+      newCompanies,
+      oldCompanies,
+      firstTimeCompanies,
+      totalCompaniesCount,
+      forMonth,
+      comparedToMonth,
+    } = newOldCompanies;
+
     return (
-      <p>
-        For month:
+      <p className="flex gap-4">
+        <label className="font-bold">For month:</label>
         <Link href={getThreadOrCommentUrlFromId(forMonth.threadId)} target="_blank">
           {forMonth.name}
         </Link>
-        , compared to month:
+
+        <label className="font-bold">compared to month:</label>
         <Link href={getThreadOrCommentUrlFromId(comparedToMonth.threadId)} target="_blank">
           {comparedToMonth.name}
         </Link>
-        , first time companies:
-        {firstTimeCompanies.length}, new companies: {newCompanies.length}, old companies:
-        {oldCompanies.length}, total companies count: {totalCompaniesCount}
+
+        <label className="font-bold">first time companies:</label>
+        <span>{firstTimeCompanies.length}</span>
+
+        <label className="font-bold">new companies:</label>
+        <span>{newCompanies.length}</span>
+
+        <label className="font-bold">old companies:</label>
+        <span>{oldCompanies.length}</span>
+
+        <label className="font-bold">total companies count:</label>
+        <span>{totalCompaniesCount}</span>
       </p>
     );
   };
 
-  const printCompanies = (label: string, companies: DbCompany[]) => {
+  const printCompaniesLocal = (label: string, companies: DbCompany[]) => {
     return (
       <div>
         <label className="font-bold">{label}</label>
@@ -125,6 +142,34 @@ const IndexPage: FC = () => {
     );
   };
 
+  const printCompanies = (newOldCompanies: NewOldCompanies) => {
+    const { newCompanies, oldCompanies, firstTimeCompanies } = newOldCompanies;
+
+    return (
+      <>
+        {printNumbers(newOldCompanies)}
+
+        {printCompaniesLocal('First time companies:', firstTimeCompanies)}
+
+        {printCompaniesLocal('New companies:', newCompanies)}
+
+        {printCompaniesLocal('Old companies:', oldCompanies)}
+      </>
+    );
+  };
+
+  const printAllCompanies = (allNewOldCompanies: NewOldCompanies[]) => {
+    return allNewOldCompanies.map((newOldCompanies) => {
+      const { forMonth } = newOldCompanies;
+
+      return (
+        <div key={forMonth.name} className="flex flex-col gap-4">
+          {printCompanies(newOldCompanies)}
+        </div>
+      );
+    });
+  };
+
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div className="flex max-w-[980px] flex-col items-start gap-2">
@@ -138,15 +183,11 @@ const IndexPage: FC = () => {
       </div>
       {/* companies lists */}
       <div className="flex flex-col gap-4">
-        {printCompaniesComments()}
+        {printCompaniesComments(companiesComments)}
 
-        {printNumbers()}
+        {printCompanies(newOldCompanies)}
 
-        {printCompanies('First time companies:', firstTimeCompanies)}
-
-        {printCompanies('New companies:', newCompanies)}
-
-        {printCompanies('Old companies:', oldCompanies)}
+        {printAllCompanies(allNewOldCompanies)}
       </div>
 
       {/* content */}
