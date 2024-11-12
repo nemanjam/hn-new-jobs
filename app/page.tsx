@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Link from 'next/link';
 
 import { TestChart } from '@/components/charts/test-chart';
 
@@ -6,6 +7,7 @@ import {
   getCommentsForLastMonthCompanies,
   getNewOldCompaniesForLastTwoMonths,
 } from '@/modules/parser/database';
+import { getThreadOrCommentUrlFromId } from '@/utils/urls';
 
 import { DbCompany } from '@/types/database';
 
@@ -20,34 +22,56 @@ const IndexPage: FC = () => {
     totalCompaniesCount,
   } = newOldCompanies;
 
-  const companyComments = getCommentsForLastMonthCompanies();
+  const companiesComments = getCommentsForLastMonthCompanies();
 
   const printCompaniesComments = () => {
+    const { name, threadId } = forMonth;
+
     return (
       <div>
-        <p>Comments for companies from month: {forMonth}</p>
+        <p>
+          Comments for companies from month:
+          <Link href={getThreadOrCommentUrlFromId(threadId)} target="_blank">
+            {name}
+          </Link>
+        </p>
 
         <table>
           <tbody>
-            {companyComments.map((company) => {
-              const { companyName, comments } = company;
+            {companiesComments.map((companyComments) => {
+              const { company, comments, commentsCount } = companyComments;
+              const { name, commentId } = company;
+
+              // its for current month
+              if (commentsCount < 2) return null;
 
               return (
-                <tr key={companyName}>
+                <tr key={name}>
                   <td>
-                    <label className="font-bold">{companyName}</label>
+                    <Link
+                      key={commentId}
+                      href={getThreadOrCommentUrlFromId(commentId)}
+                      target="_blank"
+                    >
+                      {name}
+                    </Link>
                   </td>
 
-                  <td className="px-8">{comments.length}</td>
+                  <td className="px-8">{commentsCount}</td>
 
-                  <td>
+                  <td className="flex flex-wrap">
                     {comments.map((comment) => {
                       const { monthName, commentId } = comment;
 
                       return (
-                        <span key={commentId} className="mr-2">
+                        <Link
+                          key={commentId}
+                          href={getThreadOrCommentUrlFromId(commentId)}
+                          target="_blank"
+                          className="mr-2"
+                        >
                           {monthName}
-                        </span>
+                        </Link>
                       );
                     })}
                   </td>
@@ -63,8 +87,16 @@ const IndexPage: FC = () => {
   const printNumbers = () => {
     return (
       <p>
-        For month: {forMonth}, compared to month: {comparedToMonth}, first time companies:
-        {firstTimeCompanies.length}, new companies: {newCompanies.length}, old companies:{' '}
+        For month:
+        <Link href={getThreadOrCommentUrlFromId(forMonth.threadId)} target="_blank">
+          {forMonth.name}
+        </Link>
+        , compared to month:
+        <Link href={getThreadOrCommentUrlFromId(comparedToMonth.threadId)} target="_blank">
+          {comparedToMonth.name}
+        </Link>
+        , first time companies:
+        {firstTimeCompanies.length}, new companies: {newCompanies.length}, old companies:
         {oldCompanies.length}, total companies count: {totalCompaniesCount}
       </p>
     );
@@ -75,26 +107,20 @@ const IndexPage: FC = () => {
       <div>
         <label className="font-bold">{label}</label>
 
-        <table>
-          <tbody>
-            {companies.map((company) => {
-              const { name, commentId } = company;
+        {companies.map((company) => {
+          const { name, commentId } = company;
 
-              return (
-                <tr key={commentId}>
-                  <td>
-                    <label className="font-bold mr-2">Name:</label>
-                  </td>
-                  <td>{name}</td>
-                  <td>
-                    <label className="font-bold mr-2">Comment:</label>
-                  </td>
-                  <td>{commentId}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+          return (
+            <Link
+              key={commentId}
+              href={getThreadOrCommentUrlFromId(commentId)}
+              target="_blank"
+              className="mr-2"
+            >
+              {name}
+            </Link>
+          );
+        })}
       </div>
     );
   };
@@ -111,7 +137,7 @@ const IndexPage: FC = () => {
         </p>
       </div>
       {/* companies lists */}
-      <div className="max-w-xl flex flex-col gap-4">
+      <div className="flex flex-col gap-4">
         {printCompaniesComments()}
 
         {printNumbers()}

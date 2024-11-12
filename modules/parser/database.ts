@@ -86,6 +86,16 @@ export const saveMonth = (month: DbMonthInsert, companies: DbCompanyInsert[]): n
  * @returns {DbMonth | undefined} - Returns entire DbMonth object.
  */
 
+export const getMonthByName = (monthName: string): DbMonth | undefined => {
+  const month = db.prepare<string, DbMonth>(`SELECT * FROM month WHERE name = ?`).get(monthName);
+
+  return month;
+};
+
+/**
+ * @returns {DbMonth | undefined} - Returns entire DbMonth object.
+ */
+
 export const getLastMonth = (): DbMonth | undefined => {
   const lastMonth = db.prepare<[], DbMonth>(`SELECT * FROM month ORDER BY name DESC LIMIT 1`).get();
 
@@ -126,6 +136,12 @@ export const getFirstTimeCompaniesForMonth = (monthName: string): DbCompany[] =>
 export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldCompanies => {
   const { forMonth, comparedToMonth } = monthPair;
 
+  // include entire objects for links
+  const forMonthObject = getMonthByName(forMonth);
+  const comparedToMonthObject = getMonthByName(comparedToMonth);
+
+  // todo: if month not found throw and handle
+
   // Companies present in forMonth but not in comparedToMonth
   const newCompanies = db
     .prepare<[string, string], DbCompany>(
@@ -163,7 +179,14 @@ export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldComp
 
   const firstTimeCompanies = getFirstTimeCompaniesForMonth(forMonth);
 
-  return { ...monthPair, newCompanies, oldCompanies, firstTimeCompanies, totalCompaniesCount };
+  return {
+    forMonth: forMonthObject!,
+    comparedToMonth: comparedToMonthObject!,
+    newCompanies,
+    oldCompanies,
+    firstTimeCompanies,
+    totalCompaniesCount,
+  };
 };
 
 /** Compare the last two months. */
@@ -213,12 +236,17 @@ export const getCommentsForLastMonthCompanies = (): CompanyComments[] => {
   const lastMonth = getLastMonth();
   if (!lastMonth) return [];
 
+  // compare only with older or equal months
   const query = `
     WITH LastMonthCompanies AS (
       SELECT * FROM company WHERE monthName = ? GROUP BY name
     )
     SELECT 
-      c.name as companyName,
+      c.name,
+      c.commentId,
+      c.monthName,
+      c.createdAt,
+      c.updatedAt,
       json_group_array(
         json_object(
           'name', c.name,
@@ -232,17 +260,39 @@ export const getCommentsForLastMonthCompanies = (): CompanyComments[] => {
       COUNT(c.commentId) as commentsCount
     FROM company c
     INNER JOIN LastMonthCompanies lmc ON c.name = lmc.name
+    WHERE c.monthName <= lmc.monthName
     GROUP BY c.name
     ORDER BY commentsCount DESC
   `;
 
   const result = db
-    .prepare<string, { companyName: string; comments: string; commentsCount: number }>(query)
+    .prepare<
+      string,
+      {
+        // DbCompany
+        name: string;
+        commentId: string;
+        monthName: string;
+        createdAt: string;
+        updatedAt: string;
+        // comments
+        comments: string;
+        // count
+        commentsCount: number;
+      }
+    >(query)
     .all(lastMonth.name);
 
   return result.map((row) => ({
-    companyName: row.companyName,
-    comments: JSON.parse(row.comments) as CompanyComments['comments'],
+    company: {
+      name: row.name,
+      commentId: row.commentId,
+      monthName: row.monthName,
+      createdAt: new Date(row.createdAt),
+      updatedAt: new Date(row.updatedAt),
+    },
+    comments: JSON.parse(row.comments) as DbCompany[],
+    commentsCount: row.commentsCount,
   }));
 };
 

@@ -1,6 +1,6 @@
 import { join } from 'path';
 
-import { logPrettyPrintObject } from '@/utils/log';
+import { logPrettyPrintObject } from '@/utils/pretty-print';
 
 // !important, build, dev
 const projectRootFolder = process.cwd();

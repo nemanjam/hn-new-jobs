@@ -36,7 +36,9 @@ export interface MonthRange {
   toMonth: string;
 }
 
-export interface NewOldCompanies extends MonthPair {
+export interface NewOldCompanies {
+  forMonth: DbMonth;
+  comparedToMonth: DbMonth;
   newCompanies: DbCompany[];
   oldCompanies: DbCompany[];
   firstTimeCompanies: DbCompany[];
@@ -44,6 +46,7 @@ export interface NewOldCompanies extends MonthPair {
 }
 
 export interface CompanyComments {
-  companyName: string;
+  company: DbCompany;
   comments: DbCompany[];
+  commentsCount: number;
 }

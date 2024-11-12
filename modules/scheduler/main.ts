@@ -3,7 +3,7 @@ import cron from 'node-cron';
 import { callParseNewMonth, callParseNOldMonths } from '@/modules/parser/calls';
 import { getAppNow, isWeekendAndStartOfMonth } from '@/libs/datetime';
 import logger from '@/libs/winston';
-import { logPrettyPrintObject } from '@/utils/log';
+import { logPrettyPrintObject } from '@/utils/pretty-print';
 import { SCRIPTS } from '@/constants/scripts';
 import { PARSER_CONFIG } from '@/config/parser';
 
