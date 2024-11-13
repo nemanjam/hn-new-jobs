@@ -65,9 +65,9 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 const xAxisUnitOptions = {
-  _12m: '12m',
-  _3y: '3y',
-  all: 'all',
+  _12m: '12 months',
+  _3y: '3 years',
+  all: 'all time',
 } as const;
 
 type XAxisUnitOptionsType = ValueUnion<typeof xAxisUnitOptions>;
@@ -182,13 +182,13 @@ const LineChartMultiple: FC<Props> = ({ chartData }) => {
             <SelectValue placeholder="Last 3 months" />
           </SelectTrigger>
           <SelectContent className="rounded-xl">
-            <SelectItem value="12m" className="rounded-lg">
+            <SelectItem value="12 months" className="rounded-lg">
               Last 12 months
             </SelectItem>
-            <SelectItem value="3y" className="rounded-lg">
+            <SelectItem value="3 years" className="rounded-lg">
               Last 3 years
             </SelectItem>
-            <SelectItem value="all" className="rounded-lg">
+            <SelectItem value="all time" className="rounded-lg">
               All time
             </SelectItem>
           </SelectContent>
@@ -295,7 +295,8 @@ const LineChartMultiple: FC<Props> = ({ chartData }) => {
               )}
             </div>
             <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              Showing total visitors for the last 6 months
+              Showing companies for
+              {xAxisUnit !== xAxisUnitOptions.all ? ` the last ${xAxisUnit}` : ` ${xAxisUnit}`}.
             </div>
           </div>
         </div>

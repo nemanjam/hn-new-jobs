@@ -17,6 +17,7 @@ links color
 metadata seo, plausible partytown script
         add y axis
         x and y units constants
-showing n last months text at bottom
+        showing n last months text at bottom
 responsive legend
+react table
 ```
