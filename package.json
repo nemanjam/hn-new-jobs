@@ -8,6 +8,7 @@
     "start": "next start",
     "hn:dev:new": "tsx modules/parser/main.ts new",
     "hn:dev:old": "tsx modules/parser/main.ts old",
+    "hn:dev:old-many": "tsx modules/parser/main.ts old-many",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "preview": "next build && next start",

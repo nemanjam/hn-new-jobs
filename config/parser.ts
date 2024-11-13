@@ -19,7 +19,7 @@ export const PARSER_CONFIG = {
   cacheFilePath: join(projectRootFolder, './data/cache/', 'cache.json'),
   logFilePath: join(projectRootFolder, './data/logs/', 'app.html'),
   cacheTtlHours: 1,
-  oldMonthsCount: 5,
+  oldMonthsCount: 20,
   appTimeZone: 'Europe/Belgrade',
   appDateTimeFormat: 'dd MMM yyyy HH:mm:ss', // 10 Nov 2024 15:45:30
 } as const;

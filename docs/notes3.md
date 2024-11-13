@@ -21,5 +21,5 @@ metadata seo, plausible partytown script
 responsive legend
 react table
 navbar items, pages
-fix 2 months step parse history
+        fix 2 months step parse history // works fine
 histogram last month, companies with 0, 1, n posts before
