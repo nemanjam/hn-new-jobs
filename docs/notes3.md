@@ -20,4 +20,6 @@ metadata seo, plausible partytown script
         showing n last months text at bottom
 responsive legend
 react table
-```
+navbar items, pages
+fix 2 months step parse history
+histogram last month, companies with 0, 1, n posts before
