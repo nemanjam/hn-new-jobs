@@ -3,7 +3,7 @@
 import { FC, SetStateAction, useState } from 'react';
 
 import { TrendingDown, TrendingUp } from 'lucide-react';
-import { CartesianGrid, Line, LineChart, XAxis } from 'recharts';
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 
 import {
   Card,
@@ -218,6 +218,15 @@ const LineChartMultiple: FC<Props> = ({ chartData }) => {
                   year: 'numeric',
                 });
               }}
+            />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickCount={3}
+              tickFormatter={(value) =>
+                yAxisUnit === yAxisUnitOptions.percentage ? `${value}%` : value
+              }
             />
             <ChartTooltip
               cursor={false}
