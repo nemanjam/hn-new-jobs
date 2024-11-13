@@ -15,4 +15,7 @@ divide select for latest month and all months
 iframe or csr comment expand
 links color
 metadata seo, plausible partytown script
+add y axis, showing n last months text at bottom
+        x and y units constants
+responsive legend
 ```

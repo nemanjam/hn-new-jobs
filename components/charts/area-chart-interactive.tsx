@@ -44,6 +44,7 @@ export interface AreaChartInteractiveData {
   firstTimeCompaniesCount: number;
   newCompaniesCount: number;
   oldCompaniesCount: number;
+  totalCompaniesCount: number;
 }
 
 interface Props {

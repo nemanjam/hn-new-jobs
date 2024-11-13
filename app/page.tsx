@@ -4,6 +4,7 @@ import Link from 'next/link';
 import AreaChartInteractive, {
   AreaChartInteractiveData,
 } from '@/components/charts/area-chart-interactive';
+import LineChartMultiple from '@/components/charts/line-chart-multiple';
 import { TestChart } from '@/components/charts/test-chart';
 
 import {
@@ -29,6 +30,7 @@ const IndexPage: FC = () => {
       firstTimeCompaniesCount: month.firstTimeCompanies.length,
       newCompaniesCount: month.newCompanies.length,
       oldCompaniesCount: month.oldCompanies.length,
+      totalCompaniesCount: month.totalCompaniesCount,
     }))
     .reverse();
 
@@ -201,7 +203,9 @@ const IndexPage: FC = () => {
 
         {/* {printAllCompanies(allNewOldCompanies)} */}
 
-        <AreaChartInteractive chartData={areaChartInteractiveData} />
+        {/* <AreaChartInteractive chartData={areaChartInteractiveData} /> */}
+
+        <LineChartMultiple chartData={areaChartInteractiveData} />
       </div>
 
       {/* content */}
