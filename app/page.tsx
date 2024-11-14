@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import Link from 'next/link';
 
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AreaChartInteractive, {
   AreaChartInteractiveData,
 } from '@/components/charts/area-chart-interactive';
@@ -154,7 +155,14 @@ const IndexPage: FC = () => {
     );
   };
 
-  const printNumbers = (newOldCompanies: NewOldCompanies) => {
+  const StatItem = ({ label, value }: { label: string; value: number }) => (
+    <div className="flex flex-col">
+      <span className="text-sm font-medium text-muted-foreground">{label}</span>
+      <span className="text-2xl font-bold">{value}</span>
+    </div>
+  );
+
+  function printNumbers(newOldCompanies: NewOldCompanies) {
     const {
       newCompanies,
       oldCompanies,
@@ -165,51 +173,113 @@ const IndexPage: FC = () => {
     } = newOldCompanies;
 
     return (
-      <p className="flex gap-4">
-        <label className="font-bold">For month:</label>
-        <Link href={getThreadOrCommentUrlFromId(forMonth.threadId)} target="_blank">
-          {forMonth.name}
-        </Link>
+      <Card className="w-full max-w-2xl">
+        <CardHeader>
+          <CardTitle>Month Statistics</CardTitle>
+        </CardHeader>
+        <CardContent className="grid gap-6">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-x-2">
+              <span className="text-sm font-medium text-muted-foreground">For month</span>
+              <Link
+                href={forMonth.threadId}
+                target="_blank"
+                className="text-lg font-semibold hover:underline"
+              >
+                {forMonth.name}
+              </Link>
+            </div>
+            <div className="space-x-2">
+              <span className="text-sm font-medium text-muted-foreground">Compared to month</span>
+              <Link
+                href={comparedToMonth.threadId}
+                target="_blank"
+                className="text-lg font-semibold hover:underline"
+              >
+                {comparedToMonth.name}
+              </Link>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <StatItem label="First time companies" value={firstTimeCompanies.length} />
+            <StatItem label="New companies" value={newCompanies.length} />
+            <StatItem label="Old companies" value={oldCompanies.length} />
+            <StatItem label="Total companies" value={totalCompaniesCount} />
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
-        <label className="font-bold">compared to month:</label>
-        <Link href={getThreadOrCommentUrlFromId(comparedToMonth.threadId)} target="_blank">
-          {comparedToMonth.name}
-        </Link>
+  const _printNumbers = (newOldCompanies: NewOldCompanies) => {
+    const {
+      newCompanies,
+      oldCompanies,
+      firstTimeCompanies,
+      totalCompaniesCount,
+      forMonth,
+      comparedToMonth,
+    } = newOldCompanies;
 
-        <label className="font-bold">first time companies:</label>
-        <span>{firstTimeCompanies.length}</span>
+    return (
+      <ul className="flex flex-wrap gap-2">
+        <li>
+          <label className="font-bold mr-2">For month:</label>
+          <Link href={getThreadOrCommentUrlFromId(forMonth.threadId)} target="_blank">
+            {forMonth.name}
+          </Link>
+        </li>
 
-        <label className="font-bold">new companies:</label>
-        <span>{newCompanies.length}</span>
+        <li>
+          <label className="font-bold mr-2">Compared to month:</label>
+          <Link href={getThreadOrCommentUrlFromId(comparedToMonth.threadId)} target="_blank">
+            {comparedToMonth.name}
+          </Link>
+        </li>
 
-        <label className="font-bold">old companies:</label>
-        <span>{oldCompanies.length}</span>
+        <li>
+          <label className="font-bold mr-2">First time companies:</label>
+          <span>{firstTimeCompanies.length}</span>
+        </li>
 
-        <label className="font-bold">total companies count:</label>
-        <span>{totalCompaniesCount}</span>
-      </p>
+        <li>
+          <label className="font-bold mr-2">New companies:</label>
+          <span>{newCompanies.length}</span>
+        </li>
+
+        <li>
+          <label className="font-bold mr-2">Old companies:</label>
+          <span>{oldCompanies.length}</span>
+        </li>
+
+        <li>
+          <label className="font-bold mr-2">Total companies:</label>
+          <span>{totalCompaniesCount}</span>
+        </li>
+      </ul>
     );
   };
 
   const printCompaniesLocal = (label: string, companies: DbCompany[]) => {
     return (
-      <div>
+      <div className="flex flex-col gap-2">
         <label className="font-bold">{label}</label>
+        <div className="flex flex-wrap gap-x-2">
+          {companies.map((company) => {
+            const { name, commentId } = company;
 
-        {companies.map((company) => {
-          const { name, commentId } = company;
-
-          return (
-            <Link
-              key={commentId}
-              href={getThreadOrCommentUrlFromId(commentId)}
-              target="_blank"
-              className="mr-2"
-            >
-              {name}
-            </Link>
-          );
-        })}
+            return (
+              <Link
+                key={commentId}
+                href={getThreadOrCommentUrlFromId(commentId)}
+                target="_blank"
+                className="whitespace-nowrap mr-2"
+              >
+                {name}
+              </Link>
+            );
+          })}
+        </div>
       </div>
     );
   };
