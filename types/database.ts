@@ -39,7 +39,7 @@ export interface MonthRange {
 export interface NewOldCompanies {
   forMonth: DbMonth;
   comparedToMonth: DbMonth;
-  newCompanies: DbCompany[];
+  newCompanies: DbCompany[]; // CompanyComments[]
   oldCompanies: DbCompany[];
   firstTimeCompanies: DbCompany[];
   totalCompaniesCount: number;

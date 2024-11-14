@@ -4,69 +4,93 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 47.4% 11.2%;
+    --background: theme('colors.white');
+    --foreground: theme('colors.slate.900');
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: theme('colors.slate.100');
+    --muted-foreground: theme('colors.slate.500');
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
+    --popover: theme('colors.white');
+    --popover-foreground: theme('colors.slate.900');
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --border: theme('colors.slate.200');
+    --input: theme('colors.slate.200');
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
+    --card: theme('colors.white');
+    --card-foreground: theme('colors.slate.900');
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: theme('colors.slate.900');
+    --primary-foreground: theme('colors.slate.50');
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --links: theme(colors.blue.600);
+    --links-hover: theme(colors.blue.800);
+    --links-foreground: theme(colors.white);
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --secondary: theme('colors.slate.100');
+    --secondary-foreground: theme('colors.slate.900');
 
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 210 40% 98%;
+    --accent: theme('colors.slate.100');
+    --accent-foreground: theme('colors.slate.900');
 
-    --ring: 215 20.2% 65.1%;
+    --destructive: theme('colors.red.500');
+    --destructive-foreground: theme('colors.slate.50');
+
+    --ring: theme('colors.slate.400');
 
     --radius: 0.5rem;
+
+    /* chart colors */
+
+    --chart-1: theme('colors.emerald.600');
+    --chart-2: theme('colors.orange.400');
+    --chart-3: theme('colors.blue.800');
+    --chart-4: theme('colors.amber.300');
+    --chart-5: theme('colors.yellow.400');
   }
 
   .dark {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
+    --background: theme('colors.slate.900');
+    --foreground: theme('colors.slate.100');
 
-    --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
+    --muted: theme('colors.slate.800');
+    --muted-foreground: theme('colors.slate.500');
 
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
+    --accent: theme('colors.slate.700');
+    --accent-foreground: theme('colors.slate.50');
 
-    --popover: 224 71% 4%;
-    --popover-foreground: 215 20.2% 65.1%;
+    --popover: theme('colors.slate.900');
+    --popover-foreground: theme('colors.slate.400');
 
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
+    --border: theme('colors.slate.700');
+    --input: theme('colors.slate.700');
 
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
+    --card: theme('colors.slate.900');
+    --card-foreground: theme('colors.slate.100');
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 1.2%;
+    --primary: theme('colors.slate.50');
+    --primary-foreground: theme('colors.slate.900');
 
-    --secondary: 222.2 47.4% 11.2%;
-    --secondary-foreground: 210 40% 98%;
+    --links: theme(colors.blue.300);
+    --links-hover: theme(colors.blue.500);
+    --links-foreground: theme(colors.white);
 
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+    --secondary: theme('colors.slate.800');
+    --secondary-foreground: theme('colors.slate.50');
 
-    --ring: 216 34% 17%;
+    --destructive: theme('colors.red.700');
+    --destructive-foreground: theme('colors.slate.50');
+
+    --ring: theme('colors.slate.700');
 
     --radius: 0.5rem;
+
+    /* chart colors */
+
+    --chart-1: theme('colors.blue.600');
+    --chart-2: theme('colors.pink.500');
+    --chart-3: theme('colors.orange.500');
+    --chart-4: theme('colors.purple.400');
+    --chart-5: theme('colors.teal.500');
   }
 }
 
@@ -80,22 +104,10 @@
       'rlig' 1,
       'calt' 1;
   }
-}
-
-@layer base {
-  :root {
-    --chart-1: 173 58% 39%;
-    --chart-2: 12 76% 61%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-  }
-
-  .dark {
-    --chart-1: 220 70% 50%;
-    --chart-2: 340 75% 55%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 160 60% 45%;
+  a {
+    @apply text-links no-underline;
+    @apply hover:text-links-hover hover:underline;
+    @apply focus:text-links-hover focus:underline;
+    @apply active:text-links-hover active:underline;
   }
 }

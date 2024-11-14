@@ -39,7 +39,7 @@ const chartConfig = {
 
 const BarChartSimple: FC<Props> = ({ chartData }) => {
   return (
-    <ChartContainer config={chartConfig} className="h-[350px] max-w-xl">
+    <ChartContainer config={chartConfig} className="h-[350px] max-w-lg mx-auto">
       <BarChart accessibilityLayer data={chartData.items}>
         <CartesianGrid vertical={false} />
         <XAxis

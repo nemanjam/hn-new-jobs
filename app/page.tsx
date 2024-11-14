@@ -255,15 +255,15 @@ const IndexPage: FC = () => {
       </div>
       {/* companies lists */}
       <div className="flex flex-col gap-4">
-        <BarChartSimple chartData={getBarChartSimpleData(companiesComments)} />
-
         {/* <LineChartMultiple chartData={areaChartInteractiveData} /> */}
+
+        {/* <BarChartSimple chartData={getBarChartSimpleData(companiesComments)} /> */}
 
         {/* <AreaChartInteractive chartData={areaChartInteractiveData} /> */}
 
         {/* {printCompaniesComments(companiesComments)} */}
 
-        {/* {printCompanies(newOldCompanies)} */}
+        {printCompanies(newOldCompanies)}
 
         {/* {printAllCompanies(allNewOldCompanies)} */}
 
