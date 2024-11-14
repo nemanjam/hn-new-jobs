@@ -1,4 +1,12 @@
-import { differenceInSeconds, format, getDate, isSaturday, isWeekend, parse } from 'date-fns';
+import {
+  differenceInSeconds,
+  format,
+  getDate,
+  isSaturday,
+  isWeekend,
+  parse,
+  subMonths,
+} from 'date-fns';
 import { format as formatTz, toZonedTime } from 'date-fns-tz';
 
 import { PARSER_CONFIG } from '@/config/parser';
@@ -72,4 +80,10 @@ export const isWeekendAndStartOfMonth = (dateTime: Date): boolean => {
   const result = isFirstOrSecond && isWeekendDay && !isSecondAndSaturday;
 
   return result;
+};
+
+export const createOldMonthName = (monthName: string, monthsAgo: number): string => {
+  const date = parse(monthName, monthNameFormat, new Date());
+  const previousDate = subMonths(date, monthsAgo);
+  return format(previousDate, monthNameFormat);
 };

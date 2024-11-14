@@ -4,6 +4,11 @@ import Link from 'next/link';
 import AreaChartInteractive, {
   AreaChartInteractiveData,
 } from '@/components/charts/area-chart-interactive';
+import BarChartSimple, {
+  BarChartSimpleData,
+  BarChartSimpleDataItem,
+  RangeType,
+} from '@/components/charts/bar-chart-simple';
 import LineChartMultiple from '@/components/charts/line-chart-multiple';
 import { TestChart } from '@/components/charts/test-chart';
 
@@ -13,6 +18,7 @@ import {
   getNewOldCompaniesForAllMonths,
   getNewOldCompaniesForLastTwoMonths,
 } from '@/modules/database/select';
+import { createOldMonthName } from '@/libs/datetime';
 import { getThreadOrCommentUrlFromId } from '@/utils/urls';
 
 import { CompanyComments, DbCompany, NewOldCompanies } from '@/types/database';
@@ -25,14 +31,66 @@ const IndexPage: FC = () => {
   const companiesComments = getCommentsForLastMonthCompanies();
 
   const areaChartInteractiveData: AreaChartInteractiveData[] = allNewOldCompanies
-    .map((month) => ({
-      monthName: month.forMonth.name,
-      firstTimeCompaniesCount: month.firstTimeCompanies.length,
-      newCompaniesCount: month.newCompanies.length,
-      oldCompaniesCount: month.oldCompanies.length,
-      totalCompaniesCount: month.totalCompaniesCount,
-    }))
+    .map((month) => {
+      const { forMonth, firstTimeCompanies, newCompanies, oldCompanies, totalCompaniesCount } =
+        month;
+
+      return {
+        monthName: forMonth.name,
+        firstTimeCompaniesCount: firstTimeCompanies.length,
+        newCompaniesCount: newCompanies.length,
+        oldCompaniesCount: oldCompanies.length,
+        totalCompaniesCount: totalCompaniesCount,
+      };
+    })
     .reverse();
+
+  // prerender once into variable in server code
+  const getBarChartSimpleData = (companiesComments: CompanyComments[]): BarChartSimpleData => {
+    const items: BarChartSimpleDataItem[] = [
+      { range: '1', count: 0 },
+      { range: '2-3', count: 0 },
+      { range: '4-5', count: 0 },
+      { range: '6-7', count: 0 },
+      { range: '8-12', count: 0 },
+    ];
+
+    const getItem = (range: RangeType) =>
+      items.find((item) => item.range === range) as BarChartSimpleDataItem;
+
+    const monthName = companiesComments[0].company.monthName;
+
+    companiesComments.forEach((companyComments) => {
+      const { company, comments } = companyComments;
+      const { monthName } = company;
+
+      const _12mOldMonthName = createOldMonthName(monthName, 12);
+
+      const commentsCount = comments.filter(
+        (comment) => comment.monthName >= _12mOldMonthName
+      ).length;
+
+      switch (true) {
+        case commentsCount === 1:
+          getItem('1').count++;
+          break;
+        case commentsCount === 2 || commentsCount === 3:
+          getItem('2-3').count++;
+          break;
+        case commentsCount === 4 || commentsCount === 5:
+          getItem('4-5').count++;
+          break;
+        case commentsCount === 6 || commentsCount === 7:
+          getItem('6-7').count++;
+          break;
+        case commentsCount > 7:
+          getItem('8-12').count++;
+          break;
+      }
+    });
+
+    return { monthName, items };
+  };
 
   const printCompaniesComments = (companiesComments: CompanyComments[]) => {
     const { monthName } = companiesComments[0].company;
@@ -197,20 +255,19 @@ const IndexPage: FC = () => {
       </div>
       {/* companies lists */}
       <div className="flex flex-col gap-4">
-        <LineChartMultiple chartData={areaChartInteractiveData} />
+        <BarChartSimple chartData={getBarChartSimpleData(companiesComments)} />
 
-        <AreaChartInteractive chartData={areaChartInteractiveData} />
+        {/* <LineChartMultiple chartData={areaChartInteractiveData} /> */}
 
-        {printCompaniesComments(companiesComments)}
+        {/* <AreaChartInteractive chartData={areaChartInteractiveData} /> */}
 
-        {printCompanies(newOldCompanies)}
+        {/* {printCompaniesComments(companiesComments)} */}
 
-        {printAllCompanies(allNewOldCompanies)}
-      </div>
+        {/* {printCompanies(newOldCompanies)} */}
 
-      {/* content */}
-      <div className="max-w-lg">
-        <TestChart />
+        {/* {printAllCompanies(allNewOldCompanies)} */}
+
+        {/* <TestChart /> */}
       </div>
     </section>
   );
