@@ -26,3 +26,4 @@ navbar items, pages
 tables
 card for For month:2024-11 compared to month:2024-10 first time companies:93 new companies:185 old companies:103 total companies count:288
 v0 for design, companies list
+shadcn dashboard for design
