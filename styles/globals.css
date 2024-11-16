@@ -104,7 +104,7 @@
       'rlig' 1,
       'calt' 1;
   }
-  a {
+  a1 {
     @apply text-links no-underline;
     @apply hover:text-links-hover hover:underline;
     @apply focus:text-links-hover focus:underline;

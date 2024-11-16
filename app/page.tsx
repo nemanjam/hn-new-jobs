@@ -12,6 +12,7 @@ import BarChartSimple, {
 } from '@/components/charts/bar-chart-simple';
 import LineChartMultiple from '@/components/charts/line-chart-multiple';
 import { TestChart } from '@/components/charts/test-chart';
+import NewOldCompaniesList from '@/components/new-old-companies-list';
 
 import {
   getCommentsForLastMonthCompanies,
@@ -325,6 +326,8 @@ const IndexPage: FC = () => {
       </div>
       {/* companies lists */}
       <div className="flex flex-col gap-4">
+        <NewOldCompaniesList newOldCompanies={newOldCompanies} />
+
         {/* <LineChartMultiple chartData={areaChartInteractiveData} /> */}
 
         {/* <BarChartSimple chartData={getBarChartSimpleData(companiesComments)} /> */}
@@ -333,7 +336,7 @@ const IndexPage: FC = () => {
 
         {/* {printCompaniesComments(companiesComments)} */}
 
-        {printCompanies(newOldCompanies)}
+        {/* {printCompanies(newOldCompanies)} */}
 
         {/* {printAllCompanies(allNewOldCompanies)} */}
 
