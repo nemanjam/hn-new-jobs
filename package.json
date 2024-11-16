@@ -23,8 +23,10 @@
     "docker:build:push:arm": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-parser-node --platform linux/arm64 --push ."
   },
   "dependencies": {
+    "@radix-ui/react-scroll-area": "^1.2.1",
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "^1.0.2",
+    "@tanstack/react-table": "^8.20.5",
     "axios": "^1.7.7",
     "axios-rate-limit": "^1.4.0",
     "axios-retry": "^4.5.0",
