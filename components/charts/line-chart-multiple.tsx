@@ -48,19 +48,19 @@ interface Props {
 const chartConfig = {
   firstTimeCompaniesCount: {
     label: 'First time companies',
-    color: 'hsl(var(--chart-1))',
+    color: 'var(--chart-1)',
   },
   newCompaniesCount: {
     label: 'New companies',
-    color: 'hsl(var(--chart-2))',
+    color: 'var(--chart-2)',
   },
   oldCompaniesCount: {
     label: 'Old companies',
-    color: 'hsl(var(--chart-4))',
+    color: 'var(--chart-4)',
   },
   totalCompaniesCount: {
     label: 'Total companies',
-    color: 'hsl(var(--chart-3))',
+    color: 'var(--chart-3)',
   },
 } satisfies ChartConfig;
 
