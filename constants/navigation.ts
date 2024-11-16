@@ -1,8 +1,18 @@
+export const ROUTES = {
+  home: '/',
+  thisMonth: '/this-month/',
+} as const;
+
 export const NAVIGATION = {
   left: [
     {
       title: 'Home',
-      href: '/',
+      href: ROUTES.home,
+      external: false,
+    },
+    {
+      title: 'This month',
+      href: ROUTES.thisMonth,
       external: false,
     },
   ],

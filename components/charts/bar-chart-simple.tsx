@@ -2,7 +2,7 @@
 
 import { FC } from 'react';
 
-import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 import {
   ChartConfig,
@@ -32,23 +32,18 @@ interface Props {
 
 const chartConfig = {
   count: {
-    label: 'Num of ads',
-    color: 'hsl(var(--chart-1))',
+    label: 'Number of ads',
+    color: 'var(--chart-1)',
   },
 } satisfies ChartConfig;
 
 const BarChartSimple: FC<Props> = ({ chartData }) => {
   return (
-    <ChartContainer config={chartConfig} className="h-[350px] max-w-lg mx-auto">
+    <ChartContainer config={chartConfig} className="h-[350px] max-w-lg">
       <BarChart accessibilityLayer data={chartData.items}>
         <CartesianGrid vertical={false} />
-        <XAxis
-          dataKey="range"
-          tickLine={false}
-          tickMargin={10}
-          axisLine={false}
-          // tickFormatter={(value) => value.slice(0, 3)}
-        />
+        <XAxis dataKey="range" tickLine={false} tickMargin={10} axisLine={false} />
+        <YAxis tickLine={false} axisLine={false} tickMargin={10} tickCount={3} />
         <ChartTooltip content={<ChartTooltipContent />} />
         <ChartLegend content={<ChartLegendContent />} />
         <Bar dataKey="count" fill="var(--color-count)" radius={4} />
