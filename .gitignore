@@ -42,6 +42,7 @@ data/cache/*
 !data/database
 data/database/*
 !data/database/.gitkeep
+!data/database/backup
 # enable seeding history
 # !data/database/hn-parser-node-database-prod.sqlite3
 

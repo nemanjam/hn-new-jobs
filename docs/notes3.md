@@ -27,3 +27,11 @@ tables
 card for For month:2024-11 compared to month:2024-10 first time companies:93 new companies:185 old companies:103 total companies count:288
 v0 for design, companies list
 shadcn dashboard for design
+
+return_ all comments for each company, adjust query, independent on month, search table?
+active navitem
+add selectbox and count for each company on homepage
+log first and last db months on app start
+on ui print how many companies, ads, months
+single .env file
+single config in root

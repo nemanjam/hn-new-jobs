@@ -12,7 +12,7 @@ const { combine, timestamp, colorize, printf } = format;
 const { nodeEnv, logFilePath } = PARSER_CONFIG;
 
 const printContext = (meta: unknown) =>
-  meta && Object.keys(meta).length > 0 ? ` - CONTEXT: ${JSON.stringify(meta)}` : '';
+  meta && Object.keys(meta).length > 0 ? ` - LOG_CONTEXT: ${JSON.stringify(meta)}` : '';
 
 // todo: add tailwind css
 const htmlFormat: Logform.Format = printf(({ timestamp, level, message, ...meta }) => {

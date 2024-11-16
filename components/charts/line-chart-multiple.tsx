@@ -33,7 +33,7 @@ import { convertMonthNameToDate } from '@/libs/datetime';
 
 import { ValueUnion } from '@/types/utils';
 
-export interface AreaChartInteractiveData {
+export interface LineChartMultipleData {
   monthName: string;
   firstTimeCompaniesCount: number;
   newCompaniesCount: number;
@@ -42,7 +42,7 @@ export interface AreaChartInteractiveData {
 }
 
 interface Props {
-  chartData: AreaChartInteractiveData[];
+  chartData: LineChartMultipleData[];
 }
 
 const chartConfig = {
@@ -79,7 +79,7 @@ const yAxisUnitOptions = {
 
 type YAxisUnitOptionsType = ValueUnion<typeof yAxisUnitOptions>;
 
-const filterChartData = (chartData: AreaChartInteractiveData[], timeRange: string) => {
+const filterChartData = (chartData: LineChartMultipleData[], timeRange: string) => {
   const referenceDate = new Date();
   let startDate: Date;
 
@@ -107,7 +107,7 @@ const filterChartData = (chartData: AreaChartInteractiveData[], timeRange: strin
 
 const getPercentage = (current: number, total: number) => Math.round((current / total) * 100);
 
-const setUnit = (chartData: AreaChartInteractiveData[], yAxisUnit: string) => {
+const setUnit = (chartData: LineChartMultipleData[], yAxisUnit: string) => {
   return chartData.map((month) => {
     let resultMonth = { ...month };
 
@@ -128,7 +128,7 @@ const setUnit = (chartData: AreaChartInteractiveData[], yAxisUnit: string) => {
   });
 };
 
-const getFirstTimeCompaniesTrendingPercent = (chartData: AreaChartInteractiveData[]): number => {
+const getFirstTimeCompaniesTrendingPercent = (chartData: LineChartMultipleData[]): number => {
   if (!(chartData.length > 1)) return 0;
 
   const percent = Math.round(

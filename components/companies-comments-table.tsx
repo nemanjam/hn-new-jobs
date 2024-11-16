@@ -61,8 +61,8 @@ const CompaniesCommentsTable: FC<Props> = ({ tableData }) => {
       <div className="p-4">
         <Input
           placeholder="Filter companies..."
-          //   value={(table.getColumn('company')?.getFilterValue() as string) ?? ''}
-          //   onChange={(event) => table.getColumn('company')?.setFilterValue(event.target.value)}
+          value={(table.getColumn('companyName')?.getFilterValue() as string) ?? ''}
+          onChange={(event) => table.getColumn('companyName')?.setFilterValue(event.target.value)}
           className="max-w-sm"
         />
       </div>

@@ -21,7 +21,9 @@ export interface CompanyTable {
 
 export const columns: ColumnDef<CompanyTable>[] = [
   {
-    accessorKey: 'company',
+    id: 'companyName',
+    accessorFn: (row: CompanyTable) => row.company.name,
+    filterFn: 'includesString',
     header: ({ column }) => {
       return (
         <Button
@@ -34,8 +36,7 @@ export const columns: ColumnDef<CompanyTable>[] = [
       );
     },
     cell: ({ row }) => {
-      const company = row.getValue('company') as CompanyTable['company'];
-      const { name, commentId } = company;
+      const { name, commentId } = row.original.company;
 
       return (
         <Link href={getThreadOrCommentUrlFromId(commentId)} target="_blank">
@@ -52,7 +53,7 @@ export const columns: ColumnDef<CompanyTable>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Comments
+          Count
           <ArrowUpDown className="ml-2 size-4" />
         </Button>
       );

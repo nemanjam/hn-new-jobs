@@ -1,25 +1,13 @@
 import { FC } from 'react';
-import Link from 'next/link';
 
-import AreaChartInteractive, {
-  AreaChartInteractiveData,
-} from '@/components/charts/area-chart-interactive';
-import BarChartSimple, {
-  BarChartSimpleData,
-  BarChartSimpleDataItem,
-  RangeType,
-} from '@/components/charts/bar-chart-simple';
 import LineChartMultiple from '@/components/charts/line-chart-multiple';
+import NewOldCompaniesCard from '@/components/new-old-companies-card';
 import NewOldCompaniesList from '@/components/new-old-companies-list';
 
-import { getCommentsForLastMonthCompanies, getMonthByName } from '@/modules/database/select';
-import { getThreadOrCommentUrlFromId } from '@/utils/urls';
-
-import { CompanyComments, DbCompany, NewOldCompanies } from '@/types/database';
+import { newOldCompanies } from '@/modules/transform/database';
+import { lineChartMultipleData } from '@/modules/transform/line-chart';
 
 const IndexPage: FC = () => {
-  const companiesComments = getCommentsForLastMonthCompanies();
-
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div className="flex max-w-[980px] flex-col items-start gap-2">
@@ -27,15 +15,13 @@ const IndexPage: FC = () => {
           Hackernews new jobs
         </h1>
         <p className="max-w-[700px] text-lg text-muted-foreground">
-          Deserunt cillum et veniam ullamco nostrud tempor officia irure tempor et irure nulla nulla
-          irure.
+          First time, new and old job ads for every month through the history.
         </p>
       </div>
-      {/* companies lists */}
       <div className="flex flex-col gap-4">
-        {/* <LineChartMultiple chartData={areaChartInteractiveData} /> */}
-
-        {printCompaniesComments(companiesComments)}
+        <LineChartMultiple chartData={lineChartMultipleData} />
+        <NewOldCompaniesCard newOldCompanies={newOldCompanies} />
+        <NewOldCompaniesList newOldCompanies={newOldCompanies} />
       </div>
     </section>
   );
