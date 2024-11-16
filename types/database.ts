@@ -36,16 +36,16 @@ export interface MonthRange {
   toMonth: string;
 }
 
+export interface CompanyWithComments {
+  company: DbCompany;
+  comments: DbCompany[];
+}
+
 export interface NewOldCompanies {
   forMonth: DbMonth;
   comparedToMonth: DbMonth;
-  newCompanies: DbCompany[]; // CompanyComments[]
-  oldCompanies: DbCompany[];
-  firstTimeCompanies: DbCompany[];
-  totalCompaniesCount: number;
-}
-
-export interface CompanyComments {
-  company: DbCompany;
-  comments: DbCompany[];
+  firstTimeCompanies: CompanyWithComments[];
+  newCompanies: CompanyWithComments[];
+  oldCompanies: CompanyWithComments[];
+  allCompanies: CompanyWithComments[];
 }

@@ -7,15 +7,14 @@ import { NewOldCompanies } from '@/types/database';
 const getLineChartMultipleData = (allNewOldCompanies: NewOldCompanies[]): LineChartMultipleData[] =>
   allNewOldCompanies
     .map((month) => {
-      const { forMonth, firstTimeCompanies, newCompanies, oldCompanies, totalCompaniesCount } =
-        month;
+      const { forMonth, firstTimeCompanies, newCompanies, oldCompanies, allCompanies } = month;
 
       return {
         monthName: forMonth.name,
         firstTimeCompaniesCount: firstTimeCompanies.length,
         newCompaniesCount: newCompanies.length,
         oldCompaniesCount: oldCompanies.length,
-        totalCompaniesCount: totalCompaniesCount,
+        totalCompaniesCount: allCompanies.length,
       };
     })
     .reverse();

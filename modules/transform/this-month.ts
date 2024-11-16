@@ -7,10 +7,10 @@ import {
 import { companiesComments } from '@/modules/transform/database';
 import { createOldMonthName } from '@/libs/datetime';
 
-import { CompanyComments } from '@/types/database';
+import { CompanyWithComments } from '@/types/database';
 
 // prerender once into variable in server code
-const getBarChartSimpleData = (companiesComments: CompanyComments[]): BarChartSimpleData => {
+const getBarChartSimpleData = (companiesComments: CompanyWithComments[]): BarChartSimpleData => {
   const items: BarChartSimpleDataItem[] = [
     { range: '1', count: 0 },
     { range: '2-3', count: 0 },

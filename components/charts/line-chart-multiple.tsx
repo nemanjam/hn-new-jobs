@@ -38,7 +38,7 @@ export interface LineChartMultipleData {
   firstTimeCompaniesCount: number;
   newCompaniesCount: number;
   oldCompaniesCount: number;
-  totalCompaniesCount: number;
+  totalCompaniesCount: number; // todo: rename this
 }
 
 interface Props {

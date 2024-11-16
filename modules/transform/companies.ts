@@ -6,9 +6,11 @@ import { CompanyTableDataWithMonth } from '@/components/companies-comments-table
 import { getMonthByName } from '@/modules/database/select';
 import { companiesComments } from '@/modules/transform/database';
 
-import { CompanyComments } from '@/types/database';
+import { CompanyWithComments } from '@/types/database';
 
-const getCompanyTableData = (companiesComments: CompanyComments[]): CompanyTableDataWithMonth => {
+const getCompanyTableData = (
+  companiesComments: CompanyWithComments[]
+): CompanyTableDataWithMonth => {
   const { monthName } = companiesComments[0].company;
   const month = getMonthByName(monthName);
   const { name, threadId } = month!;

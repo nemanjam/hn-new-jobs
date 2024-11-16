@@ -1,7 +1,7 @@
 import { db } from '@/modules/database/schema';
 
 import {
-  CompanyComments,
+  CompanyWithComments,
   DbCompany,
   DbMonth,
   MonthPair,
@@ -60,7 +60,7 @@ export const getFirstTimeCompaniesForMonth = (monthName: string): DbCompany[] =>
 
 /** Compare two specific months by name. */
 
-export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldCompanies => {
+export const _getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldCompanies => {
   const { forMonth, comparedToMonth } = monthPair;
 
   // include entire objects for links
@@ -116,6 +116,101 @@ export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldComp
   };
 };
 
+export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldCompanies => {
+  const { forMonth, comparedToMonth } = monthPair;
+
+  // include entire objects for links
+  const forMonthObject = getMonthByName(forMonth);
+  const comparedToMonthObject = getMonthByName(comparedToMonth);
+
+  // todo: if month not found throw and handle
+
+  const withCommentsQuery = (innerQuery: string): string =>
+    `WITH SelectedCompanies AS (
+        ${innerQuery}
+      )
+      SELECT 
+        c.name,
+        c.commentId,
+        c.monthName,
+        c.createdAt,
+        c.updatedAt,
+        json_group_array(
+          json_object(
+            'name', c.name,
+            'monthName', c.monthName,
+            'commentId', c.commentId,
+            'createdAt', c.createdAt,
+            'updatedAt', c.updatedAt
+          ) ORDER BY c.monthName DESC
+        ) AS comments,
+        COUNT(c.commentId) AS commentsCount  -- must keep for sort
+      FROM company c
+      INNER JOIN SelectedCompanies sc ON c.name = sc.name
+      GROUP BY c.name
+      ORDER BY commentsCount DESC
+      `;
+
+  // Only in forMonth, single comment
+  const firstTimeCompanies = db
+    .prepare<[string, string], CompanyWithComments>(
+      withCommentsQuery(
+        `SELECT c.* 
+        FROM company AS c 
+        WHERE c.monthName = ? 
+        AND NOT EXISTS (
+          SELECT 1 FROM company AS older
+          WHERE older.name = c.name AND older.monthName < ?
+        )`
+      )
+    )
+    .all(forMonth, forMonth);
+
+  // Companies present in forMonth but not in comparedToMonth
+  const newCompanies = db
+    .prepare<[string, string], CompanyWithComments>(
+      withCommentsQuery(
+        `SELECT c1.*
+         FROM company AS c1
+         WHERE c1.monthName = ? 
+           AND c1.name NOT IN (SELECT c2.name FROM company AS c2 WHERE c2.monthName = ?)
+         GROUP BY c1.name`
+      )
+    )
+    .all(forMonth, comparedToMonth);
+
+  // Companies present in both forMonth and comparedToMonth
+  // IN and NOT IN only difference
+  const oldCompanies = db
+    .prepare<[string, string], CompanyWithComments>(
+      withCommentsQuery(
+        `SELECT c1.*
+         FROM company AS c1
+         WHERE c1.monthName = ? 
+           AND c1.name IN (SELECT c2.name FROM company AS c2 WHERE c2.monthName = ?) 
+         GROUP BY c1.name`
+      )
+    )
+    .all(forMonth, comparedToMonth);
+
+  // companies for the forMonth
+  const allCompanies = db
+    .prepare<
+      [string],
+      CompanyWithComments
+    >(withCommentsQuery(`SELECT * FROM company WHERE monthName = ? GROUP BY name`))
+    .all(forMonth);
+
+  return {
+    forMonth: forMonthObject!,
+    comparedToMonth: comparedToMonthObject!,
+    firstTimeCompanies,
+    newCompanies,
+    oldCompanies,
+    allCompanies,
+  };
+};
+
 /** Compare the last two months. */
 
 export const getNewOldCompaniesForLastTwoMonths = (): NewOldCompanies => {
@@ -147,9 +242,6 @@ export const getNewOldCompaniesForFromToSubsequentMonths = (
     >(`SELECT name FROM month WHERE name <= ? AND name >= ? ORDER BY name DESC`)
     .all(fromMonth, toMonth);
 
-  // (`SELECT name FROM month WHERE name BETWEEN ? AND ? ORDER BY name DESC`)
-  // .all(toMonth, fromMonth); // order of args is important, works
-
   const comparisons = subsequentMonths.slice(0, -1).map((month, index) => {
     const subsequentMonthsPair = {
       forMonth: month.name,
@@ -176,7 +268,7 @@ export const getNewOldCompaniesForAllMonths = (): NewOldCompanies[] => {
 
 /** Get all months in which companies from some month appeared. */
 
-export const getCommentsForCompaniesByMonth = (monthName: string): CompanyComments[] => {
+export const getCommentsForCompaniesByMonth = (monthName: string): CompanyWithComments[] => {
   // compare for all months
   const query = `
       WITH MonthCompanies AS (
@@ -233,7 +325,7 @@ export const getCommentsForCompaniesByMonth = (monthName: string): CompanyCommen
   }));
 };
 
-export const getCommentsForLastMonthCompanies = (): CompanyComments[] => {
+export const getCommentsForLastMonthCompanies = (): CompanyWithComments[] => {
   // handle undefined
   const lastMonth = getLastMonth();
   if (!lastMonth) return [];
