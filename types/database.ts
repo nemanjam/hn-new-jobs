@@ -48,5 +48,4 @@ export interface NewOldCompanies {
 export interface CompanyComments {
   company: DbCompany;
   comments: DbCompany[];
-  commentsCount: number;
 }

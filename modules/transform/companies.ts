@@ -14,12 +14,12 @@ const getCompanyTableData = (companiesComments: CompanyComments[]): CompanyTable
   const { name, threadId } = month!;
 
   const data: CompanyTable[] = companiesComments.map((companyComments) => {
-    const { company, comments, commentsCount } = companyComments;
+    const { company, comments } = companyComments;
     const { name, commentId } = company;
 
     return {
       company: { name, commentId },
-      commentsCount,
+      commentsCount: comments.length,
       comments: comments.map(({ commentId, monthName }) => ({ commentId, monthName })),
     };
   });

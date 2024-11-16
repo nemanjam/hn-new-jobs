@@ -174,12 +174,16 @@ export const getNewOldCompaniesForAllMonths = (): NewOldCompanies[] => {
   return getNewOldCompaniesForFromToSubsequentMonths(monthRange);
 };
 
-/** Get all months in which companies from some month appeared. */
+/** Get all months in which companies from the last month appeared */
 
-export const getCommentsForCompaniesByMonth = (monthName: string): CompanyComments[] => {
-  // compare for all months
+export const getCommentsForLastMonthCompanies = (): CompanyComments[] => {
+  // handle undefined
+  const lastMonth = getLastMonth();
+  if (!lastMonth) return [];
+
+  // compare only with older or equal months
   const query = `
-      WITH MonthCompanies AS (
+      WITH LastMonthCompanies AS (
         SELECT * FROM company WHERE monthName = ? GROUP BY name
       )
       SELECT 
@@ -198,9 +202,10 @@ export const getCommentsForCompaniesByMonth = (monthName: string): CompanyCommen
           )
           ORDER BY c.monthName DESC
         ) as comments,
-        COUNT(c.commentId) as commentsCount -- must keep for sort
+        COUNT(c.commentId) as commentsCount
       FROM company c
-      INNER JOIN MonthCompanies mc ON c.name = mc.name
+      INNER JOIN LastMonthCompanies lmc ON c.name = lmc.name
+      WHERE c.monthName <= lmc.monthName
       GROUP BY c.name
       ORDER BY commentsCount DESC
     `;
@@ -217,9 +222,11 @@ export const getCommentsForCompaniesByMonth = (monthName: string): CompanyCommen
         updatedAt: string;
         // comments
         comments: string;
+        // count
+        commentsCount: number;
       }
     >(query)
-    .all(monthName);
+    .all(lastMonth.name);
 
   return result.map((row) => ({
     company: {
@@ -230,13 +237,6 @@ export const getCommentsForCompaniesByMonth = (monthName: string): CompanyCommen
       updatedAt: new Date(row.updatedAt),
     },
     comments: JSON.parse(row.comments) as DbCompany[],
+    commentsCount: row.commentsCount,
   }));
-};
-
-export const getCommentsForLastMonthCompanies = (): CompanyComments[] => {
-  // handle undefined
-  const lastMonth = getLastMonth();
-  if (!lastMonth) return [];
-
-  return getCommentsForCompaniesByMonth(lastMonth.name);
 };

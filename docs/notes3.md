@@ -29,9 +29,12 @@ v0 for design, companies list
 shadcn dashboard for design
 
 return_ all comments for each company, adjust query, independent on month, search table?
+but histogram per month, search company db api endpoint
 active navitem
-add selectbox and count for each company on homepage
+add month selectbox and count for each company on homepage
 log first and last db months on app start
-on ui print how many companies, ads, months
+on ui print how many unique companies, ads, months
 single .env file
 single config in root
+
+error, code: ECONNABORTED on 20 calls
