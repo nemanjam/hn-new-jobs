@@ -26,8 +26,8 @@ const NewOldCompaniesList: FC<Props> = ({ newOldCompanies }) => {
       {sections.map((section) => (
         <Card key={section.title}>
           <CardHeader>
-            <CardTitle className="text-xl font-semibold">
-              {section.title}{' '}
+            <CardTitle className="text-xl font-semibold space-x-2">
+              <span>{section.title}</span>
               <span className="text-muted-foreground">({section.companies.length})</span>
             </CardTitle>
           </CardHeader>

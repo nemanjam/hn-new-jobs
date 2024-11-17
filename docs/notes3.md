@@ -39,3 +39,9 @@ single config in root
 
 error, code: ECONNABORTED on 20 calls
 comment table, company.name pk
+
+select control with months for histogram, new old companies list, histogram and table
+table pagination
+fix default sort and sort
+remove first time from new
+rename graphs

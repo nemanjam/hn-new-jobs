@@ -44,7 +44,7 @@ export const getNewOldCompaniesForTwoMonths = (
 
   // todo: if month not found throw and handle
 
-  const withCommentsQuery = (innerQuery: string, sortBy: SortBy = 'commentsCount'): string =>
+  const withCommentsQuery = (innerQuery: string, sortByLocal: SortBy = sortBy): string =>
     `WITH SelectedCompanies AS (
         ${innerQuery}
       )
@@ -67,7 +67,7 @@ export const getNewOldCompaniesForTwoMonths = (
       FROM company c
       INNER JOIN SelectedCompanies sc ON c.name = sc.name
       GROUP BY c.name
-      ORDER BY ${sortBy === 'updatedAt' ? 'c.updatedAt' : 'commentsCount'} DESC;  -- sorts companies
+      ORDER BY ${sortByLocal === 'updatedAt' ? 'c.updatedAt' : 'commentsCount'} DESC;  -- sorts companies
       `;
 
   const convertCompanyRowType = (row: CompanyWithCommentsAsStrings): CompanyWithComments => ({

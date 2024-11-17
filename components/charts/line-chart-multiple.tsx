@@ -141,7 +141,7 @@ const getFirstTimeCompaniesTrendingPercent = (chartData: LineChartMultipleData[]
 };
 
 const LineChartMultiple: FC<Props> = ({ chartData }) => {
-  const [xAxisUnit, setXAxisUnit] = useState<XAxisUnitOptionsType>(xAxisUnitOptions._12m);
+  const [xAxisUnit, setXAxisUnit] = useState<XAxisUnitOptionsType>(xAxisUnitOptions.all);
   const [yAxisUnit, setYAxisUnit] = useState<YAxisUnitOptionsType>(yAxisUnitOptions.absolute);
 
   const firstTimeCompaniesTrendingPercent = getFirstTimeCompaniesTrendingPercent(chartData);
