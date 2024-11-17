@@ -34,7 +34,7 @@ export const getFirstMonth = (): DbMonth | undefined => {
 
 export const getNewOldCompaniesForTwoMonths = (
   monthPair: MonthPair,
-  sortBy: SortBy = 'commentsCount'
+  sortBy: SortBy = 'createdAtOriginal'
 ): NewOldCompanies => {
   const { forMonth, comparedToMonth } = monthPair;
 
@@ -67,7 +67,7 @@ export const getNewOldCompaniesForTwoMonths = (
       FROM company c
       INNER JOIN SelectedCompanies sc ON c.name = sc.name
       GROUP BY c.name
-      ORDER BY ${sortByLocal === 'updatedAt' ? 'c.updatedAt' : 'commentsCount'} DESC;  -- sorts companies
+      ORDER BY ${sortByLocal === 'createdAtOriginal' ? 'c.createdAtOriginal' : 'commentsCount'} DESC;  -- sorts companies
       `;
 
   const convertCompanyRowType = (row: CompanyWithCommentsAsStrings): CompanyWithComments => ({
@@ -75,6 +75,7 @@ export const getNewOldCompaniesForTwoMonths = (
       name: row.name,
       commentId: row.commentId,
       monthName: row.monthName,
+      createdAtOriginal: new Date(row.createdAtOriginal),
       createdAt: new Date(row.createdAt),
       updatedAt: new Date(row.updatedAt),
     },

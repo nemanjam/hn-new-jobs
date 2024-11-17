@@ -22,7 +22,7 @@ const main = async (script: ScriptType) => {
       break;
     }
     case SCRIPTS.parseOldMany: {
-      // PARSER_CONFIG.oldMonthsCount = 20
+      // PARSER_CONFIG.oldMonthsCount = 12
       const parserResponse: ParserResponse = await callParseNOldMonths();
       logger.info('main.ts script', parserResponse);
       break;

@@ -50,3 +50,9 @@ metadata, og image, plausible, github action
 originalIndex prop for order
 responsive table
 AND in sql, js filter?
+add numbers of months parsed in log
+export interface ParserResponse {
+  parserResults: ParserResult[];
+  // todo: use parseMessage, winston will include message in string message
+  message: string;
+}

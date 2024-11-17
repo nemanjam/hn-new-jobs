@@ -58,10 +58,11 @@ export interface CompanyWithCommentsAsStrings {
   name: string;
   commentId: string;
   monthName: string;
+  createdAtOriginal: string;
   createdAt: string;
   updatedAt: string;
   // comments
   comments: string;
 }
 
-export type SortBy = 'commentsCount' | 'updatedAt';
+export type SortBy = 'commentsCount' | 'createdAtOriginal';

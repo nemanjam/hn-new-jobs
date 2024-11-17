@@ -12,6 +12,7 @@ export interface ErrorResponse {
 
 export interface ParserResponse {
   parserResults: ParserResult[];
+  // todo: use parseMessage, winston will include message in string message
   message: string;
 }
 
