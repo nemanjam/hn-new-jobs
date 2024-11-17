@@ -56,3 +56,4 @@ export interface ParserResponse {
   // todo: use parseMessage, winston will include message in string message
   message: string;
 }
+add footer
