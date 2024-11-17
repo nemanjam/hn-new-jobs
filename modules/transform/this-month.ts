@@ -4,7 +4,7 @@ import {
   RangeType,
 } from '@/components/charts/bar-chart-simple';
 
-import { companiesComments } from '@/modules/transform/database';
+import { lastMonthCompanyWithComments } from '@/modules/transform/database';
 import { createOldMonthName } from '@/libs/datetime';
 
 import { CompanyWithComments } from '@/types/database';
@@ -56,4 +56,6 @@ const getBarChartSimpleData = (companiesComments: CompanyWithComments[]): BarCha
   return { monthName, items };
 };
 
-export const barChartSimpleData: BarChartSimpleData = getBarChartSimpleData(companiesComments);
+export const barChartSimpleData: BarChartSimpleData = getBarChartSimpleData(
+  lastMonthCompanyWithComments
+);

@@ -4,7 +4,7 @@ import { CompanyTable } from '@/components/companies-comments-columns';
 import { CompanyTableDataWithMonth } from '@/components/companies-comments-table';
 
 import { getMonthByName } from '@/modules/database/select';
-import { companiesComments } from '@/modules/transform/database';
+import { lastMonthCompanyWithComments } from '@/modules/transform/database';
 
 import { CompanyWithComments } from '@/types/database';
 
@@ -29,4 +29,4 @@ const getCompanyTableData = (
   return { month: { name, threadId }, data };
 };
 
-export const companyTableData = getCompanyTableData(companiesComments);
+export const companyTableData = getCompanyTableData(lastMonthCompanyWithComments);

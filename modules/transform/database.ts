@@ -1,12 +1,7 @@
-import {
-  getCommentsForLastMonthCompanies,
-  getNewOldCompaniesForAllMonths,
-  getNewOldCompaniesForLastTwoMonths,
-} from '@/modules/database/select';
-
-export const newOldCompanies = getNewOldCompaniesForLastTwoMonths();
+import { getNewOldCompaniesForAllMonths } from '@/modules/database/select';
 
 export const allNewOldCompanies = getNewOldCompaniesForAllMonths();
 
-// todo: remove
-export const companiesComments = getCommentsForLastMonthCompanies();
+export const lastMonthNewOldCompanies = allNewOldCompanies[0];
+
+export const lastMonthCompanyWithComments = allNewOldCompanies[0].allCompanies;

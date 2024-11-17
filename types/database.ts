@@ -60,3 +60,5 @@ export interface CompanyWithCommentsAsStrings {
   // comments
   comments: string;
 }
+
+export type SortBy = 'commentsCount' | 'updatedAt';

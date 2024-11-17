@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { getThreadOrCommentUrlFromId } from '@/utils/urls';
 
-import { DbCompany, NewOldCompanies } from '@/types/database';
+import { NewOldCompanies } from '@/types/database';
 
 interface Props {
   newOldCompanies: NewOldCompanies;
@@ -33,7 +33,8 @@ const NewOldCompaniesList: FC<Props> = ({ newOldCompanies }) => {
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-3">
-              {section.companies.map((company) => {
+              {section.companies.map((companyWithComments) => {
+                const { company, comments } = companyWithComments;
                 const { name, commentId } = company;
 
                 return (
@@ -47,7 +48,7 @@ const NewOldCompaniesList: FC<Props> = ({ newOldCompanies }) => {
                       href={getThreadOrCommentUrlFromId(commentId)}
                       target="_blank"
                     >
-                      {name}
+                      {`${name} (${comments.length})`}
                     </Link>
                   </Badge>
                 );
@@ -61,57 +62,3 @@ const NewOldCompaniesList: FC<Props> = ({ newOldCompanies }) => {
 };
 
 export default NewOldCompaniesList;
-
-/*-------------------------------- old code ------------------------------*/
-
-const printCompaniesLocal = (label: string, companies: DbCompany[]) => {
-  return (
-    <div className="flex flex-col gap-2">
-      <label className="font-bold">{label}</label>
-      <div className="flex flex-wrap gap-x-2">
-        {companies.map((company) => {
-          const { name, commentId } = company;
-
-          return (
-            <Link
-              key={commentId}
-              href={getThreadOrCommentUrlFromId(commentId)}
-              target="_blank"
-              className="whitespace-nowrap mr-2"
-            >
-              {name}
-            </Link>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
-
-const printCompanies = (newOldCompanies: NewOldCompanies) => {
-  const { newCompanies, oldCompanies, firstTimeCompanies } = newOldCompanies;
-
-  return (
-    <>
-      {/* {printNumbers(newOldCompanies)} */}
-
-      {printCompaniesLocal('First time companies:', firstTimeCompanies)}
-
-      {printCompaniesLocal('New companies:', newCompanies)}
-
-      {printCompaniesLocal('Old companies:', oldCompanies)}
-    </>
-  );
-};
-
-const printAllCompanies = (allNewOldCompanies: NewOldCompanies[]) => {
-  return allNewOldCompanies.map((newOldCompanies) => {
-    const { forMonth } = newOldCompanies;
-
-    return (
-      <div key={forMonth.name} className="flex flex-col gap-4">
-        {printCompanies(newOldCompanies)}
-      </div>
-    );
-  });
-};

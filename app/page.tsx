@@ -4,7 +4,7 @@ import LineChartMultiple from '@/components/charts/line-chart-multiple';
 import NewOldCompaniesCard from '@/components/new-old-companies-card';
 import NewOldCompaniesList from '@/components/new-old-companies-list';
 
-import { newOldCompanies } from '@/modules/transform/database';
+import { lastMonthNewOldCompanies } from '@/modules/transform/database';
 import { lineChartMultipleData } from '@/modules/transform/line-chart';
 
 const IndexPage: FC = () => {
@@ -20,8 +20,8 @@ const IndexPage: FC = () => {
       </div>
       <div className="flex flex-col gap-4">
         <LineChartMultiple chartData={lineChartMultipleData} />
-        <NewOldCompaniesCard newOldCompanies={newOldCompanies} />
-        <NewOldCompaniesList newOldCompanies={newOldCompanies} />
+        <NewOldCompaniesCard newOldCompanies={lastMonthNewOldCompanies} />
+        <NewOldCompaniesList newOldCompanies={lastMonthNewOldCompanies} />
       </div>
     </section>
   );

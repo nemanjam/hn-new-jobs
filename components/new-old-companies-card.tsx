@@ -11,10 +11,10 @@ interface Props {
 
 const NewOldCompaniesCard: FC<Props> = ({ newOldCompanies }) => {
   const {
+    firstTimeCompanies,
     newCompanies,
     oldCompanies,
-    firstTimeCompanies,
-    totalCompaniesCount,
+    allCompanies,
     forMonth,
     comparedToMonth,
   } = newOldCompanies;
@@ -51,7 +51,7 @@ const NewOldCompaniesCard: FC<Props> = ({ newOldCompanies }) => {
           <StatItem label="First time companies" value={firstTimeCompanies.length} />
           <StatItem label="New companies" value={newCompanies.length} />
           <StatItem label="Old companies" value={oldCompanies.length} />
-          <StatItem label="Total companies" value={totalCompaniesCount} />
+          <StatItem label="Total companies" value={allCompanies.length} />
         </div>
       </CardContent>
     </Card>

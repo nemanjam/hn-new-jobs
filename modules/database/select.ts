@@ -8,11 +8,8 @@ import {
   MonthPair,
   MonthRange,
   NewOldCompanies,
+  SortBy,
 } from '@/types/database';
-
-/**
- * @returns {DbMonth | undefined} - Returns entire DbMonth object.
- */
 
 export const getMonthByName = (monthName: string): DbMonth | undefined => {
   const month = db.prepare<string, DbMonth>(`SELECT * FROM month WHERE name = ?`).get(monthName);
@@ -20,19 +17,11 @@ export const getMonthByName = (monthName: string): DbMonth | undefined => {
   return month;
 };
 
-/**
- * @returns {DbMonth | undefined} - Returns entire DbMonth object.
- */
-
 export const getLastMonth = (): DbMonth | undefined => {
   const lastMonth = db.prepare<[], DbMonth>(`SELECT * FROM month ORDER BY name DESC LIMIT 1`).get();
 
   return lastMonth;
 };
-
-/**
- * @returns {DbMonth | undefined} - Returns entire DbMonth object.
- */
 
 export const getFirstMonth = (): DbMonth | undefined => {
   // SELECT name FROM month projects just name, but still returns object { name }
@@ -40,8 +29,6 @@ export const getFirstMonth = (): DbMonth | undefined => {
 
   return firstMonth;
 };
-
-export type SortBy = 'commentsCount' | 'updatedAt';
 
 /** Compare two specific months by name. */
 
@@ -74,13 +61,13 @@ export const getNewOldCompaniesForTwoMonths = (
             'commentId', c.commentId,
             'createdAt', c.createdAt,
             'updatedAt', c.updatedAt
-          ) ORDER BY c.monthName DESC
+          ) ORDER BY c.monthName DESC  -- sorts comments
         ) AS comments,
         COUNT(c.commentId) AS commentsCount  -- must keep for sort
       FROM company c
       INNER JOIN SelectedCompanies sc ON c.name = sc.name
       GROUP BY c.name
-      ORDER BY ${sortBy === 'updatedAt' ? 'c.updatedAt' : 'commentsCount'} DESC;
+      ORDER BY ${sortBy === 'updatedAt' ? 'c.updatedAt' : 'commentsCount'} DESC;  -- sorts companies
       `;
 
   const convertCompanyRowType = (row: CompanyWithCommentsAsStrings): CompanyWithComments => ({
@@ -203,6 +190,7 @@ export const getNewOldCompaniesForFromToSubsequentMonths = (
   return comparisons;
 };
 
+// this will override sort
 export const getNewOldCompaniesForAllMonths = (): NewOldCompanies[] => {
   const firstMonth = getFirstMonth();
   const lastMonth = getLastMonth();
@@ -214,71 +202,4 @@ export const getNewOldCompaniesForAllMonths = (): NewOldCompanies[] => {
   };
 
   return getNewOldCompaniesForFromToSubsequentMonths(monthRange);
-};
-
-/** Get all months in which companies from some month appeared. */
-
-export const getCommentsForCompaniesByMonth = (monthName: string): CompanyWithComments[] => {
-  // compare for all months
-  const query = `
-      WITH MonthCompanies AS (
-        SELECT * FROM company WHERE monthName = ? GROUP BY name
-      )
-      SELECT 
-        c.name,
-        c.commentId,
-        c.monthName,
-        c.createdAt,
-        c.updatedAt,
-        json_group_array(
-          json_object(
-            'name', c.name,
-            'monthName', c.monthName,
-            'commentId', c.commentId,
-            'createdAt', c.createdAt,
-            'updatedAt', c.updatedAt
-          )
-          ORDER BY c.monthName DESC
-        ) as comments,
-        COUNT(c.commentId) as commentsCount -- must keep for sort
-      FROM company c
-      INNER JOIN MonthCompanies mc ON c.name = mc.name
-      GROUP BY c.name
-      ORDER BY commentsCount DESC
-    `;
-
-  const result = db
-    .prepare<
-      string,
-      {
-        // DbCompany
-        name: string;
-        commentId: string;
-        monthName: string;
-        createdAt: string;
-        updatedAt: string;
-        // comments
-        comments: string;
-      }
-    >(query)
-    .all(monthName);
-
-  return result.map((row) => ({
-    company: {
-      name: row.name,
-      commentId: row.commentId,
-      monthName: row.monthName,
-      createdAt: new Date(row.createdAt),
-      updatedAt: new Date(row.updatedAt),
-    },
-    comments: JSON.parse(row.comments) as DbCompany[],
-  }));
-};
-
-export const getCommentsForLastMonthCompanies = (): CompanyWithComments[] => {
-  // handle undefined
-  const lastMonth = getLastMonth();
-  if (!lastMonth) return [];
-
-  return getCommentsForCompaniesByMonth(lastMonth.name);
 };
