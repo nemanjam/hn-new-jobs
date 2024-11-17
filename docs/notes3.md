@@ -45,3 +45,5 @@ table pagination
 fix default sort and sort
 remove first time from new
 rename graphs
+responsive styles
+metadata, og image, plausible, github action

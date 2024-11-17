@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, SetStateAction, useState } from 'react';
+import { FC, useState } from 'react';
 
 import { TrendingDown, TrendingUp } from 'lucide-react';
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
