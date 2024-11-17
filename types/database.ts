@@ -4,6 +4,7 @@
 export interface DbMonth {
   name: string;
   threadId: string;
+  createdAtOriginal: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -12,15 +13,17 @@ export interface DbCompany {
   name: string;
   commentId: string;
   monthName: string;
+  createdAtOriginal: Date;
   createdAt: Date;
   updatedAt: Date;
 }
 
 /*-------------------------------- Insert ------------------------------*/
 
-export interface DbCompanyInsert extends Pick<DbCompany, 'name' | 'commentId'> {}
+export interface DbCompanyInsert
+  extends Pick<DbCompany, 'name' | 'commentId' | 'createdAtOriginal'> {}
 
-export interface DbMonthInsert extends Pick<DbMonth, 'name' | 'threadId'> {}
+export interface DbMonthInsert extends Pick<DbMonth, 'name' | 'threadId' | 'createdAtOriginal'> {}
 
 /*-------------------------- Select ------------------------*/
 

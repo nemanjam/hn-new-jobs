@@ -21,6 +21,7 @@ export const getThreads = async (): Promise<DbMonthInsert[]> => {
       const blankThread: DbMonthInsert = {
         name: invalidFlag,
         threadId: invalidFlag,
+        createdAtOriginal: new Date(invalidFlag),
       };
 
       const { title, created_at, story_id } = post;
@@ -41,11 +42,19 @@ export const getThreads = async (): Promise<DbMonthInsert[]> => {
       const threadId = String(story_id);
       if (!threadId) return blankThread;
 
-      const thread: DbMonthInsert = { name: monthName, threadId };
+      // 4. createdAtOriginal - for original order
+      const createdAtOriginal = new Date(created_at);
+
+      const thread: DbMonthInsert = { name: monthName, threadId, createdAtOriginal };
 
       return thread;
     })
-    .filter((thread) => thread.name !== invalidFlag && thread.threadId !== invalidFlag);
+    .filter(
+      (thread) =>
+        thread.name !== invalidFlag &&
+        thread.threadId !== invalidFlag &&
+        !isNaN(thread.createdAtOriginal.getTime())
+    );
 
   return threads;
 };

@@ -49,3 +49,4 @@ responsive styles
 metadata, og image, plausible, github action
 originalIndex prop for order
 responsive table
+AND in sql, js filter?

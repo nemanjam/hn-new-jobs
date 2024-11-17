@@ -59,9 +59,10 @@ export const parseCompaniesForPage = async (
       const blankCompany: DbCompanyInsert = {
         name: invalidFlag,
         commentId: invalidFlag,
+        createdAtOriginal: new Date(invalidFlag),
       };
 
-      const { comment_text, objectID, story_id, parent_id } = comment;
+      const { comment_text, objectID, story_id, parent_id, created_at } = comment;
 
       // 1. filter out non-first level comments
       if (parent_id !== story_id) return blankCompany;
@@ -86,10 +87,18 @@ export const parseCompaniesForPage = async (
       const urlMatch = name.match(removeLinkOrBracesRegex);
       name = urlMatch ? urlMatch[1].trim() : name;
 
-      // 3. commentId - link
-      return { name, commentId: objectID };
+      // 3. createdAtOriginal - for original order
+      const createdAtOriginal = new Date(created_at);
+
+      // 4. commentId - link
+      return { name, commentId: objectID, createdAtOriginal };
     })
-    .filter((company) => company.name !== invalidFlag && company.commentId !== invalidFlag);
+    .filter(
+      (company) =>
+        company.name !== invalidFlag &&
+        company.commentId !== invalidFlag &&
+        !isNaN(company.createdAtOriginal.getTime())
+    );
 
   return { pageCompanies, pagination };
 };

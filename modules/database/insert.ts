@@ -9,15 +9,15 @@ import type { RunResult } from 'better-sqlite3';
  */
 
 export const saveMonth = (month: DbMonthInsert, companies: DbCompanyInsert[]): number => {
-  const upsertMonth = db.prepare<[string, string], RunResult>(
-    `INSERT INTO month (name, threadId)
-       VALUES (?, ?)
+  const upsertMonth = db.prepare<[string, string, string], RunResult>(
+    `INSERT INTO month (name, threadId, createdAtOriginal)
+       VALUES (?, ?, ?)
        ON CONFLICT(name) DO UPDATE SET updatedAt = CURRENT_TIMESTAMP`
   );
 
-  const upsertCompany = db.prepare<[string, string, string], RunResult>(
-    `INSERT INTO company (name, commentId, monthName)
-       VALUES (?, ?, ?)
+  const upsertCompany = db.prepare<[string, string, string, string], RunResult>(
+    `INSERT INTO company (name, commentId, createdAtOriginal, monthName)
+       VALUES (?, ?, ?, ?)
        ON CONFLICT(name, monthName) DO UPDATE SET updatedAt = CURRENT_TIMESTAMP`
   );
 
@@ -25,12 +25,21 @@ export const saveMonth = (month: DbMonthInsert, companies: DbCompanyInsert[]): n
 
   const transaction = db.transaction(() => {
     // Run the upsert for month
-    const monthResult = upsertMonth.run(month.name, month.threadId);
+    const monthResult = upsertMonth.run(
+      month.name,
+      month.threadId,
+      month.createdAtOriginal.toISOString()
+    );
     numberOfRowsAffected += monthResult.changes;
 
     // Run the upsert for each company and count updated rows
     for (const company of companies) {
-      const companyResult = upsertCompany.run(company.name, company.commentId, month.name);
+      const companyResult = upsertCompany.run(
+        company.name,
+        company.commentId,
+        company.createdAtOriginal.toISOString(),
+        month.name
+      );
       numberOfRowsAffected += companyResult.changes;
     }
   });

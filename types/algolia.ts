@@ -19,6 +19,7 @@ export interface AThread extends APagination {
 /** First post of a thread. */
 
 export interface APost {
+  // for monthName and original sort
   created_at: string; // ISO date format
   title: string;
   story_id: number;
@@ -34,4 +35,6 @@ export interface AComment {
   // for first level
   story_id: number;
   parent_id: number;
+  // for original sort
+  created_at: string;
 }
