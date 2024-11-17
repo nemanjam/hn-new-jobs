@@ -38,3 +38,4 @@ single .env file
 single config in root
 
 error, code: ECONNABORTED on 20 calls
+comment table, company.name pk

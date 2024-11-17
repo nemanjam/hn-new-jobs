@@ -2,6 +2,7 @@ import { db } from '@/modules/database/schema';
 
 import {
   CompanyWithComments,
+  CompanyWithCommentsAsStrings,
   DbCompany,
   DbMonth,
   MonthPair,
@@ -40,27 +41,14 @@ export const getFirstMonth = (): DbMonth | undefined => {
   return firstMonth;
 };
 
-export const getFirstTimeCompaniesForMonth = (monthName: string): DbCompany[] => {
-  const firstTimeCompanies = db
-    .prepare<[string, string], DbCompany>(
-      `SELECT c.*
-         FROM company AS c
-         WHERE c.monthName = ? 
-           AND NOT EXISTS (
-             SELECT 1 
-             FROM company AS older
-             WHERE older.name = c.name
-               AND older.monthName < ?
-         )`
-    )
-    .all(monthName, monthName);
-
-  return firstTimeCompanies;
-};
+export type SortBy = 'commentsCount' | 'updatedAt';
 
 /** Compare two specific months by name. */
 
-export const _getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldCompanies => {
+export const getNewOldCompaniesForTwoMonths = (
+  monthPair: MonthPair,
+  sortBy: SortBy = 'commentsCount'
+): NewOldCompanies => {
   const { forMonth, comparedToMonth } = monthPair;
 
   // include entire objects for links
@@ -69,63 +57,7 @@ export const _getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldCom
 
   // todo: if month not found throw and handle
 
-  // Companies present in forMonth but not in comparedToMonth
-  const newCompanies = db
-    .prepare<[string, string], DbCompany>(
-      `SELECT c2.*
-         FROM company AS c2
-         WHERE c2.monthName = ? 
-           AND c2.name NOT IN (
-             SELECT c1.name
-             FROM company AS c1
-             WHERE c1.monthName = ?
-           )`
-    )
-    .all(forMonth, comparedToMonth);
-
-  // Companies present in both forMonth and comparedToMonth
-  const oldCompanies = db
-    .prepare<[string, string], DbCompany>(
-      `SELECT c1.*
-         FROM company AS c1
-         WHERE c1.monthName = ? 
-           AND c1.name IN (
-             SELECT c2.name
-             FROM company AS c2
-             WHERE c2.monthName = ?
-           )`
-    )
-    .all(forMonth, comparedToMonth);
-
-  // Total count of companies in forMonth
-  const totalCompaniesCount =
-    db
-      .prepare<[string], number>(`SELECT COUNT(*) FROM company WHERE monthName = ?`)
-      .pluck()
-      .get(forMonth) ?? 0;
-
-  const firstTimeCompanies = getFirstTimeCompaniesForMonth(forMonth);
-
-  return {
-    forMonth: forMonthObject!,
-    comparedToMonth: comparedToMonthObject!,
-    newCompanies,
-    oldCompanies,
-    firstTimeCompanies,
-    totalCompaniesCount,
-  };
-};
-
-export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldCompanies => {
-  const { forMonth, comparedToMonth } = monthPair;
-
-  // include entire objects for links
-  const forMonthObject = getMonthByName(forMonth);
-  const comparedToMonthObject = getMonthByName(comparedToMonth);
-
-  // todo: if month not found throw and handle
-
-  const withCommentsQuery = (innerQuery: string): string =>
+  const withCommentsQuery = (innerQuery: string, sortBy: SortBy = 'commentsCount'): string =>
     `WITH SelectedCompanies AS (
         ${innerQuery}
       )
@@ -148,58 +80,76 @@ export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldComp
       FROM company c
       INNER JOIN SelectedCompanies sc ON c.name = sc.name
       GROUP BY c.name
-      ORDER BY commentsCount DESC
+      ORDER BY ${sortBy === 'updatedAt' ? 'c.updatedAt' : 'commentsCount'} DESC;
       `;
+
+  const convertCompanyRowType = (row: CompanyWithCommentsAsStrings): CompanyWithComments => ({
+    company: {
+      name: row.name,
+      commentId: row.commentId,
+      monthName: row.monthName,
+      createdAt: new Date(row.createdAt),
+      updatedAt: new Date(row.updatedAt),
+    },
+    comments: JSON.parse(row.comments) as DbCompany[],
+  });
 
   // Only in forMonth, single comment
   const firstTimeCompanies = db
-    .prepare<[string, string], CompanyWithComments>(
+    .prepare<[string, string], CompanyWithCommentsAsStrings>(
       withCommentsQuery(
         `SELECT c.* 
-        FROM company AS c 
-        WHERE c.monthName = ? 
-        AND NOT EXISTS (
-          SELECT 1 FROM company AS older
-          WHERE older.name = c.name AND older.monthName < ?
-        )`
+         FROM company AS c 
+         WHERE c.monthName = ? 
+         AND NOT EXISTS (
+           SELECT 1 FROM company AS older
+           WHERE older.name = c.name AND older.monthName < ?
+         )`,
+        sortBy
       )
     )
-    .all(forMonth, forMonth);
+    .all(forMonth, forMonth)
+    .map(convertCompanyRowType);
 
   // Companies present in forMonth but not in comparedToMonth
   const newCompanies = db
-    .prepare<[string, string], CompanyWithComments>(
+    .prepare<[string, string], CompanyWithCommentsAsStrings>(
       withCommentsQuery(
         `SELECT c1.*
          FROM company AS c1
          WHERE c1.monthName = ? 
            AND c1.name NOT IN (SELECT c2.name FROM company AS c2 WHERE c2.monthName = ?)
-         GROUP BY c1.name`
+         GROUP BY c1.name`,
+        sortBy
       )
     )
-    .all(forMonth, comparedToMonth);
+    .all(forMonth, comparedToMonth)
+    .map(convertCompanyRowType);
 
   // Companies present in both forMonth and comparedToMonth
   // IN and NOT IN only difference
   const oldCompanies = db
-    .prepare<[string, string], CompanyWithComments>(
+    .prepare<[string, string], CompanyWithCommentsAsStrings>(
       withCommentsQuery(
         `SELECT c1.*
          FROM company AS c1
          WHERE c1.monthName = ? 
            AND c1.name IN (SELECT c2.name FROM company AS c2 WHERE c2.monthName = ?) 
-         GROUP BY c1.name`
+         GROUP BY c1.name`,
+        sortBy
       )
     )
-    .all(forMonth, comparedToMonth);
+    .all(forMonth, comparedToMonth)
+    .map(convertCompanyRowType);
 
   // companies for the forMonth
   const allCompanies = db
     .prepare<
       [string],
-      CompanyWithComments
-    >(withCommentsQuery(`SELECT * FROM company WHERE monthName = ? GROUP BY name`))
-    .all(forMonth);
+      CompanyWithCommentsAsStrings
+    >(withCommentsQuery(`SELECT * FROM company WHERE monthName = ? GROUP BY name`, sortBy))
+    .all(forMonth)
+    .map(convertCompanyRowType);
 
   return {
     forMonth: forMonthObject!,

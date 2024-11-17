@@ -49,3 +49,14 @@ export interface NewOldCompanies {
   oldCompanies: CompanyWithComments[];
   allCompanies: CompanyWithComments[];
 }
+
+export interface CompanyWithCommentsAsStrings {
+  // DbCompany
+  name: string;
+  commentId: string;
+  monthName: string;
+  createdAt: string;
+  updatedAt: string;
+  // comments
+  comments: string;
+}
