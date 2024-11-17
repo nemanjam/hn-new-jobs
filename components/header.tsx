@@ -1,16 +1,23 @@
+'use client';
+
 import { FC } from 'react';
 import Link from 'next/link';
+import { useSelectedLayoutSegment } from 'next/navigation';
 
 import { buttonVariants } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 import { ThemeToggle } from '@/components/theme-toggle';
 
+import { cn } from '@/utils/styles';
 import { METADATA } from '@/constants/metadata';
 import { NAVIGATION } from '@/constants/navigation';
 
+const { title } = METADATA;
+const { left, right } = NAVIGATION;
+
 const Header: FC = () => {
-  const { title } = METADATA;
-  const { left, right } = NAVIGATION;
+  const segment = useSelectedLayoutSegment();
+  const pathSegment = !segment ? '/' : `/${segment}/`;
 
   return (
     <header className="bg-background sticky top-0 z-40 w-full border-b">
@@ -26,7 +33,9 @@ const Header: FC = () => {
               <Link
                 key={index}
                 href={navItem.href}
-                className="flex items-center text-sm font-medium text-muted-foreground"
+                className={cn('flex items-center text-sm font-medium text-muted-foreground', {
+                  'font-bold text-foreground underline': pathSegment === navItem.href,
+                })}
               >
                 {navItem.title}
               </Link>
