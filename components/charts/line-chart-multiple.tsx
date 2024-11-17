@@ -109,10 +109,17 @@ const getPercentage = (current: number, total: number) => Math.round((current / 
 
 const setUnit = (chartData: LineChartMultipleData[], yAxisUnit: string) => {
   return chartData.map((month) => {
-    let resultMonth = { ...month };
+    const {
+      firstTimeCompaniesCount,
+      newCompaniesCount: newCompaniesCountOriginal,
+      oldCompaniesCount,
+      totalCompaniesCount,
+    } = month;
 
-    const { firstTimeCompaniesCount, newCompaniesCount, oldCompaniesCount, totalCompaniesCount } =
-      month;
+    // include first time companies in new companies only for graph
+    const newCompaniesCount = newCompaniesCountOriginal + firstTimeCompaniesCount;
+
+    let resultMonth = { ...month, newCompaniesCount };
 
     if (yAxisUnit === 'percentage') {
       resultMonth = {

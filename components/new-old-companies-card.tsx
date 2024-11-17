@@ -73,7 +73,7 @@ const NewOldCompaniesCard: FC<Props> = ({ allNewOldCompanies, setIndex }) => {
         </Select>
       </CardHeader>
       <CardContent className="grid gap-6">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-x-2">
             <span className="text-sm font-medium text-muted-foreground">For month</span>
             <Link
@@ -95,7 +95,7 @@ const NewOldCompaniesCard: FC<Props> = ({ allNewOldCompanies, setIndex }) => {
             </Link>
           </div>
         </div>
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <StatItem label="First time companies" value={firstTimeCompanies.length} />
           <StatItem label="New companies" value={newCompanies.length} />
           <StatItem label="Old companies" value={oldCompanies.length} />

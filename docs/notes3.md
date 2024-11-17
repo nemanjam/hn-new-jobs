@@ -48,3 +48,4 @@ rename graphs
 responsive styles
 metadata, og image, plausible, github action
 originalIndex prop for order
+responsive table
