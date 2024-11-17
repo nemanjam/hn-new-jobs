@@ -162,7 +162,7 @@ const LineChartMultiple: FC<Props> = ({ chartData }) => {
           onValueChange={(value) => setYAxisUnit(value as YAxisUnitOptionsType)}
         >
           <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto" aria-label="Select a value">
-            <SelectValue placeholder="Last 3 months" />
+            <SelectValue placeholder="Absolute" />
           </SelectTrigger>
           <SelectContent className="rounded-xl">
             <SelectItem value="absolute" className="rounded-lg">
@@ -179,7 +179,7 @@ const LineChartMultiple: FC<Props> = ({ chartData }) => {
           onValueChange={(value) => setXAxisUnit(value as XAxisUnitOptionsType)}
         >
           <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto" aria-label="Select a value">
-            <SelectValue placeholder="Last 3 months" />
+            <SelectValue placeholder="All time" />
           </SelectTrigger>
           <SelectContent className="rounded-xl">
             <SelectItem value="12 months" className="rounded-lg">

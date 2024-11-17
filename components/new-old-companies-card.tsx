@@ -1,15 +1,50 @@
-import { FC } from 'react';
+'use client';
+
+import { FC, useEffect, useState } from 'react';
 import Link from 'next/link';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 import { NewOldCompanies } from '@/types/database';
 
 interface Props {
-  newOldCompanies: NewOldCompanies;
+  allNewOldCompanies: NewOldCompanies[];
+  setIndex: (index: number) => void;
 }
 
-const NewOldCompaniesCard: FC<Props> = ({ newOldCompanies }) => {
+export const initialIndex = 0 as const;
+
+const getIndex = (allNewOldCompanies: NewOldCompanies[], monthName: string): number => {
+  const index = allNewOldCompanies.findIndex(
+    (newOldCompanies) => newOldCompanies.forMonth.name === monthName
+  );
+
+  return index !== -1 ? index : initialIndex;
+};
+
+const NewOldCompaniesCard: FC<Props> = ({ allNewOldCompanies, setIndex }) => {
+  const selectMonthNames = allNewOldCompanies.map(
+    (newOldCompanies) => newOldCompanies.forMonth.name
+  );
+  // .slice(0, 12); // limit if needed for performance
+
+  const initialMonthName = selectMonthNames[initialIndex];
+  const [monthName, setMonthName] = useState<string>(initialMonthName);
+
+  const index = getIndex(allNewOldCompanies, monthName);
+  const newOldCompanies = allNewOldCompanies[index];
+
+  useEffect(() => {
+    if (setIndex) setIndex(index);
+  }, [setIndex, index]);
+
   const {
     firstTimeCompanies,
     newCompanies,
@@ -21,8 +56,21 @@ const NewOldCompaniesCard: FC<Props> = ({ newOldCompanies }) => {
 
   return (
     <Card className="w-full max-w-2xl">
-      <CardHeader>
+      <CardHeader className="flex flex-row justify-between items-center">
         <CardTitle>Month Statistics</CardTitle>
+
+        <Select value={monthName} onValueChange={(value) => setMonthName(value)}>
+          <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto" aria-label="Select a value">
+            <SelectValue placeholder="Last month" />
+          </SelectTrigger>
+          <SelectContent className="rounded-xl">
+            {selectMonthNames.map((monthName) => (
+              <SelectItem key={monthName} value={monthName} className="rounded-lg">
+                {monthName}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </CardHeader>
       <CardContent className="grid gap-6">
         <div className="grid grid-cols-2 gap-4">
