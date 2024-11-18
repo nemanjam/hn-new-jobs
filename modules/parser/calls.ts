@@ -21,7 +21,7 @@ export const callParseNewMonth = async (): Promise<ParserResponse> => {
   const parserResult: ParserResult = await parseNewMonth();
 
   const parserResponse: ParserResponse = {
-    message: `Parsing new month successful, now: ${getAppNow()}.`,
+    parseMessage: `Parsing new month successful, now: ${getAppNow()}.`,
     parserResults: [parserResult],
   };
 
@@ -32,7 +32,7 @@ export const callParseOldMonth = async (): Promise<ParserResponse> => {
   const parserResult: ParserResult = await parseOldMonth();
 
   const parserResponse: ParserResponse = {
-    message: `Parsing old month successful, now: ${getAppNow()}.`,
+    parseMessage: `Parsing old month successful, now: ${getAppNow()}.`,
     parserResults: [parserResult],
   };
 
@@ -44,7 +44,7 @@ export const callParseNOldMonths = async (): Promise<ParserResponse> => {
 
   const parserResponse: ParserResponse = {
     parserResults,
-    message: `Parsing ${parserResults.length} old months successful, now: ${getAppNow()}.`,
+    parseMessage: `Parsing ${parserResults.length} old months successful, now: ${getAppNow()}.`,
   };
 
   return parserResponse;

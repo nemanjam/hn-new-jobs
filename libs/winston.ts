@@ -13,7 +13,7 @@ const { nodeEnv, logFilePath } = PARSER_CONFIG;
 
 const printContext = (meta: unknown, addNewline = true) =>
   meta && Object.keys(meta).length > 0
-    ? `${addNewline ? '\n' : ''}LOG_CONTEXT: ${JSON.stringify(meta)}`
+    ? `${addNewline ? '\n' : ''}LOG_CONTEXT: ${JSON.stringify(meta, null, 2)}`
     : '';
 
 // todo: add tailwind css

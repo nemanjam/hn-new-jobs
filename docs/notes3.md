@@ -24,14 +24,14 @@ navbar items, pages
         fix 2 months step parse history // works fine
         histogram last month, companies with 0, 1, n posts before
 tables
-card for For month:2024-11 compared to month:2024-10 first time companies:93 new companies:185 old companies:103 total companies count:288
+        card for For month:2024-11 compared to month:2024-10 first time companies:93 new companies:185 old companies:103 total companies count:288
 v0 for design, companies list
 shadcn dashboard for design
 
 return_ all comments for each company, adjust query, independent on month, search table?
 but histogram per month, search company db api endpoint
-active navitem
-add month selectbox and count for each company on homepage
+        active navitem
+        add month selectbox and count for each company on homepage
 log first and last db months on app start
 on ui print how many unique companies, ads, months
 single .env file
@@ -44,16 +44,16 @@ select control with months for histogram, new old companies list, histogram and 
 table pagination
 fix default sort and sort
 remove first time from new
-rename graphs
+rename graphs and transform files
 responsive styles
 metadata, og image, plausible, github action
 originalIndex prop for order
+pass sort arg for pages
 responsive table
 AND in sql, js filter?
-add numbers of months parsed in log
-export interface ParserResponse {
-  parserResults: ParserResult[];
-  // todo: use parseMessage, winston will include message in string message
-  message: string;
-}
+        add numbers of months parsed in log
+        // todo: use parseMessage, winston will include message in string message
+        message: string;
 add footer
+think new name
+winston logger files
