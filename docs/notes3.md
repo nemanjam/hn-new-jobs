@@ -40,7 +40,8 @@ single config in root
 error, code: ECONNABORTED on 20 calls
 comment table, company.name pk
 
-select control with months for histogram, new old companies list, histogram and table
+        select control with months for new old companies list
+select control with months for histogram and table // ovo sad
 table pagination
 fix default sort and sort
 remove first time from new
