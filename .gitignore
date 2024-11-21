@@ -45,6 +45,7 @@ data/database/*
 !data/database/backup
 # enable seeding history
 # !data/database/hn-parser-node-database-prod.sqlite3
+!data/database/hn-parser-node-database-dev.sqlite3
 
 # ignore app logs
 !data/logs
