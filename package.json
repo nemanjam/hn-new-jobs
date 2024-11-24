@@ -6,6 +6,8 @@
     "dev": "NODE_NO_WARNINGS=1 next dev",
     "build": "next build",
     "start": "next start",
+    "cp": "cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/",
+    "standalone": "node .next/standalone/server.js",
     "hn:dev:new": "tsx modules/parser/main.ts new",
     "hn:dev:old": "tsx modules/parser/main.ts old",
     "hn:dev:old-many": "tsx modules/parser/main.ts old-many",

@@ -48,7 +48,6 @@ responsive styles
 metadata, og image, plausible, github action
 originalIndex prop for order
 pass sort arg for pages
-responsive table
 AND in sql, js filter?
         add numbers of months parsed in log
         // todo: use parseMessage, winston will include message in string message
@@ -62,3 +61,6 @@ search company page
 select control with months for histogram and table // ovo sad
 clean up layout divs
 move select from table to histogram
+stats db queries, number of companies and ads
+responsive table
+
