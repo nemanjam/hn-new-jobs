@@ -1,7 +1,6 @@
 import { FC } from 'react';
 
-import BarChartSimple from '@/components/charts/bar-chart-simple';
-import CompaniesCommentsTable from '@/components/companies-comments-table';
+import CompaniesCommentsSection from '@/components/companies-comments-section';
 
 import { companyTableData } from '@/modules/transform/companies';
 import { barChartSimpleData } from '@/modules/transform/this-month';
@@ -18,8 +17,10 @@ const ThisMonthPage: FC = () => {
         </p>
       </div>
       <div className="flex flex-col gap-4">
-        <BarChartSimple chartData={barChartSimpleData} />
-        <CompaniesCommentsTable tableData={companyTableData} />
+        <CompaniesCommentsSection
+          barChartSimpleData={barChartSimpleData}
+          tablesData={companyTableData}
+        />
       </div>
     </section>
   );

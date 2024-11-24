@@ -4,7 +4,7 @@ import {
   RangeType,
 } from '@/components/charts/bar-chart-simple';
 
-import { lastMonthCompanyWithComments } from '@/modules/transform/database';
+import { allNewOldCompanies } from '@/modules/transform/database';
 import { createOldMonthName } from '@/libs/datetime';
 
 import { CompanyWithComments } from '@/types/database';
@@ -56,6 +56,7 @@ const getBarChartSimpleData = (companiesComments: CompanyWithComments[]): BarCha
   return { monthName, items };
 };
 
-export const barChartSimpleData: BarChartSimpleData = getBarChartSimpleData(
-  lastMonthCompanyWithComments
+/** For all months. */
+export const barChartSimpleData = allNewOldCompanies.map((newOldCompanies) =>
+  getBarChartSimpleData(newOldCompanies.allCompanies)
 );

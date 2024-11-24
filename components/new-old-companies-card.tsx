@@ -21,7 +21,7 @@ interface Props {
 
 export const initialIndex = 0 as const;
 
-const getIndex = (allNewOldCompanies: NewOldCompanies[], monthName: string): number => {
+export const getIndex = (allNewOldCompanies: NewOldCompanies[], monthName: string): number => {
   const index = allNewOldCompanies.findIndex(
     (newOldCompanies) => newOldCompanies.forMonth.name === monthName
   );
@@ -29,11 +29,12 @@ const getIndex = (allNewOldCompanies: NewOldCompanies[], monthName: string): num
   return index !== -1 ? index : initialIndex;
 };
 
+export const getSelectMonthNames = (allNewOldCompanies: NewOldCompanies[]) =>
+  allNewOldCompanies.map((newOldCompanies) => newOldCompanies.forMonth.name);
+// .slice(0, 12); // limit if needed for performance
+
 const NewOldCompaniesCard: FC<Props> = ({ allNewOldCompanies, setIndex }) => {
-  const selectMonthNames = allNewOldCompanies.map(
-    (newOldCompanies) => newOldCompanies.forMonth.name
-  );
-  // .slice(0, 12); // limit if needed for performance
+  const selectMonthNames = getSelectMonthNames(allNewOldCompanies);
 
   const initialMonthName = selectMonthNames[initialIndex];
   const [monthName, setMonthName] = useState<string>(initialMonthName);

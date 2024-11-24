@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import {
   ColumnFiltersState,
@@ -15,6 +15,13 @@ import {
 
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -33,12 +40,37 @@ export interface CompanyTableDataWithMonth {
 }
 
 export interface Props {
-  tableData: CompanyTableDataWithMonth;
+  tablesData: CompanyTableDataWithMonth[];
+  setIndex: (index: number) => void;
 }
+
+export const initialIndex = 0 as const;
+
+export const getIndex = (tablesData: CompanyTableDataWithMonth[], monthName: string): number => {
+  const index = tablesData.findIndex((tableData) => tableData.month.name === monthName);
+
+  return index !== -1 ? index : initialIndex;
+};
+
+export const getSelectMonthNames = (tablesData: CompanyTableDataWithMonth[]) =>
+  tablesData.map((tableData) => tableData.month.name);
 
 const initialSort: SortingState = [{ id: 'commentsCount', desc: true }] as const;
 
-const CompaniesCommentsTable: FC<Props> = ({ tableData }) => {
+const CompaniesCommentsTable: FC<Props> = ({ tablesData, setIndex }) => {
+  const selectMonthNames = getSelectMonthNames(tablesData);
+
+  const initialMonthName = selectMonthNames[initialIndex];
+  const [monthName, setMonthName] = useState<string>(initialMonthName);
+
+  const index = getIndex(tablesData, monthName);
+
+  useEffect(() => {
+    if (setIndex) setIndex(index);
+  }, [setIndex, index]);
+
+  const tableData = tablesData[index];
+
   const { data, month } = tableData;
 
   const [sorting, setSorting] = useState<SortingState>(initialSort);
@@ -61,13 +93,26 @@ const CompaniesCommentsTable: FC<Props> = ({ tableData }) => {
 
   return (
     <div className="rounded-lg border bg-card">
-      <div className="p-4">
+      <div className="flex justify-between items-center p-4">
         <Input
           placeholder="Filter companies..."
           value={(table.getColumn('companyName')?.getFilterValue() as string) ?? ''}
           onChange={(event) => table.getColumn('companyName')?.setFilterValue(event.target.value)}
           className="max-w-sm"
         />
+
+        <Select value={monthName} onValueChange={(value) => setMonthName(value)}>
+          <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto" aria-label="Select a value">
+            <SelectValue placeholder="Last month" />
+          </SelectTrigger>
+          <SelectContent className="rounded-xl">
+            {selectMonthNames.map((monthName) => (
+              <SelectItem key={monthName} value={monthName} className="rounded-lg">
+                {monthName}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       <Table>
         <TableHeader>

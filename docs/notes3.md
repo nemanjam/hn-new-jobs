@@ -60,3 +60,5 @@ table pagination and initial sort
 tabela ima sort, samo initial column, nema potrebe za 2 db sort
 search company page
 select control with months for histogram and table // ovo sad
+clean up layout divs
+move select from table to histogram
