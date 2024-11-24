@@ -1,5 +1,6 @@
 import { getNewOldCompaniesForAllMonths } from '@/modules/database/select';
 
+/** sorted by createdAtOriginal */
 export const allNewOldCompanies = getNewOldCompaniesForAllMonths();
 
 export const lastMonthNewOldCompanies = allNewOldCompanies[0];

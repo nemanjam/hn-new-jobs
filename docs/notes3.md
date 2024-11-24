@@ -42,7 +42,6 @@ comment table, company.name pk
 
         select control with months for new old companies list
 select control with months for histogram and table // ovo sad
-table pagination
 fix default sort and sort
 remove first time from new
 rename graphs and transform files
@@ -58,3 +57,5 @@ AND in sql, js filter?
 add footer
 think new name
 winston logger files
+table pagination and initial sort
+tabela ima sort, samo initial column, nema potrebe za 2 db sort

@@ -13,7 +13,7 @@ const databaseFileName = `hn-parser-node-database-${dbSuffix}.sqlite3`;
 // todo: this is app config, not just parser, server, client
 
 export const PARSER_CONFIG = {
-  parserSecret: process.env.PARSER_SECRET,
+  apiSecret: process.env.API_SECRET,
   nodeEnv: process.env.NODE_ENV,
   databaseFilePath: join(projectRootFolder, './data/database/', databaseFileName),
   cacheFilePath: join(projectRootFolder, './data/cache/', 'cache.json'),

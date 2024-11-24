@@ -9,7 +9,7 @@ import type { ErrorResponse, ParserResponse, ParserRouteParam } from '@/types/ap
 
 export const dynamic = 'force-dynamic';
 
-const { parserSecret } = PARSER_CONFIG;
+const { apiSecret } = PARSER_CONFIG;
 
 const scripts = Object.values(SCRIPTS);
 
@@ -27,7 +27,7 @@ export const GET = async (
   const { searchParams } = new URL(request.url);
   const secretParam = searchParams.get('parser-secret');
 
-  if (secretParam !== parserSecret) {
+  if (secretParam !== apiSecret) {
     logger.error(`Wrong parser-secret: ${secretParam}`);
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
