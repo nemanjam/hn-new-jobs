@@ -13,6 +13,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
+import { DataTablePagination } from '@/components/ui/data-table-pagination';
 import { Input } from '@/components/ui/input';
 import {
   Table,
@@ -35,10 +36,12 @@ export interface Props {
   tableData: CompanyTableDataWithMonth;
 }
 
+const initialSort: SortingState = [{ id: 'commentsCount', desc: true }] as const;
+
 const CompaniesCommentsTable: FC<Props> = ({ tableData }) => {
   const { data, month } = tableData;
 
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>(initialSort);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
@@ -102,6 +105,9 @@ const CompaniesCommentsTable: FC<Props> = ({ tableData }) => {
           )}
         </TableBody>
       </Table>
+      <div className="p-4 border-t">
+        <DataTablePagination table={table} />
+      </div>
     </div>
   );
 };

@@ -41,7 +41,6 @@ error, code: ECONNABORTED on 20 calls
 comment table, company.name pk
 
         select control with months for new old companies list
-select control with months for histogram and table // ovo sad
 fix default sort and sort
 remove first time from new
 rename graphs and transform files
@@ -59,3 +58,5 @@ think new name
 winston logger files
 table pagination and initial sort
 tabela ima sort, samo initial column, nema potrebe za 2 db sort
+search company page
+select control with months for histogram and table // ovo sad
