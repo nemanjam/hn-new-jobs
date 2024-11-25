@@ -12,12 +12,37 @@ export const compareCompanies = (company1: DbCompany, company2: DbCompany): bool
   return isEqual;
 };
 
-// todo: should pass monthName | undefined, no
+export const __withCommentsQuery = (innerQuery: string, sortBy: SortBy): string =>
+  `WITH SelectedCompanies AS (
+      ${innerQuery}
+    )
+    SELECT 
+      c.name,
+      c.commentId,
+      c.monthName,
+      c.createdAt,
+      c.updatedAt,
+      json_group_array(
+        json_object(
+          'name', c.name,
+          'monthName', c.monthName,
+          'commentId', c.commentId,
+          'createdAt', c.createdAt,
+          'updatedAt', c.updatedAt
+        ) ORDER BY c.monthName DESC  -- sorts comments
+      ) AS comments,
+      COUNT(c.commentId) AS commentsCount  -- must keep for sort
+    FROM company c
+    INNER JOIN SelectedCompanies sc ON c.name = sc.name
+    GROUP BY c.name
+    ORDER BY ${sortBy === 'createdAtOriginal' ? 'c.createdAtOriginal' : 'commentsCount'} DESC;  -- sorts companies
+    `;
+
 export const withCommentsQuery = (innerQuery: string, sortBy: SortBy): string =>
   `WITH SelectedCompanies AS (
     ${innerQuery}
     ),
-    DistinctComments AS ( -- simplify distinct comments with GROUP BY
+    DistinctComments AS (
       SELECT 
         c1.name,
         c1.monthName, 
@@ -42,13 +67,13 @@ export const withCommentsQuery = (innerQuery: string, sortBy: SortBy): string =>
           'commentId', dc.commentId,
           'createdAt', dc.createdAt,
           'updatedAt', dc.updatedAt
-        ) ORDER BY dc.monthName DESC  -- sorts comments
+        ) ORDER BY dc.monthName DESC
       ) AS comments,
-      COUNT(DISTINCT dc.commentId) AS commentsCount  -- must keep for sort
+      COUNT(DISTINCT dc.commentId) AS commentsCount
     FROM DistinctComments dc
     WHERE dc.rn = 1
     GROUP BY dc.name
-    ORDER BY ${sortBy === 'createdAtOriginal' ? 'dc.createdAtOriginal' : 'commentsCount'} DESC; -- sorts companies
+    ORDER BY ${sortBy === 'createdAtOriginal' ? 'dc.createdAtOriginal' : 'commentsCount'} DESC;
     `;
 
 export const convertCompanyRowType = (row: CompanyWithCommentsAsStrings): CompanyWithComments => ({

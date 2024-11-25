@@ -62,5 +62,5 @@ clean up layout divs
         move select from table to histogram
 stats db queries, number of companies and ads
 responsive table
-search company page
+        search company page
 

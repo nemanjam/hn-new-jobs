@@ -82,11 +82,7 @@ export const columns: ColumnDef<CompanyTable>[] = [
                   variant="secondary"
                   className="hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
                 >
-                  <Link
-                    key={commentId}
-                    href={getThreadOrCommentUrlFromId(commentId)}
-                    target="_blank"
-                  >
+                  <Link href={getThreadOrCommentUrlFromId(commentId)} target="_blank">
                     {monthName}
                   </Link>
                 </Badge>

@@ -1,9 +1,10 @@
 import { db } from '@/modules/database/schema';
+import { convertCompanyRowType, withCommentsQuery } from '@/modules/database/utils';
+import { isCompanySearchMinLength } from '@/utils/urls';
 
 import {
   CompanyWithComments,
   CompanyWithCommentsAsStrings,
-  DbCompany,
   DbMonth,
   MonthPair,
   MonthRange,
@@ -30,6 +31,24 @@ export const getFirstMonth = (): DbMonth | undefined => {
   return firstMonth;
 };
 
+export const searchCompanyByName = (name: string): CompanyWithComments[] => {
+  if (!isCompanySearchMinLength(name)) return [];
+
+  const companies = db
+    .prepare<[string], CompanyWithCommentsAsStrings>(
+      withCommentsQuery(
+        `SELECT DISTINCT name, *
+        FROM company
+        WHERE name LIKE ?`,
+        'commentsCount'
+      )
+    )
+    .all(`%${name}%`) // starts with
+    .map(convertCompanyRowType);
+
+  return companies;
+};
+
 /** Compare two specific months by name. */
 
 export const getNewOldCompaniesForTwoMonths = (
@@ -43,44 +62,6 @@ export const getNewOldCompaniesForTwoMonths = (
   const comparedToMonthObject = getMonthByName(comparedToMonth);
 
   // todo: if month not found throw and handle
-
-  const withCommentsQuery = (innerQuery: string, sortByLocal: SortBy = sortBy): string =>
-    `WITH SelectedCompanies AS (
-        ${innerQuery}
-      )
-      SELECT 
-        c.name,
-        c.commentId,
-        c.monthName,
-        c.createdAt,
-        c.updatedAt,
-        json_group_array(
-          json_object(
-            'name', c.name,
-            'monthName', c.monthName,
-            'commentId', c.commentId,
-            'createdAt', c.createdAt,
-            'updatedAt', c.updatedAt
-          ) ORDER BY c.monthName DESC  -- sorts comments
-        ) AS comments,
-        COUNT(c.commentId) AS commentsCount  -- must keep for sort
-      FROM company c
-      INNER JOIN SelectedCompanies sc ON c.name = sc.name
-      GROUP BY c.name
-      ORDER BY ${sortByLocal === 'createdAtOriginal' ? 'c.createdAtOriginal' : 'commentsCount'} DESC;  -- sorts companies
-      `;
-
-  const convertCompanyRowType = (row: CompanyWithCommentsAsStrings): CompanyWithComments => ({
-    company: {
-      name: row.name,
-      commentId: row.commentId,
-      monthName: row.monthName,
-      createdAtOriginal: new Date(row.createdAtOriginal),
-      createdAt: new Date(row.createdAt),
-      updatedAt: new Date(row.updatedAt),
-    },
-    comments: JSON.parse(row.comments) as DbCompany[],
-  });
 
   // Only in forMonth, single comment
   const firstTimeCompanies = db
