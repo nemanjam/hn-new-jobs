@@ -18,10 +18,13 @@ import { getThreadOrCommentUrlFromId, isCompanySearchMinLength } from '@/utils/u
 
 import { SearchParams } from '@/types/website';
 
+const itemsLimit = 10 as const;
+
 export interface Props extends SearchParams {}
 
 const SearchCompanyList: FC<Props> = ({ company }) => {
   const companiesWithComments = searchCompanyByName(company);
+  const limitedCompaniesWithComments = companiesWithComments.slice(0, itemsLimit);
 
   const hasCompanies = companiesWithComments.length > 0;
 
@@ -41,7 +44,7 @@ const SearchCompanyList: FC<Props> = ({ company }) => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {companiesWithComments.map((companyWithComments) => {
+              {limitedCompaniesWithComments.map((companyWithComments) => {
                 const { company, comments } = companyWithComments;
                 const { name, commentId } = company;
 
