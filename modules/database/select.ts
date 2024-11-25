@@ -10,6 +10,7 @@ import {
   MonthRange,
   NewOldCompanies,
   SortBy,
+  Statistics,
 } from '@/types/database';
 
 export const getMonthByName = (monthName: string): DbMonth | undefined => {
@@ -29,6 +30,19 @@ export const getFirstMonth = (): DbMonth | undefined => {
   const firstMonth = db.prepare<[], DbMonth>(`SELECT * FROM month ORDER BY name ASC LIMIT 1`).get();
 
   return firstMonth;
+};
+
+export const getStatistics = (): Statistics | undefined => {
+  const statistics = db
+    .prepare<[], Statistics>(
+      `SELECT
+       (SELECT COUNT(DISTINCT name) FROM month) AS monthsCount,
+       (SELECT COUNT(DISTINCT commentId) FROM company) AS commentsCount,
+       (SELECT COUNT(DISTINCT name) FROM company) AS companiesCount`
+    )
+    .get();
+
+  return statistics;
 };
 
 export const searchCompanyByName = (name: string): CompanyWithComments[] => {

@@ -66,3 +66,9 @@ export interface CompanyWithCommentsAsStrings {
 }
 
 export type SortBy = 'commentsCount' | 'createdAtOriginal';
+
+export interface Statistics {
+  monthsCount: number;
+  commentsCount: number;
+  companiesCount: number;
+}
