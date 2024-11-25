@@ -57,17 +57,6 @@ const Header: FC = () => {
                 <span className="sr-only">GitHub</span>
               </div>
             </Link>
-            <Link href={right.twitter} target="_blank" rel="noreferrer">
-              <div
-                className={buttonVariants({
-                  size: 'icon',
-                  variant: 'ghost',
-                })}
-              >
-                <Icons.twitter className="size-5 fill-current" />
-                <span className="sr-only">Twitter</span>
-              </div>
-            </Link>
             <ThemeToggle />
           </nav>
         </div>

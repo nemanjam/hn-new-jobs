@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useEffect, useState } from 'react';
+import Link from 'next/link';
 
 import {
   ColumnFiltersState,
@@ -16,13 +17,6 @@ import {
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
 import { Input } from '@/components/ui/input';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
   Table,
   TableBody,
   TableCell,
@@ -32,6 +26,8 @@ import {
 } from '@/components/ui/table';
 import { columns, CompanyTable } from '@/components/companies-comments-columns';
 
+import { getThreadOrCommentUrlFromId } from '@/utils/urls';
+
 import { DbMonth } from '@/types/database';
 
 export interface CompanyTableDataWithMonth {
@@ -40,37 +36,12 @@ export interface CompanyTableDataWithMonth {
 }
 
 export interface Props {
-  tablesData: CompanyTableDataWithMonth[];
-  setIndex: (index: number) => void;
+  tableData: CompanyTableDataWithMonth;
 }
-
-export const initialIndex = 0 as const;
-
-export const getIndex = (tablesData: CompanyTableDataWithMonth[], monthName: string): number => {
-  const index = tablesData.findIndex((tableData) => tableData.month.name === monthName);
-
-  return index !== -1 ? index : initialIndex;
-};
-
-export const getSelectMonthNames = (tablesData: CompanyTableDataWithMonth[]) =>
-  tablesData.map((tableData) => tableData.month.name);
 
 const initialSort: SortingState = [{ id: 'commentsCount', desc: true }] as const;
 
-const CompaniesCommentsTable: FC<Props> = ({ tablesData, setIndex }) => {
-  const selectMonthNames = getSelectMonthNames(tablesData);
-
-  const initialMonthName = selectMonthNames[initialIndex];
-  const [monthName, setMonthName] = useState<string>(initialMonthName);
-
-  const index = getIndex(tablesData, monthName);
-
-  useEffect(() => {
-    if (setIndex) setIndex(index);
-  }, [setIndex, index]);
-
-  const tableData = tablesData[index];
-
+const CompaniesCommentsTable: FC<Props> = ({ tableData }) => {
   const { data, month } = tableData;
 
   const [sorting, setSorting] = useState<SortingState>(initialSort);
@@ -101,18 +72,13 @@ const CompaniesCommentsTable: FC<Props> = ({ tablesData, setIndex }) => {
           className="max-w-sm"
         />
 
-        <Select value={monthName} onValueChange={(value) => setMonthName(value)}>
-          <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto" aria-label="Select a value">
-            <SelectValue placeholder="Last month" />
-          </SelectTrigger>
-          <SelectContent className="rounded-xl">
-            {selectMonthNames.map((monthName) => (
-              <SelectItem key={monthName} value={monthName} className="rounded-lg">
-                {monthName}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <Link
+          href={getThreadOrCommentUrlFromId(month.threadId)}
+          target="_blank"
+          className="hover:underline"
+        >
+          {month.name}
+        </Link>
       </div>
       <Table>
         <TableHeader>

@@ -2,10 +2,12 @@
 
 import { FC, useState } from 'react';
 
-import BarChartSimple, { BarChartSimpleData } from '@/components/charts/bar-chart-simple';
+import BarChartSimple, {
+  BarChartSimpleData,
+  initialIndex,
+} from '@/components/charts/bar-chart-simple';
 import CompaniesCommentsTable, {
   CompanyTableDataWithMonth,
-  initialIndex,
 } from '@/components/companies-comments-table';
 
 // ! can't import allNewOldCompanies in client component, must pass as props
@@ -21,9 +23,9 @@ const CompaniesCommentsSection: FC<Props> = ({ tablesData, barChartSimpleData })
   return (
     <>
       <div className="mx-auto">
-        <BarChartSimple chartData={barChartSimpleData[index]} />
+        <BarChartSimple chartsData={barChartSimpleData} setIndex={setIndex} />
       </div>
-      <CompaniesCommentsTable setIndex={setIndex} tablesData={tablesData} />
+      <CompaniesCommentsTable tableData={tablesData[index]} />
     </>
   );
 };

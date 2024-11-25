@@ -1,9 +1,18 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { TrendingUp } from 'lucide-react';
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from 'recharts';
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   ChartConfig,
   ChartContainer,
@@ -12,6 +21,13 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export type RangeType = '1' | '2-3' | '4-5' | '6-7' | '8-12';
 
@@ -20,14 +36,14 @@ export interface BarChartSimpleDataItem {
   count: number;
 }
 
-// currently only available for last month
 export interface BarChartSimpleData {
   monthName: string;
   items: BarChartSimpleDataItem[];
 }
 
 interface Props {
-  chartData: BarChartSimpleData;
+  chartsData: BarChartSimpleData[];
+  setIndex: (index: number) => void;
 }
 
 const chartConfig = {
@@ -37,18 +53,79 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const BarChartSimple: FC<Props> = ({ chartData }) => {
+export const initialIndex = 0 as const;
+
+export const getIndex = (chartsData: BarChartSimpleData[], monthName: string): number => {
+  const index = chartsData.findIndex((chartData) => chartData.monthName === monthName);
+
+  return index !== -1 ? index : initialIndex;
+};
+
+export const getSelectMonthNames = (chartsData: BarChartSimpleData[]) =>
+  chartsData.map((chartData) => chartData.monthName);
+
+const BarChartSimple: FC<Props> = ({ chartsData, setIndex }) => {
+  const selectMonthNames = getSelectMonthNames(chartsData);
+
+  const initialMonthName = selectMonthNames[initialIndex];
+  const [monthName, setMonthName] = useState<string>(initialMonthName);
+
+  const index = getIndex(chartsData, monthName);
+  const chartData = chartsData[index];
+
+  useEffect(() => {
+    if (setIndex) setIndex(index);
+  }, [setIndex, index]);
+
   return (
-    <ChartContainer config={chartConfig} className="h-[350px] max-w-lg">
-      <BarChart accessibilityLayer data={chartData.items}>
-        <CartesianGrid vertical={false} />
-        <XAxis dataKey="range" tickLine={false} tickMargin={10} axisLine={false} />
-        <YAxis tickLine={false} axisLine={false} tickMargin={10} tickCount={3} />
-        <ChartTooltip content={<ChartTooltipContent />} />
-        <ChartLegend content={<ChartLegendContent />} />
-        <Bar dataKey="count" fill="var(--color-count)" radius={4} />
-      </BarChart>
-    </ChartContainer>
+    <Card>
+      <CardHeader className="flex flex-row justify-between items-center gap-4">
+        <div>
+          <CardTitle>Companies by ads</CardTitle>
+          <CardDescription>January - June 2024</CardDescription>
+        </div>
+
+        <Select value={monthName} onValueChange={(value) => setMonthName(value)}>
+          <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto" aria-label="Select a value">
+            <SelectValue placeholder="Last month" />
+          </SelectTrigger>
+          <SelectContent className="rounded-xl">
+            {selectMonthNames.map((monthName) => (
+              <SelectItem key={monthName} value={monthName} className="rounded-lg">
+                {monthName}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </CardHeader>
+      <CardContent>
+        <ChartContainer config={chartConfig} className="h-[350px] max-w-lg">
+          <BarChart
+            accessibilityLayer
+            data={chartData.items}
+            {...{
+              overflow: 'visible',
+            }}
+          >
+            <CartesianGrid vertical={false} />
+            <XAxis dataKey="range" tickLine={false} tickMargin={10} axisLine={false} />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <ChartLegend content={<ChartLegendContent />} />
+            <Bar dataKey="count" fill="var(--color-count)" radius={4}>
+              <LabelList position="top" offset={12} className="fill-foreground" fontSize={12} />
+            </Bar>
+          </BarChart>
+        </ChartContainer>
+      </CardContent>
+      <CardFooter className="flex-col items-start gap-2 text-sm">
+        <div className="flex gap-2 font-medium leading-none">
+          Trending up by 5.2% this month <TrendingUp className="size-4" />
+        </div>
+        <div className="leading-none text-muted-foreground">
+          Showing total visitors for the last 6 months
+        </div>
+      </CardFooter>
+    </Card>
   );
 };
 

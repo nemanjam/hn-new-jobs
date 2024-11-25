@@ -12,6 +12,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
+import { getThreadOrCommentUrlFromId } from '@/utils/urls';
+
 import { NewOldCompanies } from '@/types/database';
 
 interface Props {
@@ -78,7 +80,7 @@ const NewOldCompaniesCard: FC<Props> = ({ allNewOldCompanies, setIndex }) => {
           <div className="space-x-2">
             <span className="text-sm font-medium text-muted-foreground">For month</span>
             <Link
-              href={forMonth.threadId}
+              href={getThreadOrCommentUrlFromId(forMonth.threadId)}
               target="_blank"
               className="text-lg font-semibold hover:underline"
             >
@@ -88,7 +90,7 @@ const NewOldCompaniesCard: FC<Props> = ({ allNewOldCompanies, setIndex }) => {
           <div className="space-x-2">
             <span className="text-sm font-medium text-muted-foreground">Compared to month</span>
             <Link
-              href={comparedToMonth.threadId}
+              href={getThreadOrCommentUrlFromId(comparedToMonth.threadId)}
               target="_blank"
               className="text-lg font-semibold hover:underline"
             >
