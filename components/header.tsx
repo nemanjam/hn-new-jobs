@@ -45,7 +45,7 @@ const Header: FC = () => {
           </Link>
 
           {/* desktop menu */}
-          <nav className="hidden lg:flex items-center gap-6">
+          <nav className="hidden sm:flex items-center gap-6">
             {left.map((navItem, index) => (
               <Link
                 key={index}
@@ -61,7 +61,7 @@ const Header: FC = () => {
         </div>
 
         {/* desktop menu */}
-        <div className="hidden lg:flex items-center gap-2">
+        <div className="hidden sm:flex items-center gap-2">
           <Link href={right.github} target="_blank" rel="noreferrer">
             <div
               className={buttonVariants({
@@ -80,7 +80,7 @@ const Header: FC = () => {
         <Button
           variant="ghost"
           size="icon"
-          className="lg:hidden shrink-0"
+          className="sm:hidden shrink-0"
           onClick={() => setIsMenuOpen((prevIsMenuOpen) => !prevIsMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -90,7 +90,7 @@ const Header: FC = () => {
 
       {/* mobile menu */}
       <nav
-        className={cn('flex lg:hidden flex-col items-start gap-4 p-4 pt-0', {
+        className={cn('flex sm:hidden flex-col items-start gap-4 p-4 pt-0', {
           hidden: !isMenuOpen,
         })}
       >
