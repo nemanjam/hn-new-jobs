@@ -7,9 +7,9 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import { Input } from '@/components/ui/input';
 
-import { isCompanySearchMinLength } from '@/utils/urls';
+import { WEBSITE } from '@/constants/website';
 
-const { waitDebounceSearchInput, companySearchParam, companySearchMinLength } = WEBSITE;
+const { waitDebounceSearchInput, companySearchParam } = WEBSITE;
 
 const SearchCompanyInput: FC = () => {
   const searchParams = useSearchParams();
@@ -30,8 +30,7 @@ const SearchCompanyInput: FC = () => {
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>): void => {
     const value = event.target.value;
-    if (!isCompanySearchMinLength(value)) return;
-
+    // must not limit it here, to clear url state
     updateParam(companySearchParam, value);
   };
 
