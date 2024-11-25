@@ -35,15 +35,11 @@ export const searchCompanyByName = (name: string): CompanyWithComments[] => {
   if (!isCompanySearchMinLength(name)) return [];
 
   const companies = db
-    .prepare<[string], CompanyWithCommentsAsStrings>(
-      withCommentsQuery(
-        `SELECT DISTINCT name, *
-        FROM company
-        WHERE name LIKE ?`,
-        'commentsCount'
-      )
-    )
-    .all(`%${name}%`) // starts with
+    .prepare<
+      [string],
+      CompanyWithCommentsAsStrings
+    >(withCommentsQuery(`SELECT c1.* FROM company AS c1 WHERE name LIKE ? GROUP BY c1.name`, 'commentsCount'))
+    .all(`%${name}%`)
     .map(convertCompanyRowType);
 
   return companies;
