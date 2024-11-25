@@ -63,4 +63,4 @@ clean up layout divs
 stats db queries, number of companies and ads
 responsive table
         search company page
-
+        responsive navbar, not perfect

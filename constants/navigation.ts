@@ -12,12 +12,12 @@ export const NAVIGATION = {
       external: false,
     },
     {
-      title: 'Current month',
+      title: 'Month',
       href: ROUTES.currentMonth,
       external: false,
     },
     {
-      title: 'Search company',
+      title: 'Search',
       href: ROUTES.searchCompany,
       external: false,
     },
