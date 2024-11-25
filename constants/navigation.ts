@@ -1,6 +1,6 @@
 export const ROUTES = {
   home: '/',
-  thisMonth: '/this-month/',
+  currentMonth: '/current-month/',
 } as const;
 
 export const NAVIGATION = {
@@ -11,8 +11,8 @@ export const NAVIGATION = {
       external: false,
     },
     {
-      title: 'This month',
-      href: ROUTES.thisMonth,
+      title: 'Current month',
+      href: ROUTES.currentMonth,
       external: false,
     },
   ],
