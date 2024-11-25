@@ -18,5 +18,6 @@ export const NAVIGATION = {
   ],
   right: {
     github: 'https://github.com/nemanjam/hn-parser-node',
+    author: 'https://github.com/nemanjam',
   },
 } as const;

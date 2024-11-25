@@ -9,6 +9,8 @@ import { cn } from '@/utils/styles';
 
 import '@/styles/globals.css';
 
+import Footer from '@/components/footer';
+
 import { METADATA } from '@/constants/metadata';
 
 const { title, description } = METADATA;
@@ -47,6 +49,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <div className="relative flex min-h-screen flex-col">
               <Header />
               <main className="flex-1">{children}</main>
+              <Footer />
             </div>
 
             <TailwindIndicator />

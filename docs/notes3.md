@@ -41,26 +41,26 @@ error, code: ECONNABORTED on 20 calls
 comment table, company.name pk
 
         select control with months for new old companies list
-fix default sort and sort
+        fix default sort and sort
 remove first time from new
 rename graphs and transform files
 responsive styles
 metadata, og image, plausible, github action
-originalIndex prop for order
-pass sort arg for pages
+        originalIndex prop for order
+        pass sort arg for pages
 AND in sql, js filter?
         add numbers of months parsed in log
         // todo: use parseMessage, winston will include message in string message
         message: string;
-add footer
+        add footer
 think new name
 winston logger files
-table pagination and initial sort
+        table pagination and initial sort
 tabela ima sort, samo initial column, nema potrebe za 2 db sort
-search company page
-select control with months for histogram and table // ovo sad
+        select control with months for histogram and table // ovo sad
 clean up layout divs
-move select from table to histogram
+        move select from table to histogram
 stats db queries, number of companies and ads
 responsive table
+search company page
 
