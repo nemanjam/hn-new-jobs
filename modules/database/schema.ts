@@ -1,10 +1,10 @@
 import BetterSqlite3 from 'better-sqlite3';
 
-import { PARSER_CONFIG } from '@/config/parser';
+import { SERVER_CONFIG } from '@/config/server';
 
 import type { Database } from 'better-sqlite3';
 
-const { databaseFilePath } = PARSER_CONFIG;
+const { databaseFilePath } = SERVER_CONFIG;
 
 export const db: Database = new BetterSqlite3(databaseFilePath);
 

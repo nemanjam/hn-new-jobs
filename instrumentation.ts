@@ -1,22 +1,22 @@
 /** Runs only once on server start. */
 export const register = async () => {
-  if (process.env.NEXT_RUNTIME === 'nodejs') {
-    // conditional imports
-    const { logConfig } = await import('@/config/parser');
-    const { debuggingScheduler, newMonthScheduler, seedOldMonthsScheduler, logScheduledTasks } =
-      await import('@/modules/scheduler/main');
+  if (process.env.NEXT_RUNTIME !== 'nodejs') return;
 
-    // debugging
-    logConfig();
-    debuggingScheduler();
+  // conditional imports
+  const { logConfig } = await import('@/config/server');
+  const { debuggingScheduler, newMonthScheduler, seedOldMonthsScheduler, logScheduledTasks } =
+    await import('@/modules/scheduler/main');
 
-    // main call
-    newMonthScheduler();
+  // debugging
+  logConfig();
+  debuggingScheduler();
 
-    // seed
-    seedOldMonthsScheduler();
+  // main call
+  newMonthScheduler();
 
-    // must be at end
-    logScheduledTasks();
-  }
+  // seed
+  seedOldMonthsScheduler();
+
+  // must be at end
+  logScheduledTasks();
 };

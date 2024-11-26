@@ -6,11 +6,11 @@ import { getAppNow, isWeekendAndStartOfMonth } from '@/libs/datetime';
 import logger from '@/libs/winston';
 import { logPrettyPrintObject } from '@/utils/pretty-print';
 import { SCRIPTS } from '@/constants/scripts';
-import { PARSER_CONFIG } from '@/config/parser';
+import { SERVER_CONFIG } from '@/config/server';
 
 import type { ParserResponse } from '@/types/api';
 
-const { appTimeZone } = PARSER_CONFIG;
+const { appTimeZone } = SERVER_CONFIG;
 
 const fiveMinutes = 5 * 60 * 1000;
 

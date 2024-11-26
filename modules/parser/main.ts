@@ -1,11 +1,11 @@
 import { callParseNewMonth, callParseNOldMonths, callParseOldMonth } from '@/modules/parser/calls';
 import logger from '@/libs/winston';
 import { SCRIPTS } from '@/constants/scripts';
-import { PARSER_CONFIG } from '@/config/parser';
+import { SERVER_CONFIG } from '@/config/server';
 
 import { ParserResponse, ScriptType } from '@/types/api';
 
-const { nodeEnv } = PARSER_CONFIG;
+const { nodeEnv } = SERVER_CONFIG;
 
 /** This can be used as cli script only in dev or in prod WITH node_modules folder. */
 

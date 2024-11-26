@@ -1,11 +1,11 @@
 import { parseNewMonth, parseNOldMonths, parseOldMonth } from '@/modules/parser/parse';
 import { getAppNow } from '@/libs/datetime';
-import { PARSER_CONFIG } from '@/config/parser';
+import { SERVER_CONFIG } from '@/config/server';
 
 import { ParserResponse } from '@/types/api';
 import { ParserResult } from '@/types/parser';
 
-const { oldMonthsCount } = PARSER_CONFIG;
+const { oldMonthsCount } = SERVER_CONFIG;
 
 /**
  * Reused in:

@@ -9,9 +9,9 @@ import {
 } from 'date-fns';
 import { format as formatTz, toZonedTime } from 'date-fns-tz';
 
-import { PARSER_CONFIG } from '@/config/parser';
+import { SERVER_CONFIG } from '@/config/server';
 
-const { appTimeZone, appDateTimeFormat } = PARSER_CONFIG;
+const { appTimeZone, appDateTimeFormat } = SERVER_CONFIG;
 
 export const DATETIME = {
   monthNameFormat: 'yyyy-MM',

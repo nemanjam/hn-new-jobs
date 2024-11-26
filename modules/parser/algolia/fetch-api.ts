@@ -6,9 +6,9 @@ import KeyvFile from 'keyv-file';
 import { axiosRateLimitInstance } from '@/libs/axios';
 import { createNumberOfSecondsSincePreviousCall, getAppNow } from '@/libs/datetime';
 import logger from '@/libs/winston';
-import { PARSER_CONFIG } from '@/config/parser';
+import { SERVER_CONFIG } from '@/config/server';
 
-const { cacheFilePath, cacheTtlHours } = PARSER_CONFIG;
+const { cacheFilePath, cacheTtlHours } = SERVER_CONFIG;
 
 // disables cache for testing
 try {

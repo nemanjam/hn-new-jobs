@@ -10,18 +10,21 @@ const isProd = process.env.NODE_ENV === 'production';
 const dbSuffix = isProd ? 'prod' : 'dev';
 const databaseFileName = `hn-new-jobs-database-${dbSuffix}.sqlite3`;
 
-// todo: this is app config, not just parser, server, client
-
-export const PARSER_CONFIG = {
+export const SERVER_CONFIG = {
+  // api
   apiSecret: process.env.API_SECRET,
   nodeEnv: process.env.NODE_ENV,
+  // paths
   databaseFilePath: join(projectRootFolder, './data/database/', databaseFileName),
   cacheFilePath: join(projectRootFolder, './data/cache/', 'cache.json'),
   logFilePath: join(projectRootFolder, './data/logs/', 'app.html'),
-  cacheTtlHours: 1,
-  oldMonthsCount: 2, // one year
+  // cache
+  cacheTtlHours: 1, // todo: set this
+  // parser
+  oldMonthsCount: 12, // one year
+  // parser and logs
   appTimeZone: 'Europe/Belgrade',
   appDateTimeFormat: 'dd MMM yyyy HH:mm:ss', // 10 Nov 2024 15:45:30
 } as const;
 
-export const logConfig = () => logPrettyPrintObject(PARSER_CONFIG, 'PARSER_CONFIG');
+export const logConfig = () => logPrettyPrintObject(SERVER_CONFIG, 'SERVER_CONFIG');

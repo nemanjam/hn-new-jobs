@@ -2,14 +2,14 @@ import pretty from 'pretty';
 import winston, { format, transports } from 'winston';
 
 import { getAppNow, humanFormat } from '@/libs/datetime';
-import { PARSER_CONFIG } from '@/config/parser';
+import { SERVER_CONFIG } from '@/config/server';
 
 import type { Logform, Logger } from 'winston';
 
 const { combine, timestamp, colorize, printf } = format;
 
 // ! because of this cant be used in config
-const { nodeEnv, logFilePath } = PARSER_CONFIG;
+const { nodeEnv, logFilePath } = SERVER_CONFIG;
 
 const printContext = (meta: unknown, addNewline = true) =>
   meta && Object.keys(meta).length > 0

@@ -3,13 +3,13 @@ import { NextResponse } from 'next/server';
 import { callParseNewMonth, callParseNOldMonths, callParseOldMonth } from '@/modules/parser/calls';
 import logger from '@/libs/winston';
 import { SCRIPTS } from '@/constants/scripts';
-import { PARSER_CONFIG } from '@/config/parser';
+import { SERVER_CONFIG } from '@/config/server';
 
 import type { ErrorResponse, ParserResponse, ParserRouteParam } from '@/types/api';
 
 export const dynamic = 'force-dynamic';
 
-const { apiSecret } = PARSER_CONFIG;
+const { apiSecret } = SERVER_CONFIG;
 
 const scripts = Object.values(SCRIPTS);
 
