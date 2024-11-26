@@ -1,17 +1,17 @@
 # dev file
 
 services:
-  hn-parser-node:
-    container_name: hn-parser-node
+  hn-new-jobs:
+    container_name: hn-new-jobs
     restart: unless-stopped
-    image: nemanjamitic/hn-parser-node:latest
+    image: nemanjamitic/hn-new-jobs:latest
     build:
       context: .
       dockerfile: Dockerfile
       # args:
       #   - BUILDKIT_PROGRESS=plain
     env_file:
-      - .env.local
+      - .env
     ports:
       - '3007:3007'
     environment:
@@ -26,5 +26,5 @@ services:
 
 networks:
   default:
-    name: hn-parser-node-default
+    name: hn-new-jobs-default
     external: false

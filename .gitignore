@@ -25,12 +25,12 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env
 
 # turbo
 .turbo
 
 .contentlayer
-.env
 
 tsconfig.tsbuildinfo
 
@@ -44,8 +44,8 @@ data/database/*
 !data/database/.gitkeep
 !data/database/backup
 # enable seeding history
-# !data/database/hn-parser-node-database-prod.sqlite3
-!data/database/hn-parser-node-database-dev.sqlite3
+# !data/database/hn-new-jobs-database-prod.sqlite3
+!data/database/hn-new-jobs-database-dev.sqlite3
 
 # ignore app logs
 !data/logs

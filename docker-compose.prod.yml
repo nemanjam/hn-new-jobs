@@ -1,13 +1,13 @@
 # prod file
 
 services:
-  hn-parser-node:
-    container_name: hn-parser-node
+  hn-new-jobs:
+    container_name: hn-new-jobs
     restart: unless-stopped
-    image: nemanjamitic/hn-parser-node:latest
+    image: nemanjamitic/hn-new-jobs:latest
     # use single .env
     env_file:
-      - .env.local
+      - .env
     environment:
       - PORT=3007
     # fixes file permissions for volume
@@ -20,10 +20,10 @@ services:
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=proxy'
-      - 'traefik.http.routers.hn-parser-node-secure.rule=Host(`${SITE_HOSTNAME}`)'
-      - 'traefik.http.routers.hn-parser-node-secure.entrypoints=websecure'
-      - 'traefik.http.routers.hn-parser-node-secure.service=hn-parser-node-svc'
-      - 'traefik.http.services.hn-parser-node-svc.loadbalancer.server.port=3007'
+      - 'traefik.http.routers.hn-new-jobs-secure.rule=Host(`${SITE_HOSTNAME}`)'
+      - 'traefik.http.routers.hn-new-jobs-secure.entrypoints=websecure'
+      - 'traefik.http.routers.hn-new-jobs-secure.service=hn-new-jobs-svc'
+      - 'traefik.http.services.hn-new-jobs-svc.loadbalancer.server.port=3007'
 
 networks:
   proxy:

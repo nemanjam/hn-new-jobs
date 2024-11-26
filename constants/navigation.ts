@@ -23,7 +23,7 @@ export const NAVIGATION = {
     },
   ],
   right: {
-    github: 'https://github.com/nemanjam/hn-parser-node',
+    github: 'https://github.com/nemanjam/hn-new-jobs',
     author: 'https://github.com/nemanjam',
   },
 } as const;

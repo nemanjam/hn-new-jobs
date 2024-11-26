@@ -1,5 +1,5 @@
 {
-  "name": "hn-parser-node",
+  "name": "hn-new-jobs",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -22,8 +22,8 @@
     "dc:build": "DOCKER_BUILDKIT=0 docker compose build",
     "dc:up": "docker compose up -d",
     "dc:down": "docker compose down",
-    "docker:build:push:x86": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-parser-node --platform linux/amd64 .",
-    "docker:build:push:arm": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-parser-node --platform linux/arm64 --push ."
+    "docker:build:push:x86": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-new-jobs --platform linux/amd64 .",
+    "docker:build:push:arm": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-new-jobs --platform linux/arm64 --push ."
   },
   "dependencies": {
     "@radix-ui/react-scroll-area": "^1.2.1",

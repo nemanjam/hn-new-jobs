@@ -8,7 +8,7 @@ const projectRootFolder = process.cwd();
 const isProd = process.env.NODE_ENV === 'production';
 
 const dbSuffix = isProd ? 'prod' : 'dev';
-const databaseFileName = `hn-parser-node-database-${dbSuffix}.sqlite3`;
+const databaseFileName = `hn-new-jobs-database-${dbSuffix}.sqlite3`;
 
 // todo: this is app config, not just parser, server, client
 

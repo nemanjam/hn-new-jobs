@@ -42,10 +42,12 @@ comment table, company.name pk
 
         select control with months for new old companies list
         fix default sort and sort
-remove first time from new
+        remove first time companies from new
 rename graphs and transform files
 responsive styles
 metadata, og image, plausible, github action
+seed all months
+single .env
         originalIndex prop for order
         pass sort arg for pages
 AND in sql, js filter?
@@ -56,11 +58,11 @@ AND in sql, js filter?
 think new name
 winston logger files
         table pagination and initial sort
-tabela ima sort, samo initial column, nema potrebe za 2 db sort
+        tabela ima sort, samo initial column, nema potrebe za 2 db sort
         select control with months for histogram and table // ovo sad
 clean up layout divs
         move select from table to histogram
-stats db queries, number of companies and ads
+        stats db queries, number of companies and ads
 responsive table
         search company page
         responsive navbar, not perfect
