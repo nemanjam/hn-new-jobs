@@ -66,3 +66,5 @@ clean up layout divs
 responsive table
         search company page
         responsive navbar, not perfect
+split to client, server config
+
