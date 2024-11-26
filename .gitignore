@@ -43,9 +43,10 @@ data/cache/*
 data/database/*
 !data/database/.gitkeep
 !data/database/backup
-# enable seeding history
-# !data/database/hn-new-jobs-database-prod.sqlite3
 !data/database/hn-new-jobs-database-dev.sqlite3
+
+# never commit prod db, mount as volume
+# !data/database/hn-new-jobs-database-prod.sqlite3
 
 # ignore app logs
 !data/logs

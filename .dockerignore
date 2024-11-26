@@ -9,5 +9,7 @@ README.md
 .next
 .env*
 docs
-data/logs
+
+# exclude data folder, mounted as volume
+data
 
