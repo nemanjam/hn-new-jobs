@@ -67,3 +67,5 @@ responsive table
         search company page
         responsive navbar, not perfect
 split to client, server config
+add favicon
+fix responsive table, its just his html table without dependencies, both table and datatable
