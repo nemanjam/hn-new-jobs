@@ -11,5 +11,9 @@ README.md
 docs
 
 # exclude data folder, mounted as volume
-data
+!data
+data/*
+
+# include dev db to pass build
+!data/database/hn-new-jobs-database-dev.sqlite3
 

@@ -18,8 +18,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# connect to dev db in git to pass the build
-ENV NODE_ENV=development
+# rename dev db from git to prod just to pass the build
+RUN mv ./data/database/hn-new-jobs-database-dev.sqlite3 ./data/database/hn-new-jobs-database-prod.sqlite3
 RUN yarn build
 
 # Production image, copy all the files and run next
