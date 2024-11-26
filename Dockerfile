@@ -18,6 +18,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# connect to dev db in git to pass the build
+ENV NODE_ENV=development
 RUN yarn build
 
 # Production image, copy all the files and run next
