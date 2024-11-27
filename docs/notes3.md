@@ -70,3 +70,4 @@ split to client, server config
 add favicon
 fix responsive table, its just his html table without dependencies, both table and datatable
 static pages load 30mb - Single item size exceeds maxSize, api endpoints, react query
+prefer ssr for pages, call api in page

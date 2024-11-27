@@ -24,7 +24,7 @@ export interface ParserRouteParam {
     script: ScriptType;
   }>;
 }
-export interface BarChartRouteParam {
+export interface MonthQueryParam {
   params: Promise<{
     month: string;
   }>;

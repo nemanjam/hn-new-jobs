@@ -13,10 +13,33 @@ import {
   Statistics,
 } from '@/types/database';
 
-export const getMonthByName = (monthName: string): DbMonth | undefined => {
+export const getMonthByName = (monthName: string): DbMonth => {
   const month = db.prepare<string, DbMonth>(`SELECT * FROM month WHERE name = ?`).get(monthName);
 
-  return month;
+  return month!;
+};
+
+export const getPreviousMonth = (monthName: string): DbMonth => {
+  const currentMonth = getMonthByName(monthName);
+
+  // get the first older month
+  const previousMonth = db
+    .prepare<string, DbMonth>(`SELECT * FROM month WHERE name < ? ORDER BY name DESC LIMIT 1`)
+    .get(currentMonth.name)!;
+
+  return previousMonth;
+};
+
+export const getMonthPairByName = (monthName: string): MonthPair => {
+  const currentMonth = getMonthByName(monthName);
+  const previousMonth = getPreviousMonth(monthName);
+
+  const monthsPair: MonthPair = {
+    forMonth: currentMonth.name,
+    comparedToMonth: previousMonth.name,
+  };
+
+  return monthsPair;
 };
 
 export const getLastMonth = (): DbMonth | undefined => {
@@ -141,6 +164,13 @@ export const getNewOldCompaniesForTwoMonths = (
     oldCompanies,
     allCompanies,
   };
+};
+
+export const getNewOldCompaniesForMonth = (monthName: string): NewOldCompanies => {
+  const monthPair = getMonthPairByName(monthName);
+  const newOldCompanies = getNewOldCompaniesForTwoMonths(monthPair);
+
+  return newOldCompanies;
 };
 
 /** Compare the last two months. */

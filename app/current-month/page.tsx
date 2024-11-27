@@ -2,8 +2,8 @@ import { FC } from 'react';
 
 import CompaniesCommentsSection from '@/components/companies-comments-section';
 
+import { barChartSimpleData } from '@/modules/transform/bar-chart';
 import { companyTableData } from '@/modules/transform/companies';
-import { barChartSimpleData } from '@/modules/transform/this-month';
 
 const CurrentMonthPage: FC = () => {
   return (

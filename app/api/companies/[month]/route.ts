@@ -1,28 +1,30 @@
 import { NextResponse } from 'next/server';
 
-import { BarChartSimpleData } from '@/components/charts/bar-chart-simple';
+import { CompanyTableDataWithMonth } from '@/components/companies-comments-table';
 
 import { getNewOldCompaniesForMonth } from '@/modules/database/select';
-import { getBarChartSimpleData } from '@/modules/transform/bar-chart';
+import { getCompanyTableData } from '@/modules/transform/companies';
 import logger from '@/libs/winston';
 
 import type { ErrorResponse, MonthQueryParam } from '@/types/api';
 
 export const dynamic = 'force-dynamic';
 
+// todo: add table pagination
+
 export const GET = async (
   _request: Request,
   { params }: MonthQueryParam
-): Promise<NextResponse<BarChartSimpleData | ErrorResponse>> => {
+): Promise<NextResponse<CompanyTableDataWithMonth | ErrorResponse>> => {
   const { month } = await params;
 
   try {
     const newOldCompanies = getNewOldCompaniesForMonth(month);
-    const barChartSimpleData = getBarChartSimpleData(newOldCompanies.allCompanies);
+    const companyTableData = getCompanyTableData(newOldCompanies.allCompanies);
 
-    return NextResponse.json(barChartSimpleData);
+    return NextResponse.json(companyTableData);
   } catch (error) {
-    const message = 'Error selecting BarChartSimpleData';
+    const message = 'Error selecting CompanyTableDataWithMonth';
     logger.error(message, error);
     return NextResponse.json({ error: message }, { status: 400 });
   }
