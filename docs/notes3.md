@@ -71,3 +71,5 @@ add favicon
 fix responsive table, its just his html table without dependencies, both table and datatable
 static pages load 30mb - Single item size exceeds maxSize, api endpoints, react query
 prefer ssr for pages, call api in page
+isr static pages for every month with dynamic param // ssr enough
+all pages with params, like search // to
