@@ -16,8 +16,6 @@ const IndexPage: FC<Props> = async ({ params }) => {
   const { month } = await params; // array for [[...month]]
   const selectedMonth = month?.[0] ?? allMonths[0].name;
 
-  console.log('home month', month);
-
   const newOldCompanies = getNewOldCompaniesForMonth(selectedMonth);
 
   const { monthsCount, companiesCount, commentsCount } = statistics ?? {};

@@ -3,8 +3,8 @@ import { FC } from 'react';
 import CompaniesCommentsSection from '@/components/companies-comments-section';
 
 import { getAllMonths, getNewOldCompaniesForMonth } from '@/modules/database/select';
-import { barChartSimpleData, getBarChartSimpleData } from '@/modules/transform/bar-chart';
-import { companyTableData, getCompanyTableData } from '@/modules/transform/companies';
+import { getBarChartSimpleData } from '@/modules/transform/bar-chart';
+import { getCompanyTableData } from '@/modules/transform/companies';
 
 import { MonthQueryParam } from '@/types/api';
 
