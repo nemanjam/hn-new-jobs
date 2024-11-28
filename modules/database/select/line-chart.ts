@@ -43,7 +43,7 @@ const getNewOldCompaniesCountForTwoMonths = (monthPair: MonthPair): LineChartMul
       )
       .get(forMonth, comparedToMonth)?.count ?? 0;
 
-  const totalCompaniesCount =
+  const allCompaniesCount =
     db
       .prepare<[string], CountResult>(
         `SELECT COUNT(*) as count 
@@ -57,7 +57,7 @@ const getNewOldCompaniesCountForTwoMonths = (monthPair: MonthPair): LineChartMul
     firstTimeCompaniesCount,
     newCompaniesCount,
     oldCompaniesCount,
-    totalCompaniesCount,
+    allCompaniesCount,
   };
 };
 

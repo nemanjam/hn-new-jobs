@@ -51,8 +51,8 @@ const chartConfig = {
     label: 'Old companies',
     color: 'var(--chart-4)',
   },
-  totalCompaniesCount: {
-    label: 'Total companies',
+  allCompaniesCount: {
+    label: 'Total companies', // only label has word Total
     color: 'var(--chart-3)',
   },
 } satisfies ChartConfig;
@@ -106,7 +106,7 @@ const setUnit = (chartData: LineChartMultipleData[], yAxisUnit: string) => {
       firstTimeCompaniesCount,
       newCompaniesCount: newCompaniesCountOriginal,
       oldCompaniesCount,
-      totalCompaniesCount,
+      allCompaniesCount,
     } = month;
 
     // include first time companies in new companies only for graph
@@ -117,10 +117,10 @@ const setUnit = (chartData: LineChartMultipleData[], yAxisUnit: string) => {
     if (yAxisUnit === 'percentage') {
       resultMonth = {
         ...month,
-        firstTimeCompaniesCount: getPercentage(firstTimeCompaniesCount, totalCompaniesCount),
-        newCompaniesCount: getPercentage(newCompaniesCount, totalCompaniesCount),
-        oldCompaniesCount: getPercentage(oldCompaniesCount, totalCompaniesCount),
-        totalCompaniesCount: 100,
+        firstTimeCompaniesCount: getPercentage(firstTimeCompaniesCount, allCompaniesCount),
+        newCompaniesCount: getPercentage(newCompaniesCount, allCompaniesCount),
+        oldCompaniesCount: getPercentage(oldCompaniesCount, allCompaniesCount),
+        allCompaniesCount: 100,
       };
     }
 
@@ -266,9 +266,9 @@ const LineChartMultiple: FC<Props> = ({ chartData }) => {
               dot={false}
             />
             <Line
-              dataKey="totalCompaniesCount"
+              dataKey="allCompaniesCount"
               type="monotone"
-              stroke="var(--color-totalCompaniesCount)"
+              stroke="var(--color-allCompaniesCount)"
               strokeWidth={2}
               dot={false}
             />

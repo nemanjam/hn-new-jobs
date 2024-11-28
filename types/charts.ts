@@ -3,7 +3,7 @@ export interface LineChartMultipleData {
   firstTimeCompaniesCount: number;
   newCompaniesCount: number;
   oldCompaniesCount: number;
-  totalCompaniesCount: number; // todo: rename this
+  allCompaniesCount: number; // todo: rename this
 }
 
 export type RangeType = '1' | '2-3' | '4-5' | '6-7' | '8-12';
