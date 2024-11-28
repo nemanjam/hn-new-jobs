@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { TrendingUp } from 'lucide-react';
@@ -32,14 +32,8 @@ import {
 
 import { ROUTES } from '@/constants/navigation';
 
+import { BarChartSimpleDataItem } from '@/types/charts';
 import { DbMonth } from '@/types/database';
-
-export type RangeType = '1' | '2-3' | '4-5' | '6-7' | '8-12';
-
-export interface BarChartSimpleDataItem {
-  range: RangeType;
-  count: number;
-}
 
 export interface BarChartSimpleData {
   monthName: string;

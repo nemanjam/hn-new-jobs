@@ -4,6 +4,7 @@ import LineChartMultiple from '@/components/charts/line-chart-multiple';
 import NewOldCompaniesSection from '@/components/new-old-companies-section';
 
 import { getNewOldCompaniesForMonth } from '@/modules/database/select/company';
+import { getNewOldCompaniesCountForAllMonths } from '@/modules/database/select/line-chart';
 import { getAllMonths } from '@/modules/database/select/month';
 import { getStatistics } from '@/modules/database/select/statistics';
 
@@ -12,10 +13,13 @@ import { MonthQueryParam } from '@/types/website';
 export interface Props extends MonthQueryParam {}
 
 const IndexPage: FC<Props> = async ({ params }) => {
-  const allMonths = getAllMonths();
   const statistics = getStatistics();
+  const lineChartMultipleData = getNewOldCompaniesCountForAllMonths();
 
-  const { month } = await params; // array for [[...month]]
+  const allMonths = getAllMonths();
+
+  // array for [[...month]]
+  const { month } = await params;
   const selectedMonth = month?.[0] ?? allMonths[0].name;
 
   const newOldCompanies = getNewOldCompaniesForMonth(selectedMonth);
@@ -36,7 +40,7 @@ const IndexPage: FC<Props> = async ({ params }) => {
         </p>
       </div>
       <div className="flex flex-col gap-4">
-        {/* <LineChartMultiple chartData={lineChartMultipleData} /> */}
+        <LineChartMultiple chartData={lineChartMultipleData} />
         <NewOldCompaniesSection
           month={selectedMonth}
           allMonths={allMonths}

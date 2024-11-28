@@ -1,5 +1,3 @@
-// CompanyTable;
-
 import { CompanyTable } from '@/components/companies-comments-columns';
 import { CompanyTableDataWithMonth } from '@/components/companies-comments-table';
 

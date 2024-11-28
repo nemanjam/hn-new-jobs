@@ -31,15 +31,8 @@ import {
 
 import { convertMonthNameToDate } from '@/libs/datetime';
 
+import { LineChartMultipleData } from '@/types/charts';
 import { ValueUnion } from '@/types/utils';
-
-export interface LineChartMultipleData {
-  monthName: string;
-  firstTimeCompaniesCount: number;
-  newCompaniesCount: number;
-  oldCompaniesCount: number;
-  totalCompaniesCount: number; // todo: rename this
-}
 
 interface Props {
   chartData: LineChartMultipleData[];

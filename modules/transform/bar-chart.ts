@@ -1,11 +1,8 @@
-import {
-  BarChartSimpleData,
-  BarChartSimpleDataItem,
-  RangeType,
-} from '@/components/charts/bar-chart-simple';
+import { BarChartSimpleData } from '@/components/charts/bar-chart-simple';
 
 import { createOldMonthName } from '@/libs/datetime';
 
+import { BarChartSimpleDataItem, RangeType } from '@/types/charts';
 import { CompanyWithComments } from '@/types/database';
 
 // prerender once into variable in server code
