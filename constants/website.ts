@@ -3,7 +3,11 @@ export const WEBSITE = {
   // comment https://news.ycombinator.com/item?id=42048826
   threadOrCommentBaseUrl: 'https://news.ycombinator.com/item?id=',
   waitDebounceSearchInput: 300,
-  companySearchParam: 'company',
-  companySearchMinLength: 2, // >= 2
-  companySearchDefaultValue: '',
+  queryParams: {
+    search: {
+      name: 'company',
+      minLength: 2, // >= 2
+      defaultValue: '',
+    },
+  },
 } as const;

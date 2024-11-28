@@ -3,10 +3,21 @@ import { FC } from 'react';
 import LineChartMultiple from '@/components/charts/line-chart-multiple';
 import NewOldCompaniesSection from '@/components/new-old-companies-section';
 
-import { allNewOldCompanies, statistics } from '@/modules/transform/database';
-import { lineChartMultipleData } from '@/modules/transform/line-chart';
+import { getAllMonths, getNewOldCompaniesForMonth } from '@/modules/database/select';
+import { statistics } from '@/modules/transform/database';
 
-const IndexPage: FC = () => {
+import { MonthQueryParam } from '@/types/website';
+
+export interface Props extends MonthQueryParam {}
+
+const IndexPage: FC<Props> = async ({ params }) => {
+  const allMonths = getAllMonths();
+
+  const { month } = await params; // array for [[...month]]
+  const selectedMonth = month?.[0] ?? allMonths[0].name;
+
+  const newOldCompanies = getNewOldCompaniesForMonth(selectedMonth);
+
   const { monthsCount, companiesCount, commentsCount } = statistics ?? {};
   const statisticsText = statistics
     ? `${monthsCount} months, ${companiesCount} companies, ${commentsCount} job ads.`
@@ -23,8 +34,12 @@ const IndexPage: FC = () => {
         </p>
       </div>
       <div className="flex flex-col gap-4">
-        <LineChartMultiple chartData={lineChartMultipleData} />
-        <NewOldCompaniesSection allNewOldCompanies={allNewOldCompanies} />
+        {/* <LineChartMultiple chartData={lineChartMultipleData} /> */}
+        <NewOldCompaniesSection
+          month={selectedMonth}
+          allMonths={allMonths}
+          newOldCompanies={newOldCompanies}
+        />
       </div>
     </section>
   );

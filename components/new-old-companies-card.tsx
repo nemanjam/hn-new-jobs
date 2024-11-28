@@ -1,7 +1,8 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -13,40 +14,22 @@ import {
 } from '@/components/ui/select';
 
 import { getThreadOrCommentUrlFromId } from '@/utils/urls';
+import { ROUTES } from '@/constants/navigation';
 
-import { NewOldCompanies } from '@/types/database';
+import { DbMonth, NewOldCompanies } from '@/types/database';
 
 interface Props {
-  allNewOldCompanies: NewOldCompanies[];
-  setIndex: (index: number) => void;
+  newOldCompanies: NewOldCompanies;
+  month: string;
+  allMonths: DbMonth[];
 }
 
-export const initialIndex = 0 as const;
+const { home } = ROUTES;
 
-export const getIndex = (allNewOldCompanies: NewOldCompanies[], monthName: string): number => {
-  const index = allNewOldCompanies.findIndex(
-    (newOldCompanies) => newOldCompanies.forMonth.name === monthName
-  );
+const NewOldCompaniesCard: FC<Props> = ({ newOldCompanies, allMonths, month }) => {
+  const { replace } = useRouter();
 
-  return index !== -1 ? index : initialIndex;
-};
-
-export const getSelectMonthNames = (allNewOldCompanies: NewOldCompanies[]) =>
-  allNewOldCompanies.map((newOldCompanies) => newOldCompanies.forMonth.name);
-// .slice(0, 12); // limit if needed for performance
-
-const NewOldCompaniesCard: FC<Props> = ({ allNewOldCompanies, setIndex }) => {
-  const selectMonthNames = getSelectMonthNames(allNewOldCompanies);
-
-  const initialMonthName = selectMonthNames[initialIndex];
-  const [monthName, setMonthName] = useState<string>(initialMonthName);
-
-  const index = getIndex(allNewOldCompanies, monthName);
-  const newOldCompanies = allNewOldCompanies[index];
-
-  useEffect(() => {
-    if (setIndex) setIndex(index);
-  }, [setIndex, index]);
+  const selectMonthNames = allMonths.map((month) => month.name);
 
   const {
     firstTimeCompanies,
@@ -62,7 +45,7 @@ const NewOldCompaniesCard: FC<Props> = ({ allNewOldCompanies, setIndex }) => {
       <CardHeader className="flex flex-row justify-between items-center">
         <CardTitle>Month Statistics</CardTitle>
 
-        <Select value={monthName} onValueChange={(value) => setMonthName(value)}>
+        <Select value={month} onValueChange={(value) => replace(`${home}${value}`)}>
           <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto" aria-label="Select a value">
             <SelectValue placeholder="Last month" />
           </SelectTrigger>

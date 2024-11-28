@@ -2,7 +2,7 @@ import { NewOldCompanies } from '@/types/database';
 
 export const initialIndex = 0 as const;
 
-export const getNewOldCompaniesForMonth = (
+export const __getNewOldCompaniesForMonth = (
   allNewOldCompanies: NewOldCompanies[],
   monthName: string
 ): NewOldCompanies => {

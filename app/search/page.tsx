@@ -11,11 +11,12 @@ export interface Props {
   searchParams?: Promise<SearchParams>;
 }
 
-const { companySearchDefaultValue } = WEBSITE;
+const { queryParams } = WEBSITE;
+const { search } = queryParams;
 
 const SearchCompanyPage: FC<Props> = async (props) => {
   const searchParams = await props.searchParams;
-  const { company = companySearchDefaultValue } = searchParams ?? {};
+  const { company = search.defaultValue } = searchParams ?? {};
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">

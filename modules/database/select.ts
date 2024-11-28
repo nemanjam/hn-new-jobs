@@ -42,6 +42,12 @@ export const getMonthPairByName = (monthName: string): MonthPair => {
   return monthsPair;
 };
 
+export const getAllMonths = (): DbMonth[] => {
+  const allMonths = db.prepare<[], DbMonth>(`SELECT * FROM month ORDER BY name DESC`).all();
+
+  return allMonths;
+};
+
 export const getLastMonth = (): DbMonth | undefined => {
   const lastMonth = db.prepare<[], DbMonth>(`SELECT * FROM month ORDER BY name DESC LIMIT 1`).get();
 

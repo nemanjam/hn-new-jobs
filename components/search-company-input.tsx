@@ -9,7 +9,8 @@ import { Input } from '@/components/ui/input';
 
 import { WEBSITE } from '@/constants/website';
 
-const { waitDebounceSearchInput, companySearchParam } = WEBSITE;
+const { waitDebounceSearchInput, queryParams } = WEBSITE;
+const { search } = queryParams;
 
 const SearchCompanyInput: FC = () => {
   const searchParams = useSearchParams();
@@ -31,12 +32,12 @@ const SearchCompanyInput: FC = () => {
   const handleSearch = (event: ChangeEvent<HTMLInputElement>): void => {
     const value = event.target.value;
     // must not limit it here, to clear url state
-    updateParam(companySearchParam, value);
+    updateParam(search.name, value);
   };
 
   const debouncedHandleSearch = useDebouncedCallback(handleSearch, waitDebounceSearchInput);
 
-  const initialQuery = searchParams.get(companySearchParam)?.toString();
+  const initialQuery = searchParams.get(search.name)?.toString();
 
   return (
     <div>

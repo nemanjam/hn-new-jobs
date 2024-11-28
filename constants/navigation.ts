@@ -1,7 +1,7 @@
 export const ROUTES = {
   home: '/',
-  currentMonth: '/current-month/',
-  searchCompany: '/search-company/',
+  month: '/month/',
+  search: '/search/',
 } as const;
 
 export const NAVIGATION = {
@@ -13,12 +13,12 @@ export const NAVIGATION = {
     },
     {
       title: 'Month',
-      href: ROUTES.currentMonth,
+      href: ROUTES.month,
       external: false,
     },
     {
       title: 'Search',
-      href: ROUTES.searchCompany,
+      href: ROUTES.search,
       external: false,
     },
   ],
