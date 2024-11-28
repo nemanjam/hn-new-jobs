@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { TrendingUp } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from 'recharts';
@@ -29,6 +30,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
+import { ROUTES } from '@/constants/navigation';
+
+import { DbMonth } from '@/types/database';
+
 export type RangeType = '1' | '2-3' | '4-5' | '6-7' | '8-12';
 
 export interface BarChartSimpleDataItem {
@@ -42,8 +47,9 @@ export interface BarChartSimpleData {
 }
 
 interface Props {
-  chartsData: BarChartSimpleData[];
-  setIndex: (index: number) => void;
+  chartData: BarChartSimpleData;
+  month: string;
+  allMonths: DbMonth[];
 }
 
 const chartConfig = {
@@ -53,29 +59,10 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export const initialIndex = 0 as const;
+const BarChartSimple: FC<Props> = ({ chartData, allMonths, month }) => {
+  const { replace } = useRouter();
 
-export const getIndex = (chartsData: BarChartSimpleData[], monthName: string): number => {
-  const index = chartsData.findIndex((chartData) => chartData.monthName === monthName);
-
-  return index !== -1 ? index : initialIndex;
-};
-
-export const getSelectMonthNames = (chartsData: BarChartSimpleData[]) =>
-  chartsData.map((chartData) => chartData.monthName);
-
-const BarChartSimple: FC<Props> = ({ chartsData, setIndex }) => {
-  const selectMonthNames = getSelectMonthNames(chartsData);
-
-  const initialMonthName = selectMonthNames[initialIndex];
-  const [monthName, setMonthName] = useState<string>(initialMonthName);
-
-  const index = getIndex(chartsData, monthName);
-  const chartData = chartsData[index];
-
-  useEffect(() => {
-    if (setIndex) setIndex(index);
-  }, [setIndex, index]);
+  const selectMonthNames = allMonths.map((month) => month.name);
 
   return (
     <Card>
@@ -85,7 +72,7 @@ const BarChartSimple: FC<Props> = ({ chartsData, setIndex }) => {
           <CardDescription>January - June 2024</CardDescription>
         </div>
 
-        <Select value={monthName} onValueChange={(value) => setMonthName(value)}>
+        <Select value={month} onValueChange={(value) => replace(`${ROUTES.month}${value}`)}>
           <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto" aria-label="Select a value">
             <SelectValue placeholder="Last month" />
           </SelectTrigger>

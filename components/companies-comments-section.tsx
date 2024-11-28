@@ -1,5 +1,3 @@
-'use client';
-
 import { FC, useState } from 'react';
 
 import BarChartSimple, {
@@ -10,22 +8,27 @@ import CompaniesCommentsTable, {
   CompanyTableDataWithMonth,
 } from '@/components/companies-comments-table';
 
-// ! can't import allNewOldCompanies in client component, must pass as props
+import { DbMonth } from '@/types/database';
 
 interface Props {
-  tablesData: CompanyTableDataWithMonth[];
-  barChartSimpleData: BarChartSimpleData[];
+  tableData: CompanyTableDataWithMonth;
+  barChartSimpleData: BarChartSimpleData;
+  month: string;
+  allMonths: DbMonth[];
 }
 
-const CompaniesCommentsSection: FC<Props> = ({ tablesData, barChartSimpleData }) => {
-  const [index, setIndex] = useState<number>(initialIndex);
-
+const CompaniesCommentsSection: FC<Props> = ({
+  tableData,
+  barChartSimpleData,
+  month,
+  allMonths,
+}) => {
   return (
     <>
       <div className="mx-auto">
-        <BarChartSimple chartsData={barChartSimpleData} setIndex={setIndex} />
+        <BarChartSimple chartData={barChartSimpleData} allMonths={allMonths} month={month} />
       </div>
-      <CompaniesCommentsTable tableData={tablesData[index]} />
+      <CompaniesCommentsTable tableData={tableData} />
     </>
   );
 };
