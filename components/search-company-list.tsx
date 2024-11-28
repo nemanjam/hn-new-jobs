@@ -7,13 +7,12 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
 
-import { searchCompanyByName } from '@/modules/database/select';
+import { searchCompanyByName } from '@/modules/database/select/search';
 import { getThreadOrCommentUrlFromId, isCompanySearchMinLength } from '@/utils/urls';
 
 import { SearchParams } from '@/types/website';

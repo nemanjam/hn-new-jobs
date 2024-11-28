@@ -1,7 +1,5 @@
 import { LineChartMultipleData } from '@/components/charts/line-chart-multiple';
 
-import { allNewOldCompanies } from '@/modules/transform/database';
-
 import { NewOldCompanies } from '@/types/database';
 
 export const getLineChartMultipleData = (
@@ -20,5 +18,3 @@ export const getLineChartMultipleData = (
       };
     })
     .reverse();
-
-export const lineChartMultipleData = getLineChartMultipleData(allNewOldCompanies);

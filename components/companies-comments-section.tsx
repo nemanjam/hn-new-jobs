@@ -1,9 +1,6 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
-import BarChartSimple, {
-  BarChartSimpleData,
-  initialIndex,
-} from '@/components/charts/bar-chart-simple';
+import BarChartSimple, { BarChartSimpleData } from '@/components/charts/bar-chart-simple';
 import CompaniesCommentsTable, {
   CompanyTableDataWithMonth,
 } from '@/components/companies-comments-table';

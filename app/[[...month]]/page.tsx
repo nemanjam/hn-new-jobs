@@ -3,8 +3,9 @@ import { FC } from 'react';
 import LineChartMultiple from '@/components/charts/line-chart-multiple';
 import NewOldCompaniesSection from '@/components/new-old-companies-section';
 
-import { getAllMonths, getNewOldCompaniesForMonth } from '@/modules/database/select';
-import { statistics } from '@/modules/transform/database';
+import { getNewOldCompaniesForMonth } from '@/modules/database/select/company';
+import { getAllMonths } from '@/modules/database/select/month';
+import { getStatistics } from '@/modules/database/select/statistics';
 
 import { MonthQueryParam } from '@/types/website';
 
@@ -12,6 +13,7 @@ export interface Props extends MonthQueryParam {}
 
 const IndexPage: FC<Props> = async ({ params }) => {
   const allMonths = getAllMonths();
+  const statistics = getStatistics();
 
   const { month } = await params; // array for [[...month]]
   const selectedMonth = month?.[0] ?? allMonths[0].name;

@@ -1,5 +1,5 @@
 import { getAllMonths } from '@/modules/parser/algolia/threads';
-import { getFirstMonth } from '@/modules/database/select';
+import { getFirstMonth } from '@/modules/database/select/month';
 
 /** Always update latest month. */
 

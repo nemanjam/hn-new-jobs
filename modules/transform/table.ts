@@ -3,8 +3,7 @@
 import { CompanyTable } from '@/components/companies-comments-columns';
 import { CompanyTableDataWithMonth } from '@/components/companies-comments-table';
 
-import { getMonthByName } from '@/modules/database/select';
-import { allNewOldCompanies } from '@/modules/transform/database';
+import { getMonthByName } from '@/modules/database/select/month';
 
 import { CompanyWithComments } from '@/types/database';
 
@@ -28,8 +27,3 @@ export const getCompanyTableData = (
 
   return { month: { name, threadId }, data };
 };
-
-/** For all months. */
-export const companyTableData = allNewOldCompanies.map((newOldCompanies) =>
-  getCompanyTableData(newOldCompanies.allCompanies)
-);
