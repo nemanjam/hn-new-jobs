@@ -73,7 +73,7 @@ const NewOldCompaniesCard: FC<Props> = ({ newOldCompanies, allMonths, month }) =
           </SelectContent>
         </Select>
       </CardHeader>
-      <CardContent className="grid gap-6">
+      <CardContent className="flex flex-col gap-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-x-2">
             <span className="text-sm font-medium text-muted-foreground">For month</span>
