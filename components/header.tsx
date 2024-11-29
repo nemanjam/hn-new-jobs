@@ -22,7 +22,7 @@ const lgBreakpoint = parseInt(tailwindConfig?.theme?.screens?.lg);
 
 const Header: FC = () => {
   const segment = useSelectedLayoutSegment();
-  const pathSegment = !segment ? '/' : `/${segment}/`;
+  const pathSegment = !segment || segment?.startsWith('20') ? '/' : `/${segment}/`;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { width } = useWindowSize();

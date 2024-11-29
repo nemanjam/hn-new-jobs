@@ -56,7 +56,7 @@ const NewOldCompaniesCard: FC<Props> = ({ newOldCompanies, allMonths, month }) =
   }, []);
 
   return (
-    <Card className="w-full max-w-2xl">
+    <Card className="lg:w-1/2">
       <CardHeader className="flex flex-row justify-between items-center">
         <CardTitle>Month Statistics</CardTitle>
 
