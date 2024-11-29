@@ -1,6 +1,6 @@
 import { WEBSITE } from '@/constants/website';
 
-const { threadOrCommentBaseUrl, queryParams } = WEBSITE;
+const { threadOrCommentBaseUrl, queryParams, scrollPositionSessionStorageKey } = WEBSITE;
 const { search } = queryParams;
 
 export const getThreadOrCommentUrlFromId = (threadOrCommentId: string): string =>
@@ -8,3 +8,8 @@ export const getThreadOrCommentUrlFromId = (threadOrCommentId: string): string =
 
 export const isCompanySearchMinLength = (query: string): boolean =>
   query.length >= search.minLength;
+
+export const trimSlashes = (path: string) => path.replace(/^\/+|\/+$/g, '');
+
+export const getScrollPositionKey = (pathWithoutSlug: string) =>
+  `${scrollPositionSessionStorageKey}--${pathWithoutSlug}`;

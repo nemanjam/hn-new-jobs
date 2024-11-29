@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -12,9 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import useScrollRestoration from '@/hooks/useScrollRestoration';
 
-import { getThreadOrCommentUrlFromId } from '@/utils/urls';
+import { getScrollPositionKey, getThreadOrCommentUrlFromId } from '@/utils/urls';
 import { ROUTES } from '@/constants/navigation';
 
 import { DbMonth, NewOldCompanies } from '@/types/database';
@@ -27,9 +26,10 @@ interface Props {
 
 const { home } = ROUTES;
 
+const scrollPositionKey = getScrollPositionKey('root');
+
 const NewOldCompaniesCard: FC<Props> = ({ newOldCompanies, allMonths, month }) => {
   const { replace } = useRouter();
-  useScrollRestoration();
 
   const selectMonthNames = allMonths.map((month) => month.name);
 
@@ -42,12 +42,25 @@ const NewOldCompaniesCard: FC<Props> = ({ newOldCompanies, allMonths, month }) =
     comparedToMonth,
   } = newOldCompanies;
 
+  const handleSelect = (value: string) => {
+    sessionStorage.setItem(scrollPositionKey, window.scrollY.toString());
+    replace(`${home}${value}`);
+  };
+
+  useEffect(() => {
+    const savedPosition = sessionStorage.getItem(scrollPositionKey);
+    if (!savedPosition) return;
+
+    window.scrollTo(0, parseInt(savedPosition, 10));
+    sessionStorage.removeItem(scrollPositionKey);
+  }, []);
+
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader className="flex flex-row justify-between items-center">
         <CardTitle>Month Statistics</CardTitle>
 
-        <Select value={month} onValueChange={(value) => replace(`${home}${value}`)}>
+        <Select value={month} onValueChange={handleSelect}>
           <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto" aria-label="Select a value">
             <SelectValue placeholder="Last month" />
           </SelectTrigger>

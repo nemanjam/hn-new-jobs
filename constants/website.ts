@@ -10,5 +10,5 @@ export const WEBSITE = {
       defaultValue: '',
     },
   },
-  scrollPositionSessionStorageKey: 'scrollPosition',
+  scrollPositionSessionStorageKey: 'scroll-position',
 } as const;

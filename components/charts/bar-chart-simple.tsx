@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { TrendingUp } from 'lucide-react';
@@ -29,8 +29,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import useScrollRestoration from '@/hooks/useScrollRestoration';
 
+import { getScrollPositionKey } from '@/utils/urls';
 import { ROUTES } from '@/constants/navigation';
 
 import { BarChartSimpleDataItem } from '@/types/charts';
@@ -54,9 +54,25 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+// important to have key per page
+const scrollPositionKey = getScrollPositionKey('month');
+
 const BarChartSimple: FC<Props> = ({ chartData, allMonths, month }) => {
   const { replace } = useRouter();
-  useScrollRestoration();
+
+  const handleSelect = (value: string) => {
+    // important to set key onSelect event
+    sessionStorage.setItem(scrollPositionKey, window.scrollY.toString());
+    replace(`${ROUTES.month}${value}`);
+  };
+
+  useEffect(() => {
+    const savedPosition = sessionStorage.getItem(scrollPositionKey);
+    if (!savedPosition) return;
+
+    window.scrollTo(0, parseInt(savedPosition, 10));
+    sessionStorage.removeItem(scrollPositionKey);
+  }, []);
 
   const selectMonthNames = allMonths.map((month) => month.name);
 
@@ -68,7 +84,7 @@ const BarChartSimple: FC<Props> = ({ chartData, allMonths, month }) => {
           <CardDescription>January - June 2024</CardDescription>
         </div>
 
-        <Select value={month} onValueChange={(value) => replace(`${ROUTES.month}${value}`)}>
+        <Select value={month} onValueChange={handleSelect}>
           <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto" aria-label="Select a value">
             <SelectValue placeholder="Last month" />
           </SelectTrigger>
