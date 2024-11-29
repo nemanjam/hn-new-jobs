@@ -1,17 +1,15 @@
 import { Metadata } from 'next';
 
+import Footer from '@/components/footer';
 import Header from '@/components/header';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 import { ThemeProvider } from '@/components/theme-provider';
 
 import { fontSans } from '@/libs/fonts';
 import { cn } from '@/utils/styles';
+import { METADATA } from '@/constants/metadata';
 
 import '@/styles/globals.css';
-
-import Footer from '@/components/footer';
-
-import { METADATA } from '@/constants/metadata';
 
 const { title, description } = METADATA;
 
@@ -23,7 +21,7 @@ export const metadata: Metadata = {
   description,
   icons: {
     icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
+    shortcut: '/favicon-96x96.png',
     apple: '/apple-touch-icon.png',
   },
 };
