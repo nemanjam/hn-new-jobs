@@ -26,7 +26,7 @@ const IndexPage: FC<Props> = async ({ params }) => {
 
   const { monthsCount, companiesCount, commentsCount } = statistics ?? {};
   const statisticsText = statistics
-    ? `${monthsCount} months, ${companiesCount} companies, ${commentsCount} jobs.`
+    ? `${monthsCount} months, ${companiesCount} companies, ${commentsCount} jobs`
     : '';
 
   return (

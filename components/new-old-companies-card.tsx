@@ -56,7 +56,7 @@ const NewOldCompaniesCard: FC<Props> = ({ newOldCompanies, allMonths, month }) =
   }, []);
 
   return (
-    <Card className="lg:w-1/2">
+    <Card className="lg:w-1/2 flex flex-col">
       <CardHeader className="flex flex-row justify-between items-center">
         <CardTitle>Month Statistics</CardTitle>
 
@@ -73,7 +73,7 @@ const NewOldCompaniesCard: FC<Props> = ({ newOldCompanies, allMonths, month }) =
           </SelectContent>
         </Select>
       </CardHeader>
-      <CardContent className="flex flex-col gap-6">
+      <CardContent className="grow flex flex-col gap-6 justify-end">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-x-2">
             <span className="text-sm font-medium text-muted-foreground">For month</span>
