@@ -22,9 +22,7 @@ const CompaniesCommentsSection: FC<Props> = ({
 }) => {
   return (
     <>
-      <div className="mx-auto">
-        <BarChartSimple chartData={barChartSimpleData} allMonths={allMonths} month={month} />
-      </div>
+      <BarChartSimple chartData={barChartSimpleData} allMonths={allMonths} month={month} />
       <CompaniesCommentsTable tableData={tableData} />
     </>
   );

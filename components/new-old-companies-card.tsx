@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import useScrollRestoration from '@/hooks/useScrollRestoration';
 
 import { getThreadOrCommentUrlFromId } from '@/utils/urls';
 import { ROUTES } from '@/constants/navigation';
@@ -28,6 +29,7 @@ const { home } = ROUTES;
 
 const NewOldCompaniesCard: FC<Props> = ({ newOldCompanies, allMonths, month }) => {
   const { replace } = useRouter();
+  useScrollRestoration();
 
   const selectMonthNames = allMonths.map((month) => month.name);
 

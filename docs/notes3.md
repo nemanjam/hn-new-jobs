@@ -73,3 +73,4 @@ static pages load 30mb - Single item size exceeds maxSize, api endpoints, react 
 prefer ssr for pages, call api in page
 isr static pages for every month with dynamic param // ssr enough
 all pages with params, like search // to
+responsive table

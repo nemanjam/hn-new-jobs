@@ -29,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import useScrollRestoration from '@/hooks/useScrollRestoration';
 
 import { ROUTES } from '@/constants/navigation';
 
@@ -55,11 +56,12 @@ const chartConfig = {
 
 const BarChartSimple: FC<Props> = ({ chartData, allMonths, month }) => {
   const { replace } = useRouter();
+  useScrollRestoration();
 
   const selectMonthNames = allMonths.map((month) => month.name);
 
   return (
-    <Card>
+    <Card className="self-start">
       <CardHeader className="flex flex-row justify-between items-center gap-4">
         <div>
           <CardTitle>Companies by ads</CardTitle>

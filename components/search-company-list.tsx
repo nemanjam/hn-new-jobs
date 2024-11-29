@@ -31,7 +31,9 @@ const SearchCompanyList: FC<Props> = ({ company }) => {
     <>
       {hasCompanies ? (
         <>
-          <p className="mb-6">Number of hits: {companiesWithComments.length}</p>
+          <p className="text-sm text-muted-foreground">
+            Query: {company}, number of hits: {companiesWithComments.length}
+          </p>
 
           <Table>
             <TableCaption>Search result for: {company}</TableCaption>

@@ -22,8 +22,8 @@ const CurrentMonthPage: FC<Props> = async ({ params }) => {
   const barChartSimpleData = getBarChartSimpleData(newOldCompanies.allCompanies);
 
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[980px] flex-col items-start gap-2">
+    <section className="container pb-8 pt-6 md:py-10">
+      <div className="flex max-w-[980px] flex-col items-start gap-2 mb-6">
         <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
           Current month&apos;s companies
         </h1>
@@ -31,7 +31,7 @@ const CurrentMonthPage: FC<Props> = async ({ params }) => {
           New - old companies statistics for the current month.
         </p>
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-6">
         <CompaniesCommentsSection
           barChartSimpleData={barChartSimpleData}
           tableData={companyTableData}

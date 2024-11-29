@@ -10,4 +10,5 @@ export const WEBSITE = {
       defaultValue: '',
     },
   },
+  scrollPositionSessionStorageKey: 'scrollPosition',
 } as const;

@@ -26,20 +26,25 @@ const IndexPage: FC<Props> = async ({ params }) => {
 
   const { monthsCount, companiesCount, commentsCount } = statistics ?? {};
   const statisticsText = statistics
-    ? `${monthsCount} months, ${companiesCount} companies, ${commentsCount} job ads.`
+    ? `${monthsCount} months, ${companiesCount} companies, ${commentsCount} jobs.`
     : '';
 
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[980px] flex-col items-start gap-2">
+    <section className="container pb-8 pt-6 md:py-10">
+      <div className="flex max-w-[980px] flex-col items-start gap-2 mb-6">
         <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
           Hackernews new jobs
+          {statisticsText && (
+            <small className="relative -top-4 align-baseline text-muted-foreground text-base font-semibold ml-2">
+              {statisticsText}
+            </small>
+          )}
         </h1>
         <p className="text-lg text-muted-foreground flex gap-2">
-          First time, new and old job ads for every month through the history. {statisticsText}
+          New and repeated job ads for every month through the history.
         </p>
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-6">
         <LineChartMultiple chartData={lineChartMultipleData} />
         <NewOldCompaniesSection
           month={selectedMonth}
