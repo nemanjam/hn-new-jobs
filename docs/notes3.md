@@ -85,5 +85,6 @@ body responsive font size
         fix active nav item for home page slug
 ------
 responsive bar chart flex
-remove container and set padding, layout
+        remove container and set padding, layout
 legend beside barchart
+        search database count query

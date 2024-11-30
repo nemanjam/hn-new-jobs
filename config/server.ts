@@ -25,6 +25,8 @@ export const SERVER_CONFIG = {
   // parser and logs
   appTimeZone: 'Europe/Belgrade',
   appDateTimeFormat: 'dd MMM yyyy HH:mm:ss', // 10 Nov 2024 15:45:30
+  // database
+  searchCompaniesLimit: 10,
 } as const;
 
 export const logConfig = () => logPrettyPrintObject(SERVER_CONFIG, 'SERVER_CONFIG');

@@ -72,3 +72,8 @@ export interface Statistics {
   commentsCount: number;
   companiesCount: number;
 }
+
+export interface SearchCompaniesResult {
+  companies: CompanyWithComments[];
+  hitsCount: number;
+}
