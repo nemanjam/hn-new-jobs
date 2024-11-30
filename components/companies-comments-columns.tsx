@@ -58,11 +58,7 @@ export const columns: ColumnDef<CompanyTable>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => (
-      <div className="text-center">
-        <Badge variant="secondary">{row.getValue('commentsCount')}</Badge>
-      </div>
-    ),
+    cell: ({ row }) => <>{row.getValue('commentsCount')}</>,
   },
   {
     accessorKey: 'comments',

@@ -35,29 +35,30 @@ const SearchCompanyList: FC<Props> = ({ company }) => {
             Query: {company}, number of hits: {companiesWithComments.length}
           </p>
 
-          <Table>
-            <TableCaption>Search result for: {company}</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Company</TableHead>
+          <Table className="block md:table">
+            <TableHeader className="block md:table-header-group">
+              <TableRow className="block md:table-row">
+                <TableHead className="w-[100px] pl-0">Company</TableHead>
                 <TableHead>Number of ads</TableHead>
-                <TableHead>Ads</TableHead>
+                <TableHead className="pr-0">Ads</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="block md:table-row-group">
               {limitedCompaniesWithComments.map((companyWithComments) => {
                 const { company, comments } = companyWithComments;
                 const { name, commentId } = company;
 
                 return (
-                  <TableRow key={commentId}>
-                    <TableCell className="font-medium">
+                  <TableRow key={commentId} className="block md:table-row">
+                    <TableCell className="font-medium block md:table-cell px-0 md:pr-4 pb-3 md:pb-4">
                       <Link href={getThreadOrCommentUrlFromId(commentId)} target="_blank">
                         {name}
                       </Link>
                     </TableCell>
-                    <TableCell>{comments.length}</TableCell>
-                    <TableCell className="flex gap-1 flex-wrap">
+                    <TableCell className="block md:table-cell px-0 py-3 md:p-4">
+                      {comments.length}
+                    </TableCell>
+                    <TableCell className="flex gap-1 flex-wrap px-0 md:pl-4 pt-3 md:pt-4">
                       {comments.map((comment) => {
                         const { commentId, monthName } = comment;
 

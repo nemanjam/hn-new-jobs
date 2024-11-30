@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import Link from 'next/link';
 
 import {
@@ -80,10 +80,10 @@ const CompaniesCommentsTable: FC<Props> = ({ tableData }) => {
           {month.name}
         </Link>
       </div>
-      <Table>
-        <TableHeader>
+      <Table className="block md:table">
+        <TableHeader className="block md:table-header-group">
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id} className="block md:table-row">
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id}>
@@ -96,15 +96,24 @@ const CompaniesCommentsTable: FC<Props> = ({ tableData }) => {
             </TableRow>
           ))}
         </TableHeader>
-        <TableBody>
+        <TableBody className="block md:table-row-group">
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && 'selected'}
+                className="block md:table-row"
+              >
+                {row.getVisibleCells().map((cell) => {
+                  return (
+                    <TableCell
+                      key={cell.id}
+                      className="align-top block md:table-cell py-3 first:pt-4 last:pb-4 md:py-4"
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  );
+                })}
               </TableRow>
             ))
           ) : (
