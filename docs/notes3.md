@@ -74,7 +74,7 @@ fix responsive table, its just his html table without dependencies, both table a
         isr static pages for every month with dynamic param // ssr enough
         all pages with params, like search // to
 ----
-responsive table
+        responsive table
 plausible
 og image, meta, favicon
 seed database for entire history
@@ -82,4 +82,8 @@ setup and test cron
 winston
 theme second click
 body responsive font size
-fiz active nav item for home page slug
+        fix active nav item for home page slug
+------
+responsive bar chart flex
+remove container and set padding, layout
+legend beside barchart

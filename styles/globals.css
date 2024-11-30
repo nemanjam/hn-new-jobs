@@ -110,4 +110,7 @@
     @apply focus:text-links-hover focus:underline;
     @apply active:text-links-hover active:underline;
   }
+  .my-container {
+    @apply max-w-screen-xl w-full px-4 md:px-8 2xl:px-0 md:mx-auto;
+  }
 }
