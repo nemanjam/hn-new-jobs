@@ -13,23 +13,18 @@ export const searchCompanyByName = (name: string): SearchCompaniesResult => {
 
   if (!isCompanySearchMinLength(name)) return emptyResult;
 
-  const hitsCount =
-    db
-      .prepare<
-        [string],
-        { count: number }
-      >(`SELECT COUNT(DISTINCT name) AS count FROM company WHERE name LIKE ?`)
-      .get(searchParam)?.count ?? 0;
-
-  if (!(hitsCount > 0)) return emptyResult;
-
-  const companies = db
+  const allCompanies = db
     .prepare<
-      [string, number],
+      [string],
       CompanyWithCommentsAsStrings
-    >(withCommentsQuery(`SELECT c1.* FROM company AS c1 WHERE name LIKE ? GROUP BY c1.name LIMIT ?`, 'commentsCount'))
-    .all(searchParam, searchCompaniesLimit)
+    >(withCommentsQuery(`SELECT c1.* FROM company AS c1 WHERE name LIKE ? GROUP BY c1.name`, 'commentsCount'))
+    .all(searchParam)
     .map(convertCompanyRowType);
+
+  const hitsCount = allCompanies.length;
+
+  // important: must use slice for correct sorting by commentsCount to take entire set
+  const companies = allCompanies.slice(0, searchCompaniesLimit);
 
   const searchResult = { hitsCount, companies };
 

@@ -1,5 +1,7 @@
 import { fetchApi } from '@/modules/parser/algolia/fetch-api';
 import { convertDateToMonthName } from '@/libs/datetime';
+import logger from '@/libs/winston';
+import { getDuplicatedArrayItems, getUniqueArray } from '@/utils/array';
 import { ALGOLIA } from '@/constants/algolia';
 
 import { APost, ASearch } from '@/types/algolia';
@@ -59,5 +61,18 @@ export const getThreads = async (): Promise<DbMonthInsert[]> => {
   return threads;
 };
 /** Just project strings. Reused in few places. */
-export const getAllMonths = async (): Promise<string[]> =>
-  getThreads().then((threads) => threads.map((thread) => thread.name));
+export const getAllMonths = async (): Promise<string[]> => {
+  const threads = await getThreads();
+  const monthNames = threads.map((thread) => thread.name);
+
+  // const duplicatedMonthNames = getDuplicatedArrayItems(monthNames);
+  // logger.info('duplicatedMonthNames:', duplicatedMonthNames);
+  // "0": "2020-03", "1": "2014-06", "2": "2013-01"
+
+  // important, to skip same subsequent months, e.g. '2020-03'
+  const uniqueMonthNames = getUniqueArray(monthNames);
+
+  // first thread, manually '2011-03'
+
+  return uniqueMonthNames;
+};

@@ -89,3 +89,8 @@ responsive bar chart flex
 legend beside barchart
         search database count query
 table column width
+search isnt sorted by comments count
+first month, last month statistics
+fix ! | undefined in database
+trim first month for exception for previous month
+before '2015-07' didnt use | separators for regex

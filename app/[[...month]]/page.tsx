@@ -25,9 +25,12 @@ const IndexPage: FC<Props> = async ({ params }) => {
 
   const newOldCompanies = getNewOldCompaniesForMonth(selectedMonth);
 
-  const { monthsCount, companiesCount, commentsCount } = statistics ?? {};
+  const { monthsCount, companiesCount, commentsCount, firstMonth, lastMonth } = statistics ?? {
+    firstMonth: {},
+    lastMonth: {},
+  };
   const statisticsText = statistics
-    ? `${monthsCount} months, ${companiesCount} companies, ${commentsCount} jobs`
+    ? `${monthsCount} months, ${companiesCount} companies, ${commentsCount} jobs, from ${firstMonth.name}, to ${lastMonth.name}`
     : '';
 
   return (

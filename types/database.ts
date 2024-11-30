@@ -71,6 +71,8 @@ export interface Statistics {
   monthsCount: number;
   commentsCount: number;
   companiesCount: number;
+  firstMonth: DbMonth;
+  lastMonth: DbMonth;
 }
 
 export interface SearchCompaniesResult {

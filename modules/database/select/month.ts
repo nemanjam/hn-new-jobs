@@ -37,15 +37,15 @@ export const getAllMonths = (): DbMonth[] => {
   return allMonths;
 };
 
-export const getLastMonth = (): DbMonth | undefined => {
+export const getLastMonth = (): DbMonth => {
   const lastMonth = db.prepare<[], DbMonth>(`SELECT * FROM month ORDER BY name DESC LIMIT 1`).get();
 
-  return lastMonth;
+  return lastMonth!;
 };
 
-export const getFirstMonth = (): DbMonth | undefined => {
+export const getFirstMonth = (): DbMonth => {
   // SELECT name FROM month projects just name, but still returns object { name }
   const firstMonth = db.prepare<[], DbMonth>(`SELECT * FROM month ORDER BY name ASC LIMIT 1`).get();
 
-  return firstMonth;
+  return firstMonth!;
 };
