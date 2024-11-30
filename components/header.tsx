@@ -37,7 +37,7 @@ const Header: FC = () => {
 
   return (
     <header className="bg-background sticky top-0 z-40 w-full border-b">
-      <div className="container flex h-16 items-center justify-between px-4">
+      <div className="my-container flex h-16 items-center justify-between">
         <div className="flex gap-10">
           <Link href="/" className="flex items-center space-x-2">
             <BriefcaseBusiness className="size-6" />

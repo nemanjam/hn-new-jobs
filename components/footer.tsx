@@ -11,7 +11,7 @@ const Footer: FC = () => {
   return (
     <footer>
       <Separator />
-      <div className="container p-6">
+      <div className="my-container py-6">
         <div className="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
           <p className="flex gap-2 text-sm text-muted-foreground">
             <span>© 2024</span>
