@@ -29,7 +29,7 @@ const CurrentMonthPage: FC<Props> = async ({ params }) => {
         title="Current month"
         subTitle="New and old companies statistics for the current month."
       />
-      <BarChartSimple chartData={barChartSimpleData} allMonths={allMonths} month={month} />
+      <BarChartSimple chartData={barChartSimpleData} allMonths={allMonths} month={selectedMonth} />
       <CompaniesCommentsTable tableData={companyTableData} />
     </article>
   );

@@ -88,3 +88,4 @@ responsive bar chart flex
         remove container and set padding, layout
 legend beside barchart
         search database count query
+table column width
