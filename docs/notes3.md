@@ -94,3 +94,4 @@ first month, last month statistics
 fix ! | undefined in database
 trim first month for exception for previous month
 before '2015-07' didnt use | separators for regex
+cache line-chart result
