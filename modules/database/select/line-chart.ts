@@ -63,8 +63,8 @@ export const getNewOldCompaniesCountForAllMonths = (): LineChartMultipleData[] =
     SELECT 
         om.currentMonth AS monthName,
         ftc.firstTimeCompaniesCount,
-        nc.newCompaniesCount,
-        oc.oldCompaniesCount,
+        COALESCE(nc.newCompaniesCount, 0) AS newCompaniesCount,
+        COALESCE(oc.oldCompaniesCount, 0) AS oldCompaniesCount,
         ac.allCompaniesCount
     FROM OrderedMonths om
     LEFT JOIN FirstTimeCompanies ftc ON om.currentMonth = ftc.monthName
