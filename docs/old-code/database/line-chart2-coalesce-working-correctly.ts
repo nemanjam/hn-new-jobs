@@ -1,17 +1,13 @@
 import { db } from '@/modules/database/schema';
-import { getFirstMonth, getLastMonth } from './month';
 
 import { LineChartMultipleData } from '@/types/charts';
 
 export const getNewOldCompaniesCountForAllMonths = (): LineChartMultipleData[] => {
-  const firstMonth = getFirstMonth();
-  const lastMonth = getLastMonth();
-
   const query = `
     WITH OrderedMonths AS (
         SELECT 
             name AS currentMonth,
-            LAG(name) OVER (ORDER BY name DESC) AS previousMonth
+            LAG(name) OVER (ORDER BY name ASC) AS previousMonth
         FROM month
     ),
     FirstTimeCompanies AS (
@@ -67,16 +63,15 @@ export const getNewOldCompaniesCountForAllMonths = (): LineChartMultipleData[] =
     SELECT 
         om.currentMonth AS monthName,
         ftc.firstTimeCompaniesCount,
-        nc.newCompaniesCount,
-        oc.oldCompaniesCount,
+        COALESCE(nc.newCompaniesCount, 0) AS newCompaniesCount,
+        COALESCE(oc.oldCompaniesCount, 0) AS oldCompaniesCount,
         ac.allCompaniesCount
     FROM OrderedMonths om
     LEFT JOIN FirstTimeCompanies ftc ON om.currentMonth = ftc.monthName
     LEFT JOIN NewCompanies nc ON om.currentMonth = nc.monthName
     LEFT JOIN OldCompanies oc ON om.currentMonth = oc.monthName
     LEFT JOIN AllCompanies ac ON om.currentMonth = ac.monthName
-    WHERE om.previousMonth IS NOT NULL
-    ORDER BY om.currentMonth ASC;  -- Reversed order (ascending month)
+    ORDER BY om.currentMonth ASC;  -- affects only final order, reverse on server, right in db for graph to consume 
 `;
 
   const result = db.prepare<[], LineChartMultipleData>(query).all();

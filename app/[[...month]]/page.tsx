@@ -5,7 +5,7 @@ import Heading from '@/components/heading';
 import NewOldCompaniesSection from '@/components/new-old-companies-section';
 
 import { getNewOldCompaniesForMonth } from '@/modules/database/select/company';
-import { getNewOldCompaniesCountForAllMonths } from '@/modules/database/select/line-chart2';
+import { getNewOldCompaniesCountForAllMonths } from '@/modules/database/select/line-chart';
 import { getAllMonths } from '@/modules/database/select/month';
 import { getStatistics } from '@/modules/database/select/statistics';
 
