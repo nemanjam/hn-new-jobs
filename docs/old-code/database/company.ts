@@ -100,10 +100,66 @@ export const getNewOldCompaniesForTwoMonths = (
   };
 };
 
-/** Only this is used per month. */
 export const getNewOldCompaniesForMonth = (monthName: string): NewOldCompanies => {
   const monthPair = getMonthPairByName(monthName);
   const newOldCompanies = getNewOldCompaniesForTwoMonths(monthPair);
 
   return newOldCompanies;
+};
+
+/** Compare the last two months. */
+
+export const getNewOldCompaniesForLastTwoMonths = (sortBy?: SortBy): NewOldCompanies => {
+  const lastTwoMonths = db
+    .prepare<[], Pick<DbMonth, 'name'>>(`SELECT name FROM month ORDER BY name DESC LIMIT 2`)
+    .all();
+
+  const monthsPair: MonthPair = {
+    forMonth: lastTwoMonths[0].name,
+    comparedToMonth: lastTwoMonths[1].name,
+  };
+
+  return getNewOldCompaniesForTwoMonths(monthsPair, sortBy);
+};
+
+/** Compare range of subsequent month pairs. For pagination. */
+
+export const getNewOldCompaniesForFromToSubsequentMonths = (
+  monthRange: MonthRange,
+  sortBy?: SortBy
+): NewOldCompanies[] => {
+  //
+  // fromMonth 2024-11, toMonth 2023-06
+  const { fromMonth, toMonth } = monthRange;
+
+  const subsequentMonths = db
+    .prepare<
+      [string, string],
+      Pick<DbMonth, 'name'>
+    >(`SELECT name FROM month WHERE name <= ? AND name >= ? ORDER BY name DESC`)
+    .all(fromMonth, toMonth);
+
+  const comparisons = subsequentMonths.slice(0, -1).map((month, index) => {
+    const subsequentMonthsPair = {
+      forMonth: month.name,
+      comparedToMonth: subsequentMonths[index + 1].name,
+    };
+    return getNewOldCompaniesForTwoMonths(subsequentMonthsPair, sortBy);
+  });
+
+  return comparisons;
+};
+
+// this will override sort
+export const getNewOldCompaniesForAllMonths = (sortBy?: SortBy): NewOldCompanies[] => {
+  const firstMonth = getFirstMonth();
+  const lastMonth = getLastMonth();
+
+  // go backwards
+  const monthRange: MonthRange = {
+    fromMonth: lastMonth!.name,
+    toMonth: firstMonth!.name,
+  };
+
+  return getNewOldCompaniesForFromToSubsequentMonths(monthRange, sortBy);
 };
