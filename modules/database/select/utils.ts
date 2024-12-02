@@ -34,6 +34,7 @@ export const withCommentsQuery = (innerQuery: string, sortBy: SortBy): string =>
       dc.commentId,
       dc.monthName,
       dc.createdAt,
+      dc.createdAtOriginal,
       dc.updatedAt,
       json_group_array(
         json_object(
@@ -41,6 +42,7 @@ export const withCommentsQuery = (innerQuery: string, sortBy: SortBy): string =>
           'monthName', dc.monthName,
           'commentId', dc.commentId,
           'createdAt', dc.createdAt,
+          'createdAtOriginal', dc.createdAtOriginal,
           'updatedAt', dc.updatedAt
         ) ORDER BY dc.monthName DESC  -- sorts comments
       ) AS comments,

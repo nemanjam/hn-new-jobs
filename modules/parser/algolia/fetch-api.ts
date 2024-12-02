@@ -1,23 +1,10 @@
-import fs from 'fs';
-
-import Keyv from 'keyv';
-import KeyvFile from 'keyv-file';
-
 import { axiosRateLimitInstance } from '@/libs/axios';
 import { createNumberOfSecondsSincePreviousCall, getAppNow } from '@/libs/datetime';
+import { cacheHttp } from '@/libs/keyv';
 import logger from '@/libs/winston';
 import { SERVER_CONFIG } from '@/config/server';
 
-const { cacheFilePath, cacheTtlHours } = SERVER_CONFIG;
-
-// disables cache for testing
-try {
-  // fs.unlinkSync(cacheFilePath);
-} catch (error) {}
-
-const cache = new Keyv({
-  store: new KeyvFile({ filename: cacheFilePath }),
-});
+const { cacheHttpTtlHours } = SERVER_CONFIG;
 
 const secondsAgo = createNumberOfSecondsSincePreviousCall();
 
@@ -25,7 +12,7 @@ export const fetchApi = async <T>(url: string): Promise<T> => {
   // no try catch, use interceptor
 
   // check cache
-  const cachedContent = await cache.get<T>(url);
+  const cachedContent = await cacheHttp.get<T>(url);
   if (cachedContent) {
     logger.info(`Cache hit, url: ${url}`);
     return cachedContent;
@@ -43,7 +30,7 @@ export const fetchApi = async <T>(url: string): Promise<T> => {
   );
 
   // cache
-  await cache.set(url, apiResponse, cacheTtlHours * 60 * 60 * 1000); // pass as arg
+  await cacheHttp.set(url, apiResponse, cacheHttpTtlHours * 60 * 60 * 1000); // pass as arg
 
   return apiResponse;
 };

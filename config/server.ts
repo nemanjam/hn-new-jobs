@@ -16,10 +16,12 @@ export const SERVER_CONFIG = {
   nodeEnv: process.env.NODE_ENV,
   // paths
   databaseFilePath: join(projectRootFolder, './data/database/', databaseFileName),
-  cacheFilePath: join(projectRootFolder, './data/cache/', 'cache.json'),
+  cacheHttpFilePath: join(projectRootFolder, './data/cache/', 'cache-http.json'),
+  cacheDatabaseFilePath: join(projectRootFolder, './data/cache/', 'cache-database.json'),
   logFilePath: join(projectRootFolder, './data/logs/', 'app.html'),
   // cache
-  cacheTtlHours: 1, // todo: set this
+  cacheHttpTtlHours: 1, // todo: set this
+  cacheDatabaseDisabled: false, // for debugging
   // parser
   oldMonthsCount: 12, // one year
   // parser and logs

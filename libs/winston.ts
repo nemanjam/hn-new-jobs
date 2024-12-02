@@ -67,6 +67,7 @@ const prodLogger: Logger = winston.createLogger({
     new transports.File({
       filename: logFilePath,
       format: combine(timestampWithTimezone, htmlFormat),
+      maxFiles: 2,
       /**
        * 1 line - 30 bytes
        * 1 page - 3kB

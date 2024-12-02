@@ -1,7 +1,6 @@
 import { fetchApi } from '@/modules/parser/algolia/fetch-api';
 import { convertDateToMonthName } from '@/libs/datetime';
-import logger from '@/libs/winston';
-import { getDuplicatedArrayItems, getUniqueArray } from '@/utils/array';
+import { getUniqueArray } from '@/utils/array';
 import { ALGOLIA } from '@/constants/algolia';
 
 import { APost, ASearch } from '@/types/algolia';

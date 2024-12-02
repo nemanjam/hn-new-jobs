@@ -1,20 +1,12 @@
 import { db } from '@/modules/database/schema';
-import {
-  getFirstMonth,
-  getLastMonth,
-  getMonthByName,
-  getMonthPairByName,
-} from '@/modules/database/select/month';
+import { getMonthByName, getMonthPairByName } from '@/modules/database/select/month';
 import { convertCompanyRowType, withCommentsQuery } from '@/modules/database/select/utils';
+import { cacheDatabaseWrapper } from '@/libs/keyv';
+import { CACHE_KEYS_DATABASE } from '@/constants/cache';
 
-import {
-  CompanyWithCommentsAsStrings,
-  DbMonth,
-  MonthPair,
-  MonthRange,
-  NewOldCompanies,
-  SortBy,
-} from '@/types/database';
+import { CompanyWithCommentsAsStrings, MonthPair, NewOldCompanies, SortBy } from '@/types/database';
+
+const { getNewOldCompaniesForMonthCacheKey } = CACHE_KEYS_DATABASE;
 
 /** Compare two specific months by name. */
 
@@ -107,3 +99,6 @@ export const getNewOldCompaniesForMonth = (monthName: string): NewOldCompanies =
 
   return newOldCompanies;
 };
+
+export const getNewOldCompaniesForMonthCached = (monthName: string) =>
+  cacheDatabaseWrapper(getNewOldCompaniesForMonthCacheKey, getNewOldCompaniesForMonth, monthName);
