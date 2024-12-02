@@ -38,5 +38,8 @@ export const cacheDatabaseWrapper = async <T, A extends any[]>(
   return dbResult;
 };
 
+export const getDynamicCacheKey = (key: string, param: string): string =>
+  Boolean(param) ? `${key}--${param}` : key;
+
 // clear all db cache keys on new month
 // await cacheDatabase.clear();

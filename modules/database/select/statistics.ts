@@ -7,7 +7,7 @@ import { Statistics } from '@/types/database';
 
 const { getStatisticsCacheKey } = CACHE_KEYS_DATABASE;
 
-export const getStatistics = (): Statistics | undefined => {
+export const getStatistics = (): Statistics => {
   const counts = db
     .prepare<[], Statistics>(
       `SELECT

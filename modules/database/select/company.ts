@@ -1,7 +1,7 @@
 import { db } from '@/modules/database/schema';
 import { getMonthByName, getMonthPairByName } from '@/modules/database/select/month';
 import { convertCompanyRowType, withCommentsQuery } from '@/modules/database/select/utils';
-import { cacheDatabaseWrapper } from '@/libs/keyv';
+import { cacheDatabaseWrapper, getDynamicCacheKey } from '@/libs/keyv';
 import { CACHE_KEYS_DATABASE } from '@/constants/cache';
 
 import { CompanyWithCommentsAsStrings, MonthPair, NewOldCompanies, SortBy } from '@/types/database';
@@ -101,4 +101,8 @@ export const getNewOldCompaniesForMonth = (monthName: string): NewOldCompanies =
 };
 
 export const getNewOldCompaniesForMonthCached = (monthName: string) =>
-  cacheDatabaseWrapper(getNewOldCompaniesForMonthCacheKey, getNewOldCompaniesForMonth, monthName);
+  cacheDatabaseWrapper(
+    getDynamicCacheKey(getNewOldCompaniesForMonthCacheKey, monthName),
+    getNewOldCompaniesForMonth,
+    monthName
+  );
