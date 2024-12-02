@@ -2,6 +2,7 @@ import { parseCompaniesForThread } from '@/modules/parser/algolia/comments';
 import { getThreads } from '@/modules/parser/algolia/threads';
 import { getNewMonthName, getOldMonthName } from '@/modules/parser/months';
 import { saveMonth } from '@/modules/database/insert';
+import logger from '@/libs/winston';
 import { ALGOLIA } from '@/constants/algolia';
 
 import { DbCompanyInsert, DbMonthInsert } from '@/types/database';
@@ -28,10 +29,17 @@ export const parseMonth = async (monthName: string): Promise<ParserResult> => {
   const companies: DbCompanyInsert[] = await parseCompaniesForThread(thread.threadId);
 
   // '2024-12' >= '2015-06'
-  if (!(thread.name >= oldestUsefulMonth))
-    throw new Error(
-      `oldestUsefulMonth: ${oldestUsefulMonth} reached, thread.name: ${thread.name}.`
-    );
+  if (!(thread.name >= oldestUsefulMonth)) {
+    logger.warn(`oldestUsefulMonth: ${oldestUsefulMonth} reached, thread.name: ${thread.name}.`);
+
+    const parserResult: ParserResult = {
+      numberOfRowsAffected: 0,
+      month: thread.name,
+      threadId: thread.threadId,
+      isOldestUsefulMonth: true,
+    };
+    return parserResult;
+  }
 
   const numberOfRowsAffected = saveMonth(thread, companies);
 
@@ -60,6 +68,8 @@ export const parseNOldMonths = async (count: number): Promise<ParserResult[]> =>
   for (let i = 0; i < count; i++) {
     const parserResult = await parseOldMonth();
     parserResults.push(parserResult);
+
+    if (parserResult.isOldestUsefulMonth) return parserResults;
   }
 
   return parserResults;

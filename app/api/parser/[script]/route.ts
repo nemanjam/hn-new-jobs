@@ -54,6 +54,10 @@ export const GET = async (
         const parserResponse: ParserResponse = await callParseNOldMonths();
         return NextResponse.json(parserResponse);
       }
+      default: {
+        logger.error('Not allowed script triggered.', script);
+        return NextResponse.json({ error: 'Not allowed.' }, { status: 401 });
+      }
     }
   } catch (error) {
     logger.error('Parsing failed.', error);
