@@ -16,9 +16,10 @@ const { appTimeZone, appDateTimeFormat } = SERVER_CONFIG;
 export const DATETIME = {
   monthNameFormat: 'yyyy-MM',
   sanFranciscoTimeZone: 'America/Los_Angeles',
+  monthNameRegex: /^\d{4}-\d{2}$/,
 } as const;
 
-const { monthNameFormat, sanFranciscoTimeZone } = DATETIME;
+const { monthNameFormat, sanFranciscoTimeZone, monthNameRegex } = DATETIME;
 
 /**
  * Format to 'YYYY-MM'.
@@ -87,3 +88,6 @@ export const createOldMonthName = (monthName: string, monthsAgo: number): string
   const previousDate = subMonths(date, monthsAgo);
   return format(previousDate, monthNameFormat);
 };
+
+/** Used only in db to validate for delete. */
+export const isValidMonthName = (monthName: string): boolean => monthNameRegex.test(monthName);

@@ -3,8 +3,9 @@ export const ALGOLIA = {
     threadsBaseUrl: 'https://hn.algolia.com/api/v1/search_by_date?tags=story,author_whoishiring',
     hasHiringRegex: /hiring/i,
     hitsPerPageMax: 1000,
+    /** included in db */
+    oldestUsefulMonth: '2015-06',
   },
-  thread: {},
   comments: {
     // https://hn.algolia.com/api/v1/search_by_date?tags=comment,story_42017580
     threadBaseUrl: 'https://hn.algolia.com/api/v1/search_by_date?tags=comment,story_',

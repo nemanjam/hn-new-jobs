@@ -8,7 +8,7 @@ const { databaseFilePath } = SERVER_CONFIG;
 
 export const db: Database = new BetterSqlite3(databaseFilePath);
 
-// todo: must invalidate cache for updatedAt
+db.exec('PRAGMA foreign_keys = ON;');
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS month (
@@ -27,6 +27,6 @@ db.exec(`
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP, 
     PRIMARY KEY (name, monthName),
-    FOREIGN KEY (monthName) REFERENCES month(name)
+    FOREIGN KEY (monthName) REFERENCES month(name) ON DELETE CASCADE
   );
 `);

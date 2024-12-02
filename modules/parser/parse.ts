@@ -2,9 +2,13 @@ import { parseCompaniesForThread } from '@/modules/parser/algolia/comments';
 import { getThreads } from '@/modules/parser/algolia/threads';
 import { getNewMonthName, getOldMonthName } from '@/modules/parser/months';
 import { saveMonth } from '@/modules/database/insert';
+import { ALGOLIA } from '@/constants/algolia';
 
 import { DbCompanyInsert, DbMonthInsert } from '@/types/database';
 import { ParserResult } from '@/types/parser';
+
+const { threads } = ALGOLIA;
+const { oldestUsefulMonth } = threads;
 
 /** Thread === DbMonthInsert */
 
@@ -22,6 +26,12 @@ export const getThreadFromMonthName = async (monthName: string): Promise<DbMonth
 export const parseMonth = async (monthName: string): Promise<ParserResult> => {
   const thread: DbMonthInsert = await getThreadFromMonthName(monthName);
   const companies: DbCompanyInsert[] = await parseCompaniesForThread(thread.threadId);
+
+  // '2024-12' >= '2015-06'
+  if (!(thread.name >= oldestUsefulMonth))
+    throw new Error(
+      `oldestUsefulMonth: ${oldestUsefulMonth} reached, thread.name: ${thread.name}.`
+    );
 
   const numberOfRowsAffected = saveMonth(thread, companies);
 

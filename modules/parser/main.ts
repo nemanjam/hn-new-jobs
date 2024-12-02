@@ -1,7 +1,9 @@
 import { callParseNewMonth, callParseNOldMonths, callParseOldMonth } from '@/modules/parser/calls';
+import { deleteMonthsAndCompaniesOlderThanMonth } from '@/modules/database/delete';
 import logger from '@/libs/winston';
 import { SCRIPTS } from '@/constants/scripts';
 import { SERVER_CONFIG } from '@/config/server';
+import { getStatistics } from '../database/select/statistics';
 
 import { ParserResponse, ScriptType } from '@/types/api';
 
@@ -25,6 +27,15 @@ const main = async (script: ScriptType) => {
       // PARSER_CONFIG.oldMonthsCount = 12
       const parserResponse: ParserResponse = await callParseNOldMonths();
       logger.info('main.ts script', parserResponse);
+      break;
+    }
+    case SCRIPTS.trimOld: {
+      const statisticsBefore = getStatistics();
+      const rowsCount = deleteMonthsAndCompaniesOlderThanMonth();
+      const statisticsAfter = getStatistics();
+
+      const context = { rowsCount, statisticsBefore, statisticsAfter };
+      logger.info('main.ts script, deleted rows:', context);
       break;
     }
   }

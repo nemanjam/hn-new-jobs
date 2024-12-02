@@ -89,10 +89,25 @@ responsive bar chart flex
 legend beside barchart
         search database count query
 table column width
-search isnt sorted by comments count
-first month, last month statistics
+        search isnt sorted by comments count
+        first month, last month statistics
 fix ! | undefined in database
-trim first month for exception for previous month
-before '2015-07' didnt use | separators for regex
+        trim first month for exception for previous month // done in database
+        before '2015-07' didnt use | separators for regex
 cache line-chart result
 add caching for db
+        oldestMonthLimit constant
+
+fix parse new month cron
+
+151361Z INFO 02 Dec 2024 09:00:06 - axiosRateLimitInstance call, Mon Dec 02 2024 09:00:06 GMT+0000 (Coordinated Universal Time), 2 seconds after previous
+
+2024-12-02T08:00:09.298939752Z ERROR 02 Dec 2024 09:00:09 - Parsing new month failed. UNIQUE constraint failed: company.commentId
+
+2024-12-02T08:00:09.298983913Z LOG_CONTEXT: {
+
+2024-12-02T08:00:09.298989273Z   "code": "SQLITE_CONSTRAINT_UNIQUE",
+
+2024-12-02T08:00:09.298997913Z   "stack": "SqliteError: UNIQUE constraint failed: company.commentId\n    at /app/.next/server/chunks/549.js:12:219\n    at sqliteTransaction (/app/node_modules/better-sqlite3/lib/methods/transaction.js:65:24)\n    at a (/app/.next/server/chunks/549.js:12:299)\n    at p (/app/.next/server/chunks/549.js:31:4099)\n    at async u (/app/.next/server/chunks/549.js:31:4181)\n    at async l (/app/.next/server/chunks/549.js:31:2869)\n    at async s.schedule.name [as _execution] (/app/.next/server/chunks/549.js:31:5063)"
+
+2024-12-02T08:00:09.299005033Z }
