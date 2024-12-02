@@ -9,16 +9,20 @@ import type { RunResult } from 'better-sqlite3';
  */
 
 export const saveMonth = (month: DbMonthInsert, companies: DbCompanyInsert[]): number => {
+  // upsert only updatedAt for both month and company
+
   const upsertMonth = db.prepare<[string, string, string], RunResult>(
     `INSERT INTO month (name, threadId, createdAtOriginal)
        VALUES (?, ?, ?)
-       ON CONFLICT(name) DO UPDATE SET updatedAt = CURRENT_TIMESTAMP`
+       ON CONFLICT(name) DO UPDATE SET updatedAt = CURRENT_TIMESTAMP
+       ON CONFLICT(threadId) DO UPDATE SET updatedAt = CURRENT_TIMESTAMP`
   );
 
   const upsertCompany = db.prepare<[string, string, string, string], RunResult>(
     `INSERT INTO company (name, commentId, createdAtOriginal, monthName)
        VALUES (?, ?, ?, ?)
-       ON CONFLICT(name, monthName) DO UPDATE SET updatedAt = CURRENT_TIMESTAMP`
+       ON CONFLICT(name, monthName) DO UPDATE SET updatedAt = CURRENT_TIMESTAMP
+       ON CONFLICT(commentId) DO UPDATE SET updatedAt = CURRENT_TIMESTAMP`
   );
 
   let numberOfRowsAffected = 0;
