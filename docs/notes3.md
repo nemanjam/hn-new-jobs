@@ -105,4 +105,10 @@ fix ! | undefined in database, handle exceptions in calls
 
 extract cache wrapper from fetch-api
 zod env vars
-clear cache files
+clear cache files content
+
+        link to latest post, sort by new comment
+        only newOldCompanies.allCompanies is sorted...
+        ROW_NUMBER() OVER (PARTITION BY c1.commentId ORDER BY c1.createdAtOriginal DESC) as rn // za distinct
+        // important: get latest comment for correct link, db query is fine
+        const { name, commentId } = comments[0];

@@ -10,9 +10,10 @@ import { NewOldCompanies } from '@/types/database';
 
 interface Props {
   newOldCompanies: NewOldCompanies;
+  month: string;
 }
 
-const NewOldCompaniesList: FC<Props> = ({ newOldCompanies }) => {
+const NewOldCompaniesList: FC<Props> = ({ newOldCompanies, month }) => {
   const { firstTimeCompanies, newCompanies, oldCompanies } = newOldCompanies;
 
   const sections = [
@@ -34,12 +35,20 @@ const NewOldCompaniesList: FC<Props> = ({ newOldCompanies }) => {
           <CardContent>
             <div className="flex flex-wrap gap-3">
               {section.companies.map((companyWithComments) => {
-                const { company, comments } = companyWithComments;
-                const { name, commentId } = company;
+                // ! must pass month from select
+                // ! must do this in database
+                const { comments } = companyWithComments;
+
+                // find comment for exact monthName, or fallback to latest month
+                const monthComment =
+                  comments.find((comment) => comment.monthName === month) ?? comments[0];
+
+                // important: get latest comment for EXACT MONTH for correct link, db query is fine
+                const { name, commentId } = monthComment;
 
                 return (
                   <Badge
-                    key={company.commentId}
+                    key={commentId}
                     variant="secondary"
                     className="hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
                   >

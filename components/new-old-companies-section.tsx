@@ -23,7 +23,7 @@ const NewOldCompaniesSection: FC<Props> = ({ newOldCompanies, allMonths, month }
         />
         <NewOldCompaniesLegend />
       </div>
-      <NewOldCompaniesList newOldCompanies={newOldCompanies} />
+      <NewOldCompaniesList month={month} newOldCompanies={newOldCompanies} />
     </>
   );
 };
