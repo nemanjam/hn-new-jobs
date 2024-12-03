@@ -99,3 +99,11 @@ add caching for db
         oldestMonthLimit constant
         fix parse new month cron, on conflict upsert
 
+let db;
+function getDbConnection() {
+  if (db) db.close();
+  db = require('better-sqlite3')('database.sqlite');
+  return db;
+}
+
+reconnect db after parse new month

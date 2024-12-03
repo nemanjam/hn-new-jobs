@@ -21,7 +21,7 @@ export const SERVER_CONFIG = {
   logFilePath: join(projectRootFolder, './data/logs/', 'app.html'),
   // cache
   cacheHttpTtlHours: 1, // todo: set this
-  cacheDatabaseDisabled: false, // for debugging
+  cacheDatabaseDisabled: true, // for debugging
   // parser
   oldMonthsCount: 12, // one year
   // parser and logs

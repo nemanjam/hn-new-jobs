@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { callParseNewMonth, callParseNOldMonths, callParseOldMonth } from '@/modules/parser/calls';
+import { getLastMonth } from '@/modules/database/select/month';
 import logger from '@/libs/winston';
 import { SCRIPTS } from '@/constants/scripts';
 import { SERVER_CONFIG } from '@/config/server';
@@ -40,14 +41,25 @@ export const GET = async (
     return NextResponse.json({ error: 'Invalid route param.' }, { status: 400 });
   }
 
+  const lastMonth = getLastMonth();
+  console.log('lastMonth before call: ', lastMonth);
+
   try {
     switch (script) {
       case SCRIPTS.parseNew: {
         const parserResponse: ParserResponse = await callParseNewMonth();
+
+        const lastMonth = getLastMonth();
+        console.log('lastMonth after call: ', lastMonth);
+
         return NextResponse.json(parserResponse);
       }
       case SCRIPTS.parseOld: {
         const parserResponse: ParserResponse = await callParseOldMonth();
+
+        const lastMonth = getLastMonth();
+        console.log('lastMonth after call: ', lastMonth);
+
         return NextResponse.json(parserResponse);
       }
       case SCRIPTS.parseOldMany: {
