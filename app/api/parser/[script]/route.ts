@@ -41,25 +41,14 @@ export const GET = async (
     return NextResponse.json({ error: 'Invalid route param.' }, { status: 400 });
   }
 
-  const lastMonth = getLastMonth();
-  console.log('lastMonth before call: ', lastMonth);
-
   try {
     switch (script) {
       case SCRIPTS.parseNew: {
         const parserResponse: ParserResponse = await callParseNewMonth();
-
-        const lastMonth = getLastMonth();
-        console.log('lastMonth after call: ', lastMonth);
-
         return NextResponse.json(parserResponse);
       }
       case SCRIPTS.parseOld: {
         const parserResponse: ParserResponse = await callParseOldMonth();
-
-        const lastMonth = getLastMonth();
-        console.log('lastMonth after call: ', lastMonth);
-
         return NextResponse.json(parserResponse);
       }
       case SCRIPTS.parseOldMany: {

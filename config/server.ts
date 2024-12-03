@@ -14,14 +14,14 @@ export const SERVER_CONFIG = {
   // api
   apiSecret: process.env.API_SECRET,
   nodeEnv: process.env.NODE_ENV,
+  cacheDatabaseDisabled: process.env.CACHE_DATABASE_DISABLED === 'true', // for debugging
   // paths
   databaseFilePath: join(projectRootFolder, './data/database/', databaseFileName),
   cacheHttpFilePath: join(projectRootFolder, './data/cache/', 'cache-http.json'),
   cacheDatabaseFilePath: join(projectRootFolder, './data/cache/', 'cache-database.json'),
   logFilePath: join(projectRootFolder, './data/logs/', 'app.html'),
   // cache
-  cacheHttpTtlHours: 1, // todo: set this
-  cacheDatabaseDisabled: true, // for debugging
+  cacheHttpTtlMinutes: 5, // one old-many call
   // parser
   oldMonthsCount: 12, // one year
   // parser and logs

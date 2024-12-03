@@ -6,7 +6,7 @@ import NewOldCompaniesSection from '@/components/new-old-companies-section';
 
 import { getNewOldCompaniesForMonthCached } from '@/modules/database/select/company';
 import { getNewOldCompaniesCountForAllMonthsCached } from '@/modules/database/select/line-chart';
-import { getAllMonths, getLastMonth } from '@/modules/database/select/month';
+import { getAllMonths } from '@/modules/database/select/month';
 import { getStatisticsCached } from '@/modules/database/select/statistics';
 
 import { MonthQueryParam } from '@/types/website';
@@ -16,9 +16,6 @@ export interface Props extends MonthQueryParam {}
 const IndexPage: FC<Props> = async ({ params }) => {
   const statistics = await getStatisticsCached();
   const lineChartMultipleData = await getNewOldCompaniesCountForAllMonthsCached();
-
-  const lastMonth1 = getLastMonth();
-  console.log('in home page, lastMonth1 after call: ', lastMonth1);
 
   const allMonths = getAllMonths();
 
@@ -51,8 +48,6 @@ const IndexPage: FC<Props> = async ({ params }) => {
         }
         subTitle="New and repeated job ads for every month through the history."
       />
-      <span>lastMonth1: </span>
-      <pre>{JSON.stringify(lastMonth1, null, 2)}</pre>
       <LineChartMultiple chartData={lineChartMultipleData} />
       <NewOldCompaniesSection
         month={selectedMonth}

@@ -4,7 +4,7 @@ import { cacheHttp } from '@/libs/keyv';
 import logger from '@/libs/winston';
 import { SERVER_CONFIG } from '@/config/server';
 
-const { cacheHttpTtlHours } = SERVER_CONFIG;
+const { cacheHttpTtlMinutes } = SERVER_CONFIG;
 
 const secondsAgo = createNumberOfSecondsSincePreviousCall();
 
@@ -30,7 +30,7 @@ export const fetchApi = async <T>(url: string): Promise<T> => {
   );
 
   // cache
-  await cacheHttp.set(url, apiResponse, cacheHttpTtlHours * 60 * 60 * 1000); // pass as arg
+  await cacheHttp.set(url, apiResponse, cacheHttpTtlMinutes * 60 * 1000); // pass as arg
 
   return apiResponse;
 };

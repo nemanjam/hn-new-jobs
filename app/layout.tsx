@@ -11,6 +11,9 @@ import { METADATA } from '@/constants/metadata';
 
 import '@/styles/globals.css';
 
+// single in layout is enough for all pages
+export const dynamic = 'force-dynamic';
+
 const { title, description } = METADATA;
 
 export const metadata: Metadata = {

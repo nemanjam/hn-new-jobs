@@ -99,11 +99,11 @@ add caching for db
         oldestMonthLimit constant
         fix parse new month cron, on conflict upsert
 
-let db;
-function getDbConnection() {
-  if (db) db.close();
-  db = require('better-sqlite3')('database.sqlite');
-  return db;
-}
+sqlite db volume is updating, next.js ssg was caching for cached db calls // eto
+in app/layout.tsx
+export const dynamic = 'force-dynamic';
+
 
 reconnect db after parse new month
+extract cache wrapper from fetch-api
+zod env vars

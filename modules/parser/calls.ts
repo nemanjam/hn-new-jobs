@@ -1,5 +1,6 @@
 import { parseNewMonth, parseNOldMonths, parseOldMonth } from '@/modules/parser/parse';
 import { getAppNow } from '@/libs/datetime';
+import { cacheDatabase } from '@/libs/keyv';
 import { SERVER_CONFIG } from '@/config/server';
 
 import { ParserResponse } from '@/types/api';
@@ -25,6 +26,9 @@ export const callParseNewMonth = async (): Promise<ParserResponse> => {
     parserResults: [parserResult],
   };
 
+  // ! invalidate cache here, for cli, api, scheduler
+  await cacheDatabase.clear();
+
   return parserResponse;
 };
 
@@ -36,6 +40,8 @@ export const callParseOldMonth = async (): Promise<ParserResponse> => {
     parserResults: [parserResult],
   };
 
+  await cacheDatabase.clear();
+
   return parserResponse;
 };
 
@@ -46,6 +52,8 @@ export const callParseNOldMonths = async (): Promise<ParserResponse> => {
     parserResults,
     parseMessage: `Parsing ${parserResults.length} old months successful, now: ${getAppNow()}.`,
   };
+
+  await cacheDatabase.clear();
 
   return parserResponse;
 };
