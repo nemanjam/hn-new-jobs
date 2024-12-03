@@ -15,6 +15,8 @@ const { oldMonthsCount } = SERVER_CONFIG;
  * app/api/parser/[script]/route.ts
  * modules/parser/main.ts
  *
+ * ! invalidate all database keys here, for scheduler, api, cli
+ *
  * These can throw.
  */
 
@@ -26,7 +28,6 @@ export const callParseNewMonth = async (): Promise<ParserResponse> => {
     parserResults: [parserResult],
   };
 
-  // ! invalidate cache here, for cli, api, scheduler
   await cacheDatabase.clear();
 
   return parserResponse;

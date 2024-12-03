@@ -77,7 +77,7 @@ fix responsive table, its just his html table without dependencies, both table a
         responsive table
 plausible
 og image, meta, favicon
-seed database for entire history
+        seed database for entire history
 setup and test cron
 winston
 theme second click
@@ -91,19 +91,18 @@ legend beside barchart
 table column width
         search isnt sorted by comments count
         first month, last month statistics
-fix ! | undefined in database
+fix ! | undefined in database, handle exceptions in calls
         trim first month for exception for previous month // done in database
         before '2015-07' didnt use | separators for regex
-cache line-chart result
-add caching for db
+        cache line-chart result
+        add caching for db
         oldestMonthLimit constant
         fix parse new month cron, on conflict upsert
 
-sqlite db volume is updating, next.js ssg was caching for cached db calls // eto
-in app/layout.tsx
-export const dynamic = 'force-dynamic';
+        sqlite db volume is updating, next.js ssg was caching for cached db calls // eto
+        in app/layout.tsx
+        export const dynamic = 'force-dynamic';
 
-
-reconnect db after parse new month
 extract cache wrapper from fetch-api
 zod env vars
+clear cache files
