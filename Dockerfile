@@ -42,6 +42,7 @@ RUN chown nextjs:nodejs .next /app/data
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# only folder structure
 COPY --from=builder --chown=nextjs:nodejs /app/data /app/data
 
 USER nextjs

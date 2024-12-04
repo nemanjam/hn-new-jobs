@@ -79,7 +79,7 @@ plausible
 og image, meta, favicon
         seed database for entire history
 setup and test cron
-winston
+winston, only console logger for prod
 theme second click
 body responsive font size
         fix active nav item for home page slug
@@ -112,3 +112,10 @@ clear cache files content
         FROM SelectedCompanies sc 
         INNER JOIN DistinctComments dc
         ON sc.name = dc.name -- restore original SelectedCompanies instance for month
+
+        database, cache, axios singletons, remove db connection from dockerfile
+plausible partytown
+backup database
+line chart colors
+charts on mobile, paddings
+close navbar on resize, add hook
