@@ -1,4 +1,13 @@
-import { CompanyWithComments, CompanyWithCommentsAsStrings, DbCompany } from '@/types/database';
+import { SORT_COMPANIES_BY } from '@/constants/database';
+
+import {
+  CompanyWithComments,
+  CompanyWithCommentsAsStrings,
+  DbCompany,
+  SortCompaniesBy,
+} from '@/types/database';
+
+const { createdAtOriginal } = SORT_COMPANIES_BY;
 
 // this was in js filter
 export const compareCompanies = (company1: DbCompany, company2: DbCompany): boolean => {
@@ -11,7 +20,10 @@ export const compareCompanies = (company1: DbCompany, company2: DbCompany): bool
  * Sort companies by MAX(sc.createdAtOriginal) DESC
  * Sort comments by dc.monthName DESC
  */
-export const withCommentsQuery = (selectCompanies: string): string =>
+export const withCommentsQuery = (
+  selectCompanies: string,
+  sortByCompanies: SortCompaniesBy = createdAtOriginal
+): string =>
   `WITH SelectedCompanies AS (
     ${selectCompanies}
     ),
@@ -39,7 +51,7 @@ export const withCommentsQuery = (selectCompanies: string): string =>
     INNER JOIN DistinctComments dc
       ON sc.name = dc.name -- restore original SelectedCompanies instance for month
     GROUP BY sc.name
-    ORDER BY MAX(sc.createdAtOriginal) DESC -- sort companies by max instance from group by name
+    ORDER BY ${sortByCompanies === createdAtOriginal ? 'MAX(sc.createdAtOriginal)' : 'commentsCount'} DESC -- sort companies by max instance from group by name
     `;
 
 export const convertCompanyRowType = (row: CompanyWithCommentsAsStrings): CompanyWithComments => ({

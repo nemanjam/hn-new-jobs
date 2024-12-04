@@ -1,5 +1,9 @@
 /*-------------------------------- Models ------------------------------*/
 
+import { SORT_COMPANIES_BY } from '@/constants/database';
+
+import { ValueUnion } from '@/types/utils';
+
 // Match database tables exactly.
 export interface DbMonth {
   name: string;
@@ -65,8 +69,7 @@ export interface CompanyWithCommentsAsStrings {
   comments: string;
 }
 
-// unused, just reminder
-export type SortBy = 'commentsCount' | 'createdAtOriginal';
+export type SortCompaniesBy = ValueUnion<typeof SORT_COMPANIES_BY>;
 
 export interface Statistics {
   monthsCount: number;
