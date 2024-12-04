@@ -8,6 +8,8 @@ const { databaseFilePath } = SERVER_CONFIG;
 
 export const db: Database = new BetterSqlite3(databaseFilePath);
 
+// todo: wrap in function to remove from global scope and remove build time dependency
+
 db.exec('PRAGMA foreign_keys = ON;');
 
 db.exec(`

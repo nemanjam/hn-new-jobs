@@ -65,6 +65,7 @@ export interface CompanyWithCommentsAsStrings {
   comments: string;
 }
 
+// unused, just reminder
 export type SortBy = 'commentsCount' | 'createdAtOriginal';
 
 export interface Statistics {

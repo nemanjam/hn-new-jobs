@@ -4,16 +4,13 @@ import { convertCompanyRowType, withCommentsQuery } from '@/modules/database/sel
 import { cacheDatabaseWrapper, getDynamicCacheKey } from '@/libs/keyv';
 import { CACHE_KEYS_DATABASE } from '@/constants/cache';
 
-import { CompanyWithCommentsAsStrings, MonthPair, NewOldCompanies, SortBy } from '@/types/database';
+import { CompanyWithCommentsAsStrings, MonthPair, NewOldCompanies } from '@/types/database';
 
 const { getNewOldCompaniesForMonthCacheKey } = CACHE_KEYS_DATABASE;
 
 /** Compare two specific months by name. */
 
-export const getNewOldCompaniesForTwoMonths = (
-  monthPair: MonthPair,
-  sortBy: SortBy = 'createdAtOriginal'
-): NewOldCompanies => {
+export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldCompanies => {
   const { forMonth, comparedToMonth } = monthPair;
 
   // include entire objects for links
@@ -30,8 +27,7 @@ export const getNewOldCompaniesForTwoMonths = (
         FROM company AS c1 
         WHERE c1.monthName = ? 
           AND c1.name NOT IN (SELECT c2.name FROM company AS c2 WHERE c2.monthName < ?) -- < at that time
-        GROUP BY c1.name`,
-        sortBy
+        GROUP BY c1.name`
       )
     )
     .all(forMonth, forMonth)
@@ -47,8 +43,7 @@ export const getNewOldCompaniesForTwoMonths = (
         WHERE c1.monthName = ?  -- include only from the current month
           AND c1.name NOT IN (SELECT c2.name FROM company AS c2 WHERE c2.monthName = ?)  -- exclude that exist in prev month
           AND c1.name IN (SELECT c3.name FROM company AS c3 WHERE c3.name = c1.name AND c3.monthName < ?)  -- exclude first time companies, at that time <
-        GROUP BY c1.name`,
-        sortBy
+        GROUP BY c1.name`
       )
     )
     .all(forMonth, comparedToMonth, forMonth)
@@ -66,8 +61,7 @@ export const getNewOldCompaniesForTwoMonths = (
          FROM company AS c1
          WHERE c1.monthName = ? 
            AND c1.name IN (SELECT c2.name FROM company AS c2 WHERE c2.name = c1.name AND c2.monthName = ?) 
-         GROUP BY c1.name`,
-        sortBy
+         GROUP BY c1.name`
       )
     )
     .all(forMonth, comparedToMonth)
@@ -78,7 +72,7 @@ export const getNewOldCompaniesForTwoMonths = (
     .prepare<
       [string],
       CompanyWithCommentsAsStrings
-    >(withCommentsQuery(`SELECT * FROM company WHERE monthName = ? GROUP BY name`, sortBy))
+    >(withCommentsQuery(`SELECT * FROM company WHERE monthName = ? GROUP BY name`))
     .all(forMonth)
     .map(convertCompanyRowType);
 
