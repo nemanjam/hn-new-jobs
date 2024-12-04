@@ -1,6 +1,5 @@
-import { db } from '@/modules/database/schema';
+import { getDb } from '@/modules/database/schema';
 import { isValidMonthName } from '@/libs/datetime';
-import logger from '@/libs/winston';
 import { ALGOLIA } from '@/constants/algolia';
 
 const { threads } = ALGOLIA;
@@ -17,7 +16,7 @@ export const deleteMonthsAndCompaniesOlderThanMonth = (
     throw new Error(`Invalid format, monthName: ${monthName}. Expected "YYYY-MM".`);
 
   // Delete months and cascade to related companies
-  const changes = db.prepare(`DELETE FROM month WHERE name < ?`).run(monthName).changes;
+  const changes = getDb().prepare(`DELETE FROM month WHERE name < ?`).run(monthName).changes;
 
   return changes;
 };

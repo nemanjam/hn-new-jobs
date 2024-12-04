@@ -1,4 +1,4 @@
-import { db } from '@/modules/database/schema';
+import { getDb } from '@/modules/database/schema';
 import { getMonthByName, getMonthPairByName } from '@/modules/database/select/month';
 import { convertCompanyRowType, withCommentsQuery } from '@/modules/database/select/utils';
 import { cacheDatabaseWrapper, getDynamicCacheKey } from '@/libs/keyv';
@@ -20,7 +20,7 @@ export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldComp
   // todo: if month not found throw and handle
 
   // Only in forMonth, single comment
-  const firstTimeCompanies = db
+  const firstTimeCompanies = getDb()
     .prepare<[string, string], CompanyWithCommentsAsStrings>(
       withCommentsQuery(
         `SELECT c1.* 
@@ -35,7 +35,7 @@ export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldComp
 
   // Companies present in forMonth but not in comparedToMonth
   // and excludes first time companies
-  const newCompanies = db
+  const newCompanies = getDb()
     .prepare<[string, string, string], CompanyWithCommentsAsStrings>(
       withCommentsQuery(
         `SELECT c1.* 
@@ -54,7 +54,7 @@ export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldComp
 
   // Companies present in both forMonth and comparedToMonth
   // IN and NOT IN only difference
-  const oldCompanies = db
+  const oldCompanies = getDb()
     .prepare<[string, string], CompanyWithCommentsAsStrings>(
       withCommentsQuery(
         `SELECT c1.*
@@ -68,7 +68,7 @@ export const getNewOldCompaniesForTwoMonths = (monthPair: MonthPair): NewOldComp
     .map(convertCompanyRowType);
 
   // companies for the forMonth
-  const allCompanies = db
+  const allCompanies = getDb()
     .prepare<
       [string],
       CompanyWithCommentsAsStrings

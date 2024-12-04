@@ -4,6 +4,7 @@ import axios from 'axios';
 import rateLimit from 'axios-rate-limit';
 
 import logger from '@/libs/winston';
+import { Singleton } from '@/utils/singleton';
 import { ALGOLIA } from '@/constants/algolia';
 
 import type { AxiosError, AxiosInstance, CreateAxiosDefaults } from 'axios';
@@ -22,18 +23,20 @@ export const axiosConfig: CreateAxiosDefaults = {
 };
 
 /** Must use singleton. */
-export default class MyAxiosInstance {
-  private static instance: AxiosInstance;
+class MyAxiosInstance {
+  private static createAxiosInstance(): AxiosInstance {
+    return axios.create(axiosConfig);
+  }
 
-  public static getInstance(): AxiosInstance {
-    if (!MyAxiosInstance.instance) MyAxiosInstance.instance = axios.create(axiosConfig);
-
-    return MyAxiosInstance.instance;
+  public static getAxiosInstance(): AxiosInstance {
+    return Singleton.getInstance<AxiosInstance>('MyAxiosInstance', () =>
+      MyAxiosInstance.createAxiosInstance()
+    );
   }
 }
 
 /** Without retries. */
-export const axiosInstance = MyAxiosInstance.getInstance();
+export const axiosInstance = MyAxiosInstance.getAxiosInstance();
 
 /** Main rate limit instance to use. */
 export const axiosRateLimitInstance = rateLimit(axiosInstance, {

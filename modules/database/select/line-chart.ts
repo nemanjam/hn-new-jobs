@@ -1,4 +1,4 @@
-import { db } from '@/modules/database/schema';
+import { getDb } from '@/modules/database/schema';
 import { cacheDatabaseWrapper } from '@/libs/keyv';
 import { CACHE_KEYS_DATABASE } from '@/constants/cache';
 
@@ -81,7 +81,7 @@ export const getNewOldCompaniesCountForAllMonths = (): LineChartMultipleData[] =
 
   // exclude oldest pair to avoid 0s and sort ASC to adjust direction for graph, right in db
 
-  const result = db.prepare<[], LineChartMultipleData>(query).all();
+  const result = getDb().prepare<[], LineChartMultipleData>(query).all();
 
   return result;
 };

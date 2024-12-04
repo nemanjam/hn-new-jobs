@@ -1,6 +1,6 @@
 import { axiosRateLimitInstance } from '@/libs/axios';
 import { createNumberOfSecondsSincePreviousCall, getAppNow } from '@/libs/datetime';
-import { cacheHttp } from '@/libs/keyv';
+import { getCacheHttp } from '@/libs/keyv';
 import logger from '@/libs/winston';
 import { SERVER_CONFIG } from '@/config/server';
 
@@ -12,7 +12,7 @@ export const fetchApi = async <T>(url: string): Promise<T> => {
   // no try catch, use interceptor
 
   // check cache
-  const cachedContent = await cacheHttp.get<T>(url);
+  const cachedContent = await getCacheHttp().get<T>(url);
   if (cachedContent) {
     logger.info(`Cache hit, url: ${url}`);
     return cachedContent;
@@ -30,7 +30,7 @@ export const fetchApi = async <T>(url: string): Promise<T> => {
   );
 
   // cache
-  await cacheHttp.set(url, apiResponse, cacheHttpTtlMinutes * 60 * 1000); // pass as arg
+  await getCacheHttp().set(url, apiResponse, cacheHttpTtlMinutes * 60 * 1000); // pass as arg
 
   return apiResponse;
 };

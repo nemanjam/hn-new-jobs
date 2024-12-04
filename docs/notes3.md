@@ -109,6 +109,6 @@ clear cache files content
 
         link to latest post, sort by new comment
         only newOldCompanies.allCompanies is sorted...
-        ROW_NUMBER() OVER (PARTITION BY c1.commentId ORDER BY c1.createdAtOriginal DESC) as rn // za distinct
-        // important: get latest comment for correct link, db query is fine
-        const { name, commentId } = comments[0];
+        FROM SelectedCompanies sc 
+        INNER JOIN DistinctComments dc
+        ON sc.name = dc.name -- restore original SelectedCompanies instance for month

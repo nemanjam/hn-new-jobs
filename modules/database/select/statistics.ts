@@ -1,4 +1,4 @@
-import { db } from '@/modules/database/schema';
+import { getDb } from '@/modules/database/schema';
 import { getFirstMonth, getLastMonth } from '@/modules/database/select/month';
 import { cacheDatabaseWrapper } from '@/libs/keyv';
 import { CACHE_KEYS_DATABASE } from '@/constants/cache';
@@ -8,7 +8,7 @@ import { Statistics } from '@/types/database';
 const { getStatisticsCacheKey } = CACHE_KEYS_DATABASE;
 
 export const getStatistics = (): Statistics => {
-  const counts = db
+  const counts = getDb()
     .prepare<[], Statistics>(
       `SELECT
          (SELECT COUNT(DISTINCT name) FROM month) AS monthsCount,

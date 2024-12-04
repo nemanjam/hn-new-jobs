@@ -1,4 +1,4 @@
-import { db } from '@/modules/database/schema';
+import { getDb } from '@/modules/database/schema';
 import { convertCompanyRowType, withCommentsQuery } from '@/modules/database/select/utils';
 import { isCompanySearchMinLength } from '@/utils/urls';
 import { SORT_COMPANIES_BY } from '@/constants/database';
@@ -16,7 +16,7 @@ export const searchCompanyByName = (name: string): SearchCompaniesResult => {
 
   if (!isCompanySearchMinLength(name)) return emptyResult;
 
-  const allCompanies = db
+  const allCompanies = getDb()
     .prepare<
       [string],
       CompanyWithCommentsAsStrings

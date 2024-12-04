@@ -3,24 +3,48 @@ import fs from 'fs';
 import Keyv from 'keyv';
 import KeyvFile from 'keyv-file';
 
+import { Singleton } from '@/utils/singleton';
 import { SERVER_CONFIG } from '@/config/server';
 
 const { cacheHttpFilePath, cacheDatabaseFilePath, cacheDatabaseDisabled } = SERVER_CONFIG;
 
-// disables cache for testing
+// deletes cache for testing
 try {
   // fs.unlinkSync(cacheHttpFilePath);
   // fs.unlinkSync(cacheDatabaseFilePath);
 } catch (error) {}
 
-export const cacheHttp = new Keyv({
-  store: new KeyvFile({ filename: cacheHttpFilePath }),
-});
+class CacheDatabaseInstance {
+  private static createCacheDatabase(): Keyv {
+    // ttl: undefined - infinite duration
+    return new Keyv({
+      store: new KeyvFile({ filename: cacheDatabaseFilePath }),
+    });
+  }
 
-// ttl: undefined - infinite duration
-export const cacheDatabase = new Keyv({
-  store: new KeyvFile({ filename: cacheDatabaseFilePath }),
-});
+  public static getCacheDatabase(): Keyv {
+    return Singleton.getInstance<Keyv>('CacheDatabaseInstance', () =>
+      CacheDatabaseInstance.createCacheDatabase()
+    );
+  }
+}
+
+export const getCacheDatabase = CacheDatabaseInstance.getCacheDatabase;
+class CacheHttpInstance {
+  private static createCacheHttp(): Keyv {
+    return new Keyv({
+      store: new KeyvFile({ filename: cacheHttpFilePath }),
+    });
+  }
+
+  public static getCacheHttp(): Keyv {
+    return Singleton.getInstance<Keyv>('CacheHttpInstance', () =>
+      CacheHttpInstance.createCacheHttp()
+    );
+  }
+}
+
+export const getCacheHttp = CacheHttpInstance.getCacheHttp;
 
 export const cacheDatabaseWrapper = async <T, A extends any[]>(
   key: string,
@@ -28,12 +52,12 @@ export const cacheDatabaseWrapper = async <T, A extends any[]>(
   ...args: A
 ): Promise<T> => {
   if (!cacheDatabaseDisabled) {
-    const cachedResult = await cacheDatabase.get<T>(key);
+    const cachedResult = await getCacheDatabase().get<T>(key);
     if (cachedResult) return cachedResult;
   }
 
   const dbResult = func(...args);
-  await cacheDatabase.set(key, dbResult);
+  await getCacheDatabase().set(key, dbResult);
 
   return dbResult;
 };

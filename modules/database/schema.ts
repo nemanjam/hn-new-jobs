@@ -1,34 +1,45 @@
 import BetterSqlite3 from 'better-sqlite3';
 
+import { Singleton } from '@/utils/singleton';
 import { SERVER_CONFIG } from '@/config/server';
 
 import type { Database } from 'better-sqlite3';
 
 const { databaseFilePath } = SERVER_CONFIG;
 
-export const db: Database = new BetterSqlite3(databaseFilePath);
+export class DbInstance {
+  private static createDatabase(): Database {
+    const db = new BetterSqlite3(databaseFilePath);
 
-// todo: wrap in function to remove from global scope and remove build time dependency
+    db.exec('PRAGMA foreign_keys = ON;');
 
-db.exec('PRAGMA foreign_keys = ON;');
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS month (
+        name TEXT PRIMARY KEY, -- "YYYY-MM" format for uniqueness
+        threadId TEXT UNIQUE,
+        createdAtOriginal DATETIME,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, -- auto-populated
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP -- auto-populated on creation
+      );
+    
+      CREATE TABLE IF NOT EXISTS company (
+        name TEXT,
+        monthName TEXT,
+        commentId TEXT UNIQUE,
+        createdAtOriginal DATETIME,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP, 
+        PRIMARY KEY (name, monthName),
+        FOREIGN KEY (monthName) REFERENCES month(name) ON DELETE CASCADE
+      );
+    `);
 
-db.exec(`
-  CREATE TABLE IF NOT EXISTS month (
-    name TEXT PRIMARY KEY, -- "YYYY-MM" format for uniqueness
-    threadId TEXT UNIQUE,
-    createdAtOriginal DATETIME,
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, -- auto-populated
-    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP -- auto-populated on creation
-  );
+    return db;
+  }
 
-  CREATE TABLE IF NOT EXISTS company (
-    name TEXT,
-    monthName TEXT,
-    commentId TEXT UNIQUE,
-    createdAtOriginal DATETIME,
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP, 
-    PRIMARY KEY (name, monthName),
-    FOREIGN KEY (monthName) REFERENCES month(name) ON DELETE CASCADE
-  );
-`);
+  public static getDatabase(): Database {
+    return Singleton.getInstance<Database>('DbInstance', () => DbInstance.createDatabase());
+  }
+}
+
+export const getDb = DbInstance.getDatabase;
