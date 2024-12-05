@@ -18,6 +18,10 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+ARG ARG_PLAUSIBLE_SERVER_URL
+ENV PLAUSIBLE_SERVER_URL=$ARG_PLAUSIBLE_SERVER_URL
+RUN echo "PLAUSIBLE_SERVER_URL=$PLAUSIBLE_SERVER_URL"
+
 # no need for database connection at build time with getDb() that removes db from global scope
 RUN yarn build
 

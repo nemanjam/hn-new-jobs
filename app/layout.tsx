@@ -51,10 +51,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="en" suppressHydrationWarning>
       <head>
         <PlausibleProvider
-          // this site url
+          // this site url, runtime only
           domain={plausibleDomain}
           selfHosted
           // server url, without /js/script.js, both here and in next.config.mjs
+          // build time, Docker build-args, Github Actions
           customDomain={plausibleServerUrl}
           // true for debugging
           // trackLocalhost={true}
