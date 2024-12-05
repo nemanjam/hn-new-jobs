@@ -15,6 +15,7 @@ env:
   IMAGE_NAME: ${{ github.event.repository.name }}
   # for next.config.js must set it at build time
   PLAUSIBLE_SERVER_URL: 'https://plausible.arm1.nemanjamitic.com'
+  PLAUSIBLE_DOMAIN: 'hackernews-new-jobs.arm1.nemanjamitic.com'
 
 jobs:
   build:
