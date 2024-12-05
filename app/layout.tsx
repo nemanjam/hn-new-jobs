@@ -53,8 +53,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <PlausibleProvider
           // this site url
           domain={plausibleDomain}
-          // server url, without /js/script.js
           selfHosted
+          // server url, without /js/script.js, both here and in next.config.mjs
           customDomain={plausibleServerUrl}
           // true for debugging
           // trackLocalhost={true}

@@ -6,7 +6,9 @@ const nextConfig = {
   output: 'standalone',
 };
 
-// custom self-hosted Plausible domain configured in provider
-const withPlausibleProxyFn = withPlausibleProxy();
+// must set it both here and in provider
+const withPlausibleProxyFn = withPlausibleProxy({
+  customDomain: process.env.PLAUSIBLE_SERVER_URL,
+});
 
 export default withPlausibleProxyFn(nextConfig);
