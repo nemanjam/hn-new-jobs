@@ -1,4 +1,4 @@
-```ts
+```tsx
 getNewOldCompaniesForLastTwoMonths // new, old, first
 getNewOldCompaniesForFromToSubsequentMonths // handle last month index
 getCommentsForLastMonthCompanies
@@ -84,7 +84,7 @@ theme second click
 body responsive font size
         fix active nav item for home page slug
 ------
-responsive bar chart flex
+        responsive bar chart flex
         remove container and set padding, layout
 legend beside barchart
         search database count query
@@ -116,7 +116,20 @@ clear cache files content
         database, cache, axios singletons, remove db connection from dockerfile
 plausible partytown
         backup database
-line chart colors
-charts on mobile, paddings
+        line chart colors
+        charts on mobile, paddings
         close navbar on resize, add hook
         1 seconds after previous 
+responsive table
+winston console prod
+add info logs
+responsive superscript title text
+responsive footer
+layout min-width 320 scroll
+orange old companies
+
+// plausible backup
+
+<script defer data-domain="hackernews-new-jobs.arm1.nemanjamitic.com" src="https://plausible.arm1.nemanjamitic.com/js/script.js" />
+http://localhost:3000/js/script.local.js
+

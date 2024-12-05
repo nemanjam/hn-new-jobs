@@ -15,6 +15,9 @@ export const SERVER_CONFIG = {
   apiSecret: process.env.API_SECRET,
   nodeEnv: process.env.NODE_ENV,
   cacheDatabaseDisabled: process.env.CACHE_DATABASE_DISABLED === 'true', // for debugging
+  // plausible
+  plausibleDomain: process.env.PLAUSIBLE_DOMAIN,
+  plausibleServerUrl: process.env.PLAUSIBLE_SERVER_URL,
   // paths
   databaseFilePath: join(projectRootFolder, './data/database/', databaseFileName),
   cacheHttpFilePath: join(projectRootFolder, './data/cache/', 'cache-http.json'),

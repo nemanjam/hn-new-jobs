@@ -144,8 +144,8 @@ const BarChartSimple: FC<Props> = ({ chartData, allMonths, month }) => {
           Share of companies by ad frequency
         </div>
         <div className="leading-tight text-muted-foreground">
-          Companies from the selected month grouped by the number of job ads during the previous 12
-          months.
+          Companies from the selected month grouped by the number of job ads that they posted during
+          the previous 12 months.
         </div>
       </CardFooter>
     </Card>
