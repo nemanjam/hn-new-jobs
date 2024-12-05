@@ -132,4 +132,5 @@ orange old companies
 
 <script defer data-domain="hackernews-new-jobs.arm1.nemanjamitic.com" src="https://plausible.arm1.nemanjamitic.com/js/script.js" />
 http://localhost:3000/js/script.local.js
-
+customDomain provider je za bez proxy, next.config.js je za sa proxy, oba mora, ok
+za next.config.js mora at BUILD time, u github action

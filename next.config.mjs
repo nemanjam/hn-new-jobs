@@ -7,6 +7,7 @@ const nextConfig = {
 };
 
 // must set it both here and in provider
+// here must set it at BUILD TIME
 const withPlausibleProxyFn = withPlausibleProxy({
   customDomain: process.env.PLAUSIBLE_SERVER_URL,
 });
