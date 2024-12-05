@@ -2,6 +2,7 @@
 
 import { FC, useState } from 'react';
 
+import { useWindowSize } from '@uidotdev/usehooks';
 import { TrendingDown, TrendingUp } from 'lucide-react';
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 
@@ -30,6 +31,7 @@ import {
 } from '@/components/ui/select';
 
 import { convertMonthNameToDate } from '@/libs/datetime';
+import { tailwindConfig } from '@/utils/styles';
 
 import { LineChartMultipleData } from '@/types/charts';
 import { ValueUnion } from '@/types/utils';
@@ -38,21 +40,44 @@ interface Props {
   chartData: LineChartMultipleData[];
 }
 
+const mdBreakpoint = parseInt(tailwindConfig?.theme?.screens?.md);
+
 const chartConfig = {
   firstTimeCompaniesCount: {
-    label: 'First time companies',
+    label: (
+      <>
+        <span className="hidden sm:inline-block">First time companies</span>
+        <span className="inline-block sm:hidden">First time</span>
+      </>
+    ),
     color: 'var(--chart-1)',
   },
   newCompaniesCount: {
-    label: 'New companies',
+    label: (
+      <>
+        <span className="hidden sm:inline-block">New companies</span>
+        <span className="inline-block sm:hidden">New</span>
+      </>
+    ),
     color: 'var(--chart-2)',
   },
   oldCompaniesCount: {
-    label: 'Old companies',
+    label: (
+      <>
+        <span className="hidden sm:inline-block">Old companies</span>
+        <span className="inline-block sm:hidden">Old</span>
+      </>
+    ),
     color: 'var(--chart-3)',
   },
   allCompaniesCount: {
-    label: 'Total companies', // only label has word Total
+    label: (
+      <>
+        <span className="hidden sm:inline-block">Total companies</span>
+        <span className="inline-block sm:hidden">Total</span>
+      </>
+    ),
+    // only label has word Total
     color: 'var(--chart-4)',
   },
 } satisfies ChartConfig;
@@ -144,6 +169,9 @@ const LineChartMultiple: FC<Props> = ({ chartData }) => {
   const [xAxisUnit, setXAxisUnit] = useState<XAxisUnitOptionsType>(xAxisUnitOptions.all);
   const [yAxisUnit, setYAxisUnit] = useState<YAxisUnitOptionsType>(yAxisUnitOptions.absolute);
 
+  const { width } = useWindowSize();
+  const isAboveMd = width && width > mdBreakpoint;
+
   const firstTimeCompaniesTrendingPercent = getFirstTimeCompaniesTrendingPercent(chartData);
 
   const transformedData = setUnit(chartData, yAxisUnit);
@@ -151,48 +179,50 @@ const LineChartMultiple: FC<Props> = ({ chartData }) => {
 
   return (
     <Card>
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
-        <div className="grid flex-1 gap-1 text-center sm:text-left">
+      <CardHeader className="flex flex-row justify-between gap-2 border-b py-5">
+        <div className="flex-1 space-y-2">
           <CardTitle>Who is hiring</CardTitle>
           <CardDescription>Ratio between new and repeated job ads.</CardDescription>
         </div>
 
-        <Select
-          value={yAxisUnit}
-          onValueChange={(value) => setYAxisUnit(value as YAxisUnitOptionsType)}
-        >
-          <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto" aria-label="Select a value">
-            <SelectValue placeholder="Absolute" />
-          </SelectTrigger>
-          <SelectContent className="rounded-xl">
-            <SelectItem value="absolute" className="rounded-lg">
-              Absolute
-            </SelectItem>
-            <SelectItem value="percentage" className="rounded-lg">
-              Percentage
-            </SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Select
+            value={yAxisUnit}
+            onValueChange={(value) => setYAxisUnit(value as YAxisUnitOptionsType)}
+          >
+            <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto" aria-label="Select a value">
+              <SelectValue placeholder="Absolute" />
+            </SelectTrigger>
+            <SelectContent className="rounded-xl">
+              <SelectItem value="absolute" className="rounded-lg">
+                Absolute
+              </SelectItem>
+              <SelectItem value="percentage" className="rounded-lg">
+                Percentage
+              </SelectItem>
+            </SelectContent>
+          </Select>
 
-        <Select
-          value={xAxisUnit}
-          onValueChange={(value) => setXAxisUnit(value as XAxisUnitOptionsType)}
-        >
-          <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto" aria-label="Select a value">
-            <SelectValue placeholder="All time" />
-          </SelectTrigger>
-          <SelectContent className="rounded-xl">
-            <SelectItem value="12 months" className="rounded-lg">
-              Last 12 months
-            </SelectItem>
-            <SelectItem value="3 years" className="rounded-lg">
-              Last 3 years
-            </SelectItem>
-            <SelectItem value="all time" className="rounded-lg">
-              All time
-            </SelectItem>
-          </SelectContent>
-        </Select>
+          <Select
+            value={xAxisUnit}
+            onValueChange={(value) => setXAxisUnit(value as XAxisUnitOptionsType)}
+          >
+            <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto" aria-label="Select a value">
+              <SelectValue placeholder="All time" />
+            </SelectTrigger>
+            <SelectContent className="rounded-xl">
+              <SelectItem value="12 months" className="rounded-lg">
+                Last 12 months
+              </SelectItem>
+              <SelectItem value="3 years" className="rounded-lg">
+                Last 3 years
+              </SelectItem>
+              <SelectItem value="all time" className="rounded-lg">
+                All time
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="aspect-auto h-[350px] w-full">
@@ -219,15 +249,18 @@ const LineChartMultiple: FC<Props> = ({ chartData }) => {
                 });
               }}
             />
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickCount={3}
-              tickFormatter={(value) =>
-                yAxisUnit === yAxisUnitOptions.percentage ? `${value}%` : value
-              }
-            />
+            {isAboveMd && (
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tickCount={3}
+                tickFormatter={(value) =>
+                  yAxisUnit === yAxisUnitOptions.percentage ? `${value}%` : value
+                }
+              />
+            )}
+
             <ChartTooltip
               cursor={false}
               content={

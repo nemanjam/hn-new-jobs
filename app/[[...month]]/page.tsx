@@ -30,7 +30,7 @@ const IndexPage: FC<Props> = async ({ params }) => {
     lastMonth: {},
   };
   const statisticsText = statistics
-    ? `${monthsCount} months, ${companiesCount} companies, ${commentsCount} jobs, from ${firstMonth.name}, to ${lastMonth.name}`
+    ? `${monthsCount} months, ${companiesCount} companies, ${commentsCount} jobs`
     : '';
 
   return (
@@ -40,13 +40,13 @@ const IndexPage: FC<Props> = async ({ params }) => {
           <>
             Hackernews new jobs
             {statisticsText && (
-              <small className="relative -top-4 align-baseline text-muted-foreground text-base font-semibold ml-2">
+              <small className="relative -top-4 align-baseline text-muted-foreground text-base tracking-normal font-semibold ml-2">
                 {statisticsText}
               </small>
             )}
           </>
         }
-        subTitle="New and repeated job ads for every month through the history."
+        subTitle={`New and repeated job ads from ${firstMonth.name} to ${lastMonth.name}.`}
       />
       <LineChartMultiple chartData={lineChartMultipleData} />
       <NewOldCompaniesSection

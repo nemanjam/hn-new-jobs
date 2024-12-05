@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 import Footer from '@/components/footer';
 import Header from '@/components/header';
-import { TailwindIndicator } from '@/components/tailwind-indicator';
+import TailwindIndicator from '@/components/tailwind-indicator';
 import { ThemeProvider } from '@/components/theme-provider';
 
 import { fontSans } from '@/libs/fonts';

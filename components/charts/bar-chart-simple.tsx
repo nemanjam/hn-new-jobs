@@ -96,8 +96,8 @@ const BarChartSimple: FC<Props> = ({ chartData, allMonths, month }) => {
 
   return (
     <Card className="self-start">
-      <CardHeader className="flex flex-row justify-between items-center gap-4">
-        <div>
+      <CardHeader className="flex flex-row justify-between gap-4">
+        <div className="space-y-2">
           <CardTitle>Companies by ads</CardTitle>
           <CardDescription>in the previous 12 months</CardDescription>
         </div>
@@ -115,8 +115,13 @@ const BarChartSimple: FC<Props> = ({ chartData, allMonths, month }) => {
           </SelectContent>
         </Select>
       </CardHeader>
+
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[350px] max-w-lg">
+        <ChartContainer
+          config={chartConfig}
+          // has aspect-video inside that prevents shrink
+          className="h-[350px] max-w-lg aspect-auto"
+        >
           <BarChart
             accessibilityLayer
             data={chartData.items}
@@ -134,11 +139,11 @@ const BarChartSimple: FC<Props> = ({ chartData, allMonths, month }) => {
           </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex flex-col items-start gap-2 text-sm">
+      <CardFooter className="max-w-lg flex flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
           Share of companies by ad frequency
         </div>
-        <div className="leading-none text-muted-foreground">
+        <div className="leading-tight text-muted-foreground">
           Companies from the selected month grouped by the number of job ads during the previous 12
           months.
         </div>
