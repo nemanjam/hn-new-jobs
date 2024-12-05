@@ -42,10 +42,16 @@
     /* chart colors */
 
     --chart-1: theme('colors.emerald.600');
-    --chart-2: theme('colors.orange.400');
-    --chart-3: theme('colors.blue.800');
-    --chart-4: theme('colors.amber.300');
-    --chart-5: theme('colors.yellow.400');
+    --chart-2: theme('colors.yellow.400');
+    --chart-3: theme('colors.red.500');
+    --chart-4: theme('colors.blue.800');
+    --chart-5: theme('colors.orange.400');
+
+    --bar-chart-1: theme('colors.emerald.600');
+    --bar-chart-2: theme('colors.emerald.400');
+    --bar-chart-3: theme('colors.yellow.300');
+    --bar-chart-4: theme('colors.orange.400');
+    --bar-chart-5: theme('colors.red.500');
   }
 
   .dark {
@@ -86,11 +92,17 @@
 
     /* chart colors */
 
-    --chart-1: theme('colors.blue.600');
-    --chart-2: theme('colors.pink.500');
-    --chart-3: theme('colors.orange.500');
-    --chart-4: theme('colors.purple.400');
-    --chart-5: theme('colors.teal.500');
+    --chart-1: theme('colors.emerald.500');
+    --chart-2: theme('colors.yellow.600');
+    --chart-3: theme('colors.red.600');
+    --chart-4: theme('colors.blue.700');
+    --chart-5: theme('colors.orange.400');
+
+    --bar-chart-1: theme('colors.emerald.500');
+    --bar-chart-2: theme('colors.emerald.700');
+    --bar-chart-3: theme('colors.yellow.500');
+    --bar-chart-4: theme('colors.orange.500');
+    --bar-chart-5: theme('colors.red.600');
   }
 }
 

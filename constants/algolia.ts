@@ -23,6 +23,6 @@ export const ALGOLIA = {
      * We are limiting the number of API requests from a single IP to 10,000 per hour.
      * 166 per minute, 2.77 per second, each 0.36 seconds
      */
-    delayBetweenRequests: 2 * 1000,
+    delayBetweenRequests: 3 * 1000,
   },
 } as const;

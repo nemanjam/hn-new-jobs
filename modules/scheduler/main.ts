@@ -84,6 +84,7 @@ export const seedOldMonthsScheduler = () => {
 
   // 5 x 5 calls
   if (numberOfCalls > 4) {
+    // todo: disable task if seeded, check first month in db
     seedOldMonthsTask.stop();
     logger.info(`seedOldMonthsTask stopped after numberOfCalls: ${numberOfCalls}`);
   }

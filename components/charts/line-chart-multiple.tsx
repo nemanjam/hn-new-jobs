@@ -49,11 +49,11 @@ const chartConfig = {
   },
   oldCompaniesCount: {
     label: 'Old companies',
-    color: 'var(--chart-4)',
+    color: 'var(--chart-3)',
   },
   allCompaniesCount: {
     label: 'Total companies', // only label has word Total
-    color: 'var(--chart-3)',
+    color: 'var(--chart-4)',
   },
 } satisfies ChartConfig;
 

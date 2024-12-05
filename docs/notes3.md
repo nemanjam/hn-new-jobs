@@ -115,7 +115,8 @@ clear cache files content
 
         database, cache, axios singletons, remove db connection from dockerfile
 plausible partytown
-backup database
+        backup database
 line chart colors
 charts on mobile, paddings
-close navbar on resize, add hook
+        close navbar on resize, add hook
+        1 seconds after previous 

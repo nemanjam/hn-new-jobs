@@ -18,7 +18,7 @@ import { NAVIGATION } from '@/constants/navigation';
 const { title } = METADATA;
 const { left, right } = NAVIGATION;
 
-const lgBreakpoint = parseInt(tailwindConfig?.theme?.screens?.lg);
+const smBreakpoint = parseInt(tailwindConfig?.theme?.screens?.sm);
 
 const Header: FC = () => {
   const segment = useSelectedLayoutSegment();
@@ -32,7 +32,7 @@ const Header: FC = () => {
   }, [pathSegment]);
 
   useEffect(() => {
-    if (width && width > lgBreakpoint) setIsMenuOpen(false);
+    if (width && width > smBreakpoint) setIsMenuOpen(false);
   }, [width]);
 
   return (

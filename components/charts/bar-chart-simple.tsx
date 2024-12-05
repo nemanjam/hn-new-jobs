@@ -47,10 +47,28 @@ interface Props {
   allMonths: DbMonth[];
 }
 
+// ! number of ads in the previous 12 months
+
 const chartConfig = {
   count: {
     label: 'Number of ads',
-    color: 'var(--chart-1)',
+    color: 'var(--chart-1)', // color for label
+  },
+  // colors mapped to BarChartSimpleDataItem.range
+  '1': {
+    color: 'var(--bar-chart-1)',
+  },
+  '2-3': {
+    color: 'var(--bar-chart-2)',
+  },
+  '4-5': {
+    color: 'var(--bar-chart-3)',
+  },
+  '6-7': {
+    color: 'var(--bar-chart-4)',
+  },
+  '8-12': {
+    color: 'var(--bar-chart-5)',
   },
 } satisfies ChartConfig;
 
@@ -81,7 +99,7 @@ const BarChartSimple: FC<Props> = ({ chartData, allMonths, month }) => {
       <CardHeader className="flex flex-row justify-between items-center gap-4">
         <div>
           <CardTitle>Companies by ads</CardTitle>
-          <CardDescription>January - June 2024</CardDescription>
+          <CardDescription>in the previous 12 months</CardDescription>
         </div>
 
         <Select value={month} onValueChange={handleSelect}>
@@ -116,12 +134,13 @@ const BarChartSimple: FC<Props> = ({ chartData, allMonths, month }) => {
           </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
+      <CardFooter className="flex flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="size-4" />
+          Share of companies by ad frequency
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Companies from the selected month grouped by the number of job ads during the previous 12
+          months.
         </div>
       </CardFooter>
     </Card>
