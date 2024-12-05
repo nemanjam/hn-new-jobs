@@ -10,7 +10,6 @@ services:
       dockerfile: Dockerfile
       args:
         ARG_PLAUSIBLE_SERVER_URL: 'https://plausible.arm1.nemanjamitic.com'
-      # args:
       #   - BUILDKIT_PROGRESS=plain
     env_file:
       - .env

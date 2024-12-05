@@ -17,7 +17,7 @@ export const SERVER_CONFIG = {
   cacheDatabaseDisabled: process.env.CACHE_DATABASE_DISABLED === 'true', // for debugging
   // plausible
   plausibleDomain: process.env.PLAUSIBLE_DOMAIN,
-  plausibleServerUrl: process.env.PLAUSIBLE_SERVER_URL,
+  plausibleServerUrl: process.env.PLAUSIBLE_SERVER_URL, // build time, Docker
   // paths
   databaseFilePath: join(projectRootFolder, './data/database/', databaseFileName),
   cacheHttpFilePath: join(projectRootFolder, './data/cache/', 'cache-http.json'),
