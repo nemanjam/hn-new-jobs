@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import Head from 'next/head';
 
 import PlausibleProvider from 'next-plausible';
 
@@ -7,8 +6,11 @@ import { SERVER_CONFIG } from '@/config/server';
 
 const { plausibleDomain, plausibleServerUrl } = SERVER_CONFIG;
 
+// ! must use native html <head />, fails with import Head from 'next/head';
+
 const BaseHead: FC = () => (
-  <Head>
+  // eslint-disable-next-line @next/next/no-head-element
+  <head>
     <PlausibleProvider
       // this site url, runtime only
       domain={plausibleDomain}
@@ -17,9 +19,9 @@ const BaseHead: FC = () => (
       // build time, Docker build-args, Github Actions
       customDomain={plausibleServerUrl}
       // true for debugging
-      // trackLocalhost={true}
+      trackLocalhost={true}
     />
-  </Head>
+  </head>
 );
 
 export default BaseHead;

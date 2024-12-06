@@ -131,11 +131,20 @@ orange old companies
         fix scheduler logging
 
 // plausible backup
-
 <script defer data-domain="hackernews-new-jobs.arm1.nemanjamitic.com" src="https://plausible.arm1.nemanjamitic.com/js/script.js" />
 http://localhost:3000/js/script.local.js
 customDomain provider je za bez proxy, next.config.js je za sa proxy, oba mora, ok
 za next.config.js mora at BUILD time, u github action
 MUST PASS as build-args in Dockerfile // izgubio 2 sata
 
+// api, reproduce and fix
+ ⨯ TypeError: Cannot read properties of undefined (reading 'name')
+    at s (/app/.next/server/app/api/parser/[script]/route.js:33:395)
+    at r (/app/.next/server/app/api/parser/[script]/route.js:33:421)
+    at p (/app/.next/server/chunks/370.js:37:279)
+    at m (/app/.next/server/app/api/parser/[script]/route.js:3:28310)
+    at async m (/app/.next/server/app/[[...month]]/page.js:1:53823) {
+  digest: '2072576582'
+
+}
 
