@@ -11,5 +11,7 @@ export const isCompanySearchMinLength = (query: string): boolean =>
 
 export const trimSlashes = (path: string) => path.replace(/^\/+|\/+$/g, '');
 
+export const trimTrailingSlash = (path: string) => path.replace(/\/$/, '');
+
 export const getScrollPositionKey = (pathWithoutSlug: string) =>
   `${scrollPositionSessionStorageKey}--${pathWithoutSlug}`;

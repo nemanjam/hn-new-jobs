@@ -3,7 +3,7 @@ name: Build and push Docker
 on:
   push:
     branches:
-      - 'disabled-main'
+      - 'main'
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
   pull_request:
@@ -15,6 +15,8 @@ env:
   IMAGE_NAME: ${{ github.event.repository.name }}
   # for next.config.js must set it at build time and pass as build-arg to Dockerfile
   PLAUSIBLE_SERVER_URL: 'https://plausible.arm1.nemanjamitic.com'
+  # needed for metadata
+  SITE_HOSTNAME: 'hackernews-new-jobs.arm1.nemanjamitic.com'
 
 jobs:
   build:
@@ -67,6 +69,7 @@ jobs:
           file: ./Dockerfile
           build-args: |
             "ARG_PLAUSIBLE_SERVER_URL=${{ env.PLAUSIBLE_SERVER_URL }}"
+            "ARG_SITE_HOSTNAME=${{ env.SITE_HOSTNAME }}"
           # available linux/amd64,linux/arm64
           platforms: linux/amd64,linux/arm64
           push: true

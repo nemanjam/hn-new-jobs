@@ -4,5 +4,6 @@ namespace NodeJS {
     CACHE_DATABASE_DISABLED: string;
     PLAUSIBLE_DOMAIN: string;
     PLAUSIBLE_SERVER_URL: string;
+    SITE_HOSTNAME: string;
   }
 }

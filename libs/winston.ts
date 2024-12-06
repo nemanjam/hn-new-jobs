@@ -78,12 +78,14 @@ const prodLogger: Logger = winston.createLogger({
   ],
 });
 
-const logger: Logger = nodeEnv === 'production' ? prodLogger : devLogger;
+// ! disable prodLogger until resolve rotating single file
+// const logger: Logger = nodeEnv === 'production' ? prodLogger : devLogger;
 
 /**
- * @example logger.info('my message)
+ * @example
+ * logger.info('my message);
+ * logger.info('my test message', { k: 999, yy: 777 });
  */
-export default logger;
+const logger: Logger = devLogger;
 
-// logger.info('my test message', { k: 999, yy: 777 });
-// logger.info('second message');
+export default logger;

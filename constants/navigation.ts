@@ -1,8 +1,14 @@
+import { METADATA } from '@/constants/metadata';
+
+const { github, author } = METADATA;
+
 export const ROUTES = {
   home: '/',
   month: '/month/',
   search: '/search/',
 } as const;
+
+METADATA;
 
 export const NAVIGATION = {
   left: [
@@ -22,8 +28,5 @@ export const NAVIGATION = {
       external: false,
     },
   ],
-  right: {
-    github: 'https://github.com/nemanjam/hn-new-jobs',
-    author: 'https://github.com/nemanjam',
-  },
+  right: { github, author },
 } as const;
