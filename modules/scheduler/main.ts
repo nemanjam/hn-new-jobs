@@ -46,7 +46,7 @@ export const newMonthScheduler = () => {
 
       try {
         const parserResponse: ParserResponse = await callParseNewMonth();
-        logger.info(parserResponse);
+        logger.info('newMonthScheduler parserResponse:', parserResponse);
       } catch (error) {
         logger.error('Parsing new month failed.', error);
       }
@@ -68,7 +68,7 @@ export const seedOldMonthsScheduler = () => {
     async () => {
       try {
         const parserResponse: ParserResponse = await callParseNOldMonths();
-        logger.info(parserResponse);
+        logger.info('seedOldMonthsScheduler parserResponse:', parserResponse);
 
         numberOfCalls++;
       } catch (error) {

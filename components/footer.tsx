@@ -20,6 +20,7 @@ const Footer: FC = () => {
             </Link>
             <span>All rights reserved.</span>
           </p>
+
           <nav className="flex space-x-4">
             <Link
               href={right.github}

@@ -127,6 +127,8 @@ responsive superscript title text
 responsive footer
 layout min-width 320 scroll
 orange old companies
+metadata and og image
+        fix scheduler logging
 
 // plausible backup
 
@@ -134,3 +136,4 @@ orange old companies
 http://localhost:3000/js/script.local.js
 customDomain provider je za bez proxy, next.config.js je za sa proxy, oba mora, ok
 za next.config.js mora at BUILD time, u github action
+MUST PASS as build-args in Dockerfile // izgubio 2 sata
