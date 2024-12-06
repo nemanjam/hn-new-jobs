@@ -13,6 +13,8 @@ fi
 
 # Navigate to the docker-compose.yml folder
 ssh $REMOTE_HOST "cd $REMOTE_PATH && \
+            export MY_UID=\$(id -u) MY_GID=\$(id -g) && \
+            echo 'MY_UID: '\$MY_UID' and MY_GID: '\$MY_GID && \
 
             docker compose down && \
 
