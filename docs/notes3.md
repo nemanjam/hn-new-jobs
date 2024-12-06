@@ -147,4 +147,6 @@ MUST PASS as build-args in Dockerfile // izgubio 2 sata
   digest: '2072576582'
 
 }
-
+// pi
+time="2024-12-06T14:13:15Z" level=warning msg="The \"MY_UID\" variable is not set. Defaulting to a blank string."
+time="2024-12-06T14:13:15Z" level=warning msg="The \"MY_GID\" variable is not set. Defaulting to a blank string."

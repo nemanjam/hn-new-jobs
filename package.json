@@ -25,7 +25,8 @@
     "dc:down": "docker compose down",
     "docker:build:push:x86": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-new-jobs --build-arg ARG_SITE_HOSTNAME='hackernews-new-jobs.arm1.nemanjamitic.com' --build-arg ARG_PLAUSIBLE_SERVER_URL='https://plausible.arm1.nemanjamitic.com' --platform linux/amd64 .",
     "docker:build:push:arm": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-new-jobs --build-arg ARG_SITE_HOSTNAME='hackernews-new-jobs.arm1.nemanjamitic.com' --build-arg ARG_PLAUSIBLE_SERVER_URL='https://plausible.arm1.nemanjamitic.com' --platform linux/arm64 --push .",
-    "docker:build:push:all": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-new-jobs --build-arg ARG_SITE_HOSTNAME='hackernews-new-jobs.arm1.nemanjamitic.com' --build-arg ARG_PLAUSIBLE_SERVER_URL='https://plausible.all.nemanjamitic.com' --platform linux/arm64,linux/amd64 --push ."
+    "docker:build:push:all": "docker buildx build -f ./Dockerfile -t nemanjamitic/hn-new-jobs --build-arg ARG_SITE_HOSTNAME='hackernews-new-jobs.arm1.nemanjamitic.com' --build-arg ARG_PLAUSIBLE_SERVER_URL='https://plausible.all.nemanjamitic.com' --platform linux/arm64,linux/amd64 --push .",
+    "deploy:docker:pi": "bash scripts/deploy-docker.sh pi '~/traefik-proxy/apps/hn-new-jobs' nemanjamitic/hn-new-jobs:latest"
   },
   "dependencies": {
     "@radix-ui/react-scroll-area": "^1.2.1",
