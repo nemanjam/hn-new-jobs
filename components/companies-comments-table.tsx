@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/table';
 import { columns, CompanyTable } from '@/components/companies-comments-columns';
 
+import { cn } from '@/utils/styles';
 import { getThreadOrCommentUrlFromId } from '@/utils/urls';
 
 import { DbMonth } from '@/types/database';
@@ -64,7 +65,7 @@ const CompaniesCommentsTable: FC<Props> = ({ tableData }) => {
 
   return (
     <div className="rounded-lg border bg-card">
-      <div className="flex justify-between items-center p-4">
+      <div className="flex justify-between items-center gap-4 p-4">
         <Input
           placeholder="Filter companies..."
           value={(table.getColumn('companyName')?.getFilterValue() as string) ?? ''}
@@ -84,9 +85,16 @@ const CompaniesCommentsTable: FC<Props> = ({ tableData }) => {
         <TableHeader className="block md:table-header-group">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id} className="block md:table-row">
-              {headerGroup.headers.map((header) => {
+              {headerGroup.headers.map((header, index) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead
+                    key={header.id}
+                    className={cn({
+                      'xs:w-40': index === 0,
+                      'xs:w-32': index === 1,
+                      'hidden xs:table-cell': index === 2,
+                    })}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(header.column.columnDef.header, header.getContext())}
@@ -104,11 +112,16 @@ const CompaniesCommentsTable: FC<Props> = ({ tableData }) => {
                 data-state={row.getIsSelected() && 'selected'}
                 className="block md:table-row"
               >
-                {row.getVisibleCells().map((cell) => {
+                {row.getVisibleCells().map((cell, index) => {
                   return (
                     <TableCell
                       key={cell.id}
-                      className="align-top block md:table-cell py-3 first:pt-4 last:pb-4 md:py-4"
+                      className={cn(
+                        'align-top block md:table-cell py-3 first:pt-4 last:pb-4 md:py-4',
+                        {
+                          'md:text-center': index === 1,
+                        }
+                      )}
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>

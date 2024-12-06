@@ -96,7 +96,7 @@ const BarChartSimple: FC<Props> = ({ chartData, allMonths, month }) => {
 
   return (
     <Card className="self-start">
-      <CardHeader className="flex flex-row justify-between gap-4">
+      <CardHeader className="flex flex-col xs:flex-row justify-between gap-4">
         <div className="space-y-2">
           <CardTitle>Companies by ads</CardTitle>
           <CardDescription>in the previous 12 months</CardDescription>
