@@ -91,7 +91,6 @@ legend beside barchart
 table column width
         search isnt sorted by comments count
         first month, last month statistics
-fix ! | undefined in database, handle exceptions in calls
         trim first month for exception for previous month // done in database
         before '2015-07' didnt use | separators for regex
         cache line-chart result
@@ -153,3 +152,5 @@ time="2024-12-06T14:13:15Z" level=warning msg="The \"MY_GID\" variable is not se
 
 export MY_UID=\$(id -u) MY_GID=\$(id -g) && \
 echo 'MY_UID: '\$MY_UID' and MY_GID: '\$MY_GID && \
+-----
+fix ! | undefined in database, handle exceptions in calls

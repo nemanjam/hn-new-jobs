@@ -36,7 +36,7 @@ const SearchCompanyList: FC<Props> = ({ company }) => {
           <Table className="block md:table">
             <TableHeader className="block md:table-header-group">
               <TableRow className="block md:table-row">
-                <TableHead className="w-[100px] pl-0">Company</TableHead>
+                <TableHead className="w-24 pl-0">Company</TableHead>
                 <TableHead>Number of ads</TableHead>
                 <TableHead className="pr-0">Ads</TableHead>
               </TableRow>

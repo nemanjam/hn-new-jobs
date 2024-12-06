@@ -49,7 +49,7 @@ const IndexPage: FC<Props> = async ({ params }) => {
         subTitle={
           <>
             <span className="hidden md:inline">
-              {`New and repeated job ads from ${firstMonth.name} to ${lastMonth.name}. `}
+              {`New and repeated job ads from ${firstMonth.name} to ${lastMonth.name}.`}
             </span>
             <span className="inline md:hidden">
               {`New and repeated job ads from ${firstMonth.name} to ${lastMonth.name}. ${statisticsText}.`}
