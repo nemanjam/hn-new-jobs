@@ -40,13 +40,22 @@ const IndexPage: FC<Props> = async ({ params }) => {
           <>
             Hackernews new jobs
             {statisticsText && (
-              <small className="relative -top-4 align-baseline text-muted-foreground text-base tracking-normal font-semibold ml-2">
+              <small className="hidden md:inline-block relative -top-4 align-baseline text-muted-foreground text-base tracking-normal font-semibold ml-2">
                 {statisticsText}
               </small>
             )}
           </>
         }
-        subTitle={`New and repeated job ads from ${firstMonth.name} to ${lastMonth.name}.`}
+        subTitle={
+          <>
+            <span className="hidden md:inline">
+              {`New and repeated job ads from ${firstMonth.name} to ${lastMonth.name}. `}
+            </span>
+            <span className="inline md:hidden">
+              {`New and repeated job ads from ${firstMonth.name} to ${lastMonth.name}. ${statisticsText}.`}
+            </span>
+          </>
+        }
       />
       <LineChartMultiple chartData={lineChartMultipleData} />
       <NewOldCompaniesSection

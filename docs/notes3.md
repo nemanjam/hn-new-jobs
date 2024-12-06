@@ -123,10 +123,10 @@ plausible partytown
 responsive table
         winston console prod
 add info logs
-responsive superscript title text
+        responsive superscript title text
         responsive footer
         layout min-width 320 scroll
-orange old companies
+        orange old companies
         metadata and og image
         fix scheduler logging
 
