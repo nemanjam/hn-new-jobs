@@ -104,7 +104,6 @@ legend beside barchart
 
 extract cache wrapper from fetch-api
 zod env vars
-clear cache files content, or use memory, ram usage for db?
 
         link to latest post, sort by new comment
         only newOldCompanies.allCompanies is sorted...
@@ -160,6 +159,7 @@ important: cache, db, log files in data must be created by app non-root user so 
 -----------
 docker delete old image after sure new is available
 recheck text content on website and metadata
+clear cache files content, or use memory, ram usage for db?
 
 
 
