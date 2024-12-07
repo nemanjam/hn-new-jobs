@@ -15,7 +15,7 @@ import { cn, tailwindConfig } from '@/utils/styles';
 import { METADATA } from '@/constants/metadata';
 import { NAVIGATION } from '@/constants/navigation';
 
-const { title } = METADATA;
+const { headerTitle } = METADATA;
 const { left, right } = NAVIGATION;
 
 const smBreakpoint = parseInt(tailwindConfig?.theme?.screens?.sm);
@@ -41,7 +41,7 @@ const Header: FC = () => {
         <div className="flex gap-10">
           <Link href="/" className="flex items-center space-x-2">
             <BriefcaseBusiness className="size-6" />
-            <span className="inline-block font-bold">{title}</span>
+            <span className="inline-block font-bold">{headerTitle}</span>
           </Link>
 
           {/* desktop menu */}

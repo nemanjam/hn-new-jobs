@@ -88,7 +88,7 @@ body responsive font size
         remove container and set padding, layout
 legend beside barchart
         search database count query
-table column width
+        table column width
         search isnt sorted by comments count
         first month, last month statistics
         trim first month for exception for previous month // done in database
@@ -104,7 +104,7 @@ table column width
 
 extract cache wrapper from fetch-api
 zod env vars
-clear cache files content
+clear cache files content, or use memory, ram usage for db?
 
         link to latest post, sort by new comment
         only newOldCompanies.allCompanies is sorted...
@@ -113,13 +113,13 @@ clear cache files content
         ON sc.name = dc.name -- restore original SelectedCompanies instance for month
 
         database, cache, axios singletons, remove db connection from dockerfile
-plausible partytown
+        plausible partytown, not available
         backup database
         line chart colors
         charts on mobile, paddings
         close navbar on resize, add hook
         1 seconds after previous 
-responsive table
+        responsive table
         winston console prod
 add info logs
         responsive superscript title text
@@ -128,7 +128,8 @@ add info logs
         orange old companies
         metadata and og image
         fix scheduler logging
-
+        add createdAtOriginal in links
+        add logs in api
 // plausible backup
 <script defer data-domain="hackernews-new-jobs.arm1.nemanjamitic.com" src="https://plausible.arm1.nemanjamitic.com/js/script.js" />
 http://localhost:3000/js/script.local.js
@@ -156,3 +157,9 @@ echo 'MY_UID: '\$MY_UID' and MY_GID: '\$MY_GID && \
 fix ! | undefined in database, handle exceptions in calls
 border on search table
 important: cache, db, log files in data must be created by app non-root user so app can write to them, or exceptions
+-----------
+docker delete old image after sure new is available
+recheck text content on website and metadata
+
+
+

@@ -8,10 +8,13 @@ import { getNewOldCompaniesForMonthCached } from '@/modules/database/select/comp
 import { getNewOldCompaniesCountForAllMonthsCached } from '@/modules/database/select/line-chart';
 import { getAllMonths } from '@/modules/database/select/month';
 import { getStatisticsCached } from '@/modules/database/select/statistics';
+import { METADATA } from '@/constants/metadata';
 
 import { MonthQueryParam } from '@/types/website';
 
 export interface Props extends MonthQueryParam {}
+
+const { title } = METADATA;
 
 const IndexPage: FC<Props> = async ({ params }) => {
   const statistics = await getStatisticsCached();
@@ -38,7 +41,7 @@ const IndexPage: FC<Props> = async ({ params }) => {
       <Heading
         title={
           <>
-            Hackernews new jobs
+            {title}
             {statisticsText && (
               <small className="hidden md:inline-block relative -top-4 align-baseline text-muted-foreground text-base tracking-normal font-semibold ml-2">
                 {statisticsText}

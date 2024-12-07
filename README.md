@@ -1,4 +1,4 @@
-# Hackernews new jobs
+# HackerNews new jobs
 
 ## Notes
 
