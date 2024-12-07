@@ -10,6 +10,8 @@ https://hackernews-new-jobs.arm1.nemanjamitic.com
 
 ## Screenshots
 
+https://github.com/user-attachments/assets/c4acb705-e0ef-45bf-92a1-f445deabd660
+
 ## Features
 
 ## Installation and running
