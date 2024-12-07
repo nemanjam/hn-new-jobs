@@ -5,7 +5,6 @@ import { Badge } from '@/components/ui/badge';
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -13,6 +12,7 @@ import {
 } from '@/components/ui/table';
 
 import { searchCompanyByName } from '@/modules/database/select/search';
+import { humanFormat } from '@/libs/datetime';
 import { getThreadOrCommentUrlFromId, isCompanySearchMinLength } from '@/utils/urls';
 
 import { SearchParams } from '@/types/website';
@@ -43,13 +43,20 @@ const SearchCompanyList: FC<Props> = ({ company }) => {
             </TableHeader>
             <TableBody className="block md:table-row-group">
               {companies.map((companyWithComments) => {
-                const { company, comments } = companyWithComments;
-                const { name, commentId } = company;
+                const { comments } = companyWithComments;
+
+                // search %like% found random instance, take latest comment instead
+                const company = comments[0];
+                const { name, commentId, createdAtOriginal } = company;
 
                 return (
                   <TableRow key={commentId} className="block md:table-row">
                     <TableCell className="font-medium block md:table-cell px-0 md:pr-4 pb-3 md:pb-4">
-                      <Link href={getThreadOrCommentUrlFromId(commentId)} target="_blank">
+                      <Link
+                        href={getThreadOrCommentUrlFromId(commentId)}
+                        title={humanFormat(createdAtOriginal)}
+                        target="_blank"
+                      >
                         {name}
                       </Link>
                     </TableCell>
@@ -58,7 +65,7 @@ const SearchCompanyList: FC<Props> = ({ company }) => {
                     </TableCell>
                     <TableCell className="flex gap-1 flex-wrap px-0 md:pl-4 pt-3 md:pt-4">
                       {comments.map((comment) => {
-                        const { commentId, monthName } = comment;
+                        const { commentId, monthName, createdAtOriginal } = comment;
 
                         return (
                           <Badge
@@ -66,7 +73,11 @@ const SearchCompanyList: FC<Props> = ({ company }) => {
                             variant="secondary"
                             className="hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
                           >
-                            <Link href={getThreadOrCommentUrlFromId(commentId)} target="_blank">
+                            <Link
+                              href={getThreadOrCommentUrlFromId(commentId)}
+                              title={humanFormat(createdAtOriginal)}
+                              target="_blank"
+                            >
                               {monthName}
                             </Link>
                           </Badge>

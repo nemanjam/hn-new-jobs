@@ -154,3 +154,4 @@ export MY_UID=\$(id -u) MY_GID=\$(id -g) && \
 echo 'MY_UID: '\$MY_UID' and MY_GID: '\$MY_GID && \
 -----
 fix ! | undefined in database, handle exceptions in calls
+border on search table

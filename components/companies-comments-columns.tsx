@@ -9,14 +9,15 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
+import { humanFormat } from '@/libs/datetime';
 import { getThreadOrCommentUrlFromId } from '@/utils/urls';
 
 import { DbCompany } from '@/types/database';
 
 export interface CompanyTable {
-  company: Pick<DbCompany, 'name' | 'commentId'>;
+  company: Pick<DbCompany, 'name' | 'commentId' | 'createdAtOriginal'>;
   commentsCount: number;
-  comments: Pick<DbCompany, 'monthName' | 'commentId'>[];
+  comments: Pick<DbCompany, 'monthName' | 'commentId' | 'createdAtOriginal'>[];
 }
 
 export const columns: ColumnDef<CompanyTable>[] = [
@@ -36,10 +37,14 @@ export const columns: ColumnDef<CompanyTable>[] = [
       );
     },
     cell: ({ row }) => {
-      const { name, commentId } = row.original.company;
+      const { name, commentId, createdAtOriginal } = row.original.company;
 
       return (
-        <Link href={getThreadOrCommentUrlFromId(commentId)} target="_blank">
+        <Link
+          href={getThreadOrCommentUrlFromId(commentId)}
+          title={humanFormat(createdAtOriginal)}
+          target="_blank"
+        >
           {name}
         </Link>
       );
@@ -70,7 +75,7 @@ export const columns: ColumnDef<CompanyTable>[] = [
         <ScrollArea className="w-full">
           <div className="flex flex-wrap gap-2">
             {comments.map((comment) => {
-              const { commentId, monthName } = comment;
+              const { commentId, monthName, createdAtOriginal } = comment;
 
               return (
                 <Badge
@@ -78,7 +83,11 @@ export const columns: ColumnDef<CompanyTable>[] = [
                   variant="secondary"
                   className="hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
                 >
-                  <Link href={getThreadOrCommentUrlFromId(commentId)} target="_blank">
+                  <Link
+                    href={getThreadOrCommentUrlFromId(commentId)}
+                    title={humanFormat(createdAtOriginal)}
+                    target="_blank"
+                  >
                     {monthName}
                   </Link>
                 </Badge>

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
+import { humanFormat } from '@/libs/datetime';
 import { getThreadOrCommentUrlFromId } from '@/utils/urls';
 
 import { NewOldCompanies } from '@/types/database';
@@ -37,7 +38,7 @@ const NewOldCompaniesList: FC<Props> = ({ newOldCompanies }) => {
                 // correct company for month with correct link (commentId), selected already in database
                 // comments only for count
                 const { company, comments } = companyWithComments;
-                const { name, commentId } = company;
+                const { name, commentId, createdAtOriginal } = company;
 
                 return (
                   <Badge
@@ -49,6 +50,7 @@ const NewOldCompaniesList: FC<Props> = ({ newOldCompanies }) => {
                       key={commentId}
                       href={getThreadOrCommentUrlFromId(commentId)}
                       target="_blank"
+                      title={humanFormat(createdAtOriginal)}
                     >
                       {`${name} (${comments.length})`}
                     </Link>

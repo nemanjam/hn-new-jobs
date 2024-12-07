@@ -14,12 +14,16 @@ export const getCompanyTableData = (
 
   const data: CompanyTable[] = companiesComments.map((companyComments) => {
     const { company, comments } = companyComments;
-    const { name, commentId } = company;
+    const { name, commentId, createdAtOriginal } = company;
 
     return {
-      company: { name, commentId },
+      company: { name, commentId, createdAtOriginal },
       commentsCount: comments.length,
-      comments: comments.map(({ commentId, monthName }) => ({ commentId, monthName })),
+      comments: comments.map(({ commentId, monthName, createdAtOriginal }) => ({
+        commentId,
+        monthName,
+        createdAtOriginal,
+      })),
     };
   });
 
