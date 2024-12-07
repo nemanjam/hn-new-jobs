@@ -1,0 +1,2 @@
+```ts
+record video demo

@@ -160,6 +160,6 @@ important: cache, db, log files in data must be created by app non-root user so 
 docker delete old image after sure new is available
 recheck text content on website and metadata
 clear cache files content, or use memory, ram usage for db?
-
+reduce table first column width
 
 
