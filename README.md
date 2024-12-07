@@ -52,7 +52,7 @@ yarn dc:up
 
 ### Environment variables
 
-Create `.env file`.
+Create `.env` file.
 
 ```bash
 cp .env.example .env
@@ -98,7 +98,7 @@ scp ./data/database/hn-new-jobs-database-dev.sqlite3 <user@server>:~/<your-path-
 scp ./data/database/hn-new-jobs-database-dev.sqlite3 arm1:~/traefik-proxy/apps/hn-new-jobs/data/database/hn-new-jobs-database-prod.sqlite3
 ```
 
-### Local
+### Deploy from local machine
 
 ```bash
 # build and push x86 and arm images
