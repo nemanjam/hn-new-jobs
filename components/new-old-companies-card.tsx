@@ -31,7 +31,8 @@ const scrollPositionKey = getScrollPositionKey('root');
 const NewOldCompaniesCard: FC<Props> = ({ newOldCompanies, allMonths, month }) => {
   const { replace } = useRouter();
 
-  const selectMonthNames = allMonths.map((month) => month.name);
+  // remove last item to prevent exception
+  const selectMonthNames = allMonths.map((month) => month.name).slice(0, -1);
 
   const {
     firstTimeCompanies,

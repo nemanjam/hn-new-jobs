@@ -92,7 +92,7 @@ const BarChartSimple: FC<Props> = ({ chartData, allMonths, month }) => {
     sessionStorage.removeItem(scrollPositionKey);
   }, []);
 
-  const selectMonthNames = allMonths.map((month) => month.name);
+  const selectMonthNames = allMonths.map((month) => month.name).slice(0, -1);
 
   return (
     <Card className="self-start">
