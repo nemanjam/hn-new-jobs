@@ -30,7 +30,7 @@ export const getBarChartSimpleData = (
     const _12mOldMonthName = createOldMonthName(monthName, 12);
 
     const commentsCount = comments.filter(
-      (comment) => comment.monthName >= _12mOldMonthName
+      (comment) => comment.monthName >= _12mOldMonthName && comment.monthName <= monthName
     ).length;
 
     switch (true) {
