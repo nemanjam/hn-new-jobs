@@ -155,3 +155,4 @@ echo 'MY_UID: '\$MY_UID' and MY_GID: '\$MY_GID && \
 -----
 fix ! | undefined in database, handle exceptions in calls
 border on search table
+important: cache, db, log files in data must be created by app non-root user so app can write to them, or exceptions

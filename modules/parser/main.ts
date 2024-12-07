@@ -15,18 +15,18 @@ const main = async (script: ScriptType) => {
   switch (script) {
     case SCRIPTS.parseNew: {
       const parserResponse: ParserResponse = await callParseNewMonth();
-      logger.info('main.ts script, parserResponse:', parserResponse);
+      logger.info('main.ts parseNew script, parserResponse:', parserResponse);
       break;
     }
     case SCRIPTS.parseOld: {
       const parserResponse: ParserResponse = await callParseOldMonth();
-      logger.info('main.ts script, parserResponse:', parserResponse);
+      logger.info('main.ts parseOld script, parserResponse:', parserResponse);
       break;
     }
     case SCRIPTS.parseOldMany: {
       // PARSER_CONFIG.oldMonthsCount = 12
       const parserResponse: ParserResponse = await callParseNOldMonths();
-      logger.info('main.ts script, parserResponse:', parserResponse);
+      logger.info('main.ts parseOldMany script, parserResponse:', parserResponse);
       break;
     }
     case SCRIPTS.trimOld: {

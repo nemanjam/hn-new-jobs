@@ -45,14 +45,20 @@ export const GET = async (
     switch (script) {
       case SCRIPTS.parseNew: {
         const parserResponse: ParserResponse = await callParseNewMonth();
+
+        logger.info('api parseNew, parserResponse:', parserResponse);
         return NextResponse.json(parserResponse);
       }
       case SCRIPTS.parseOld: {
         const parserResponse: ParserResponse = await callParseOldMonth();
+
+        logger.info('api parseOld, parserResponse:', parserResponse);
         return NextResponse.json(parserResponse);
       }
       case SCRIPTS.parseOldMany: {
         const parserResponse: ParserResponse = await callParseNOldMonths();
+
+        logger.info('api parseOldMany, parserResponse:', parserResponse);
         return NextResponse.json(parserResponse);
       }
       default: {
