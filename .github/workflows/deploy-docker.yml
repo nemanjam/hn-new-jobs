@@ -3,7 +3,7 @@ name: Deploy Docker
 on:
   workflow_run:
     workflows:
-      - 'Build and push Docker'
+      - 'disabled-Build and push Docker'
     types:
       - completed
 
