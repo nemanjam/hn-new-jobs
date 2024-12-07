@@ -2,7 +2,7 @@
 
 A website that provides obvious, effortless and deep insights into fresh and recurring job opportunities in Hacker News "Who's Hiring" thread.
 
-For example, if you are looking for a job and want to put more focus on fresh opportunities or research specific company's ad history.
+For example, if you are looking for a job and want to focus more on fresh opportunities or research the ad history of a specific company.
 
 ## Demo
 
@@ -20,6 +20,9 @@ https://github.com/user-attachments/assets/c4acb705-e0ef-45bf-92a1-f445deabd660
 node -v
 # v22.9.0
 
+# set environment variables
+cp .env.example .env
+
 # install dependencies
 yarn install
 
@@ -33,8 +36,8 @@ yarn build
 yarn standalone
 
 # or
-node .next/standalone/server.js
 yarn cp
+node .next/standalone/server.js
 
 # Docker
 
@@ -46,6 +49,30 @@ yarn dc:up
 ```
 
 ## Deployment
+
+### Environment variables
+
+Create `.env file`.
+
+```bash
+cp .env.example .env
+```
+
+Set environment variables.
+
+```bash
+# .env
+
+# for metadata
+SITE_HOSTNAME=my-domain.com
+
+# protect endpoints
+API_SECRET=long-string
+
+# plausible analytics
+PLAUSIBLE_SERVER_URL=https://plausible.my-domain.com
+PLAUSIBLE_DOMAIN=my-domain.com
+```
 
 ### Github Actions
 
@@ -79,7 +106,6 @@ yarn docker:build:push:all
 
 # edit package.json script, replace <vars>
 "deploy:docker:pi": "bash scripts/deploy-docker.sh <user@server> '~/<your-path-on-server>/hn-new-jobs' <your-image-name:latest>"
-
 
 # deploy to remote server
 yarn deploy:docker:pi
