@@ -1,5 +1,5 @@
 import { getDb } from '@/modules/database/schema';
-import { isValidMonthName } from '@/libs/datetime';
+import { isValidMonthName } from '@/utils/validation';
 import { ALGOLIA } from '@/constants/algolia';
 
 const { threads } = ALGOLIA;

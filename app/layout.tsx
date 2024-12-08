@@ -13,6 +13,8 @@ import { SERVER_CONFIG } from '@/config/server';
 
 import '@/styles/globals.css';
 
+import { FC } from 'react';
+
 // single in layout is enough for all pages
 export const dynamic = 'force-dynamic';
 
@@ -69,24 +71,24 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <BaseHead />
-      <body
-        className={cn(
-          'relative min-h-screen min-w-80 flex flex-col bg-background font-sans antialiased',
-          fontSans.variable
-        )}
-      >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header />
-          <main className="flex-1 my-container py-8 md:py-10">{children}</main>
-          <Footer />
+const RootLayout: FC<RootLayoutProps> = async ({ children }) => (
+  <html lang="en" suppressHydrationWarning>
+    <BaseHead />
+    <body
+      className={cn(
+        'relative min-h-screen min-w-80 flex flex-col bg-background font-sans antialiased',
+        fontSans.variable
+      )}
+    >
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <Header />
+        <main className="flex-1 flex flex-col my-container py-8 md:py-10">{children}</main>
+        <Footer />
 
-          <TailwindIndicator />
-        </ThemeProvider>
-      </body>
-    </html>
-  );
-}
+        <TailwindIndicator />
+      </ThemeProvider>
+    </body>
+  </html>
+);
+
+export default RootLayout;

@@ -2,6 +2,7 @@ import { getDb } from '@/modules/database/schema';
 
 import { DbMonth, MonthPair } from '@/types/database';
 
+// never cache this, validate month slug
 export const getMonthByName = (monthName: string): DbMonth => {
   const month = getDb()
     .prepare<string, DbMonth>(`SELECT * FROM month WHERE name = ?`)

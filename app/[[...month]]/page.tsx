@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { notFound } from 'next/navigation';
 
 import LineChartMultiple from '@/components/charts/line-chart-multiple';
 import Heading from '@/components/heading';
@@ -8,6 +9,7 @@ import { getNewOldCompaniesForMonthCached } from '@/modules/database/select/comp
 import { getNewOldCompaniesCountForAllMonthsCached } from '@/modules/database/select/line-chart';
 import { getAllMonths } from '@/modules/database/select/month';
 import { getStatisticsCached } from '@/modules/database/select/statistics';
+import { isValidMonthNameWithDb } from '@/utils/validation';
 import { METADATA } from '@/constants/metadata';
 
 import { MonthQueryParam } from '@/types/website';
@@ -25,6 +27,8 @@ const IndexPage: FC<Props> = async ({ params }) => {
   // array for [[...month]]
   const { month } = await params;
   const selectedMonth = month?.[0] ?? allMonths[0].name;
+
+  if (!isValidMonthNameWithDb(selectedMonth)) return notFound();
 
   const newOldCompanies = await getNewOldCompaniesForMonthCached(selectedMonth);
 
