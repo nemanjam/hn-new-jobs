@@ -4,6 +4,8 @@ A website that provides obvious, effortless and deep insights into fresh and rec
 
 For example, if you are looking for a job and want to focus more on fresh opportunities or research the ad history of a specific company.
 
+You are welcome to use, self-host, fork and modify, and contribute to this project.
+
 ## Demo
 
 https://hackernews-new-jobs.arm1.nemanjamitic.com
@@ -166,9 +168,25 @@ Inside the [libs/keyv.ts](libs/keyv.ts) there is a `cacheDatabaseWrapper()` func
 
 ### Scheduler
 
+Scheduler is needed to execute parsing a new month, every day between 2nd and 15th day every month at 9:00am Belgrade time (`'0 9 2-15 * *'`). There is an additional logic to skip first two days if those are on weekend in [libs/datetime.ts](libs/datetime.ts).
+
+Scheduler is also useful to seed the database for the entire history and avoid Algolia rate limits.
+
+Initial idea was to add cron task inside the Docker image itself. After careful research I discovered that `crond` daemon must run as `root` user or it will produce `setpgid: Operation not permitted` error, see this [Github issue](https://github.com/gliderlabs/docker-alpine/issues/381#issuecomment-621946699). This was unacceptable because Next.js app needs to run as `non-root` user for security reasons and easier managing file permissions in Docker bind mount volumes (database, cache, log files).
+
+This requires exposing scripts as API endpoints and running `crond` daemon in a separate Docker image, which is unpractical and greatly complicates deployment. There are 3rd party binaries to run scheduled tasks in Docker, mostly in Go https://github.com/aptible/supercronic.
+
+Fortunately there are also few Node.js packages to run scheduled tasks, I picked [node-cron/node-cron](https://github.com/node-cron/node-cron) for simplicity and practical reasons.
+
+Scheduled tasks definitions are in [modules/scheduler/main.ts](modules/scheduler/main.ts). Important note is that they are dynamically imported and invoked in [instrumentation.ts](instrumentation.ts) which will guarantee that they are scheduled exactly once and there are no double tasks. Here is [Next.js docs](https://nextjs.org/docs/app/building-your-application/optimizing/instrumentation) about this.
+
+Scripts itself are also exposed (and left unused) as API endpoints in [app/api/parser/[script]/route.ts](app/api/parser/[script]/route.ts). They can also be executed manually as `tsx` scripts in dev mode in [modules/parser/main.ts](modules/parser/main.ts).
+
 ### Server side rendering
 
 ### Docker
+
+### Plausible analytics
 
 ### Logging
 
@@ -188,6 +206,9 @@ Inside the [libs/keyv.ts](libs/keyv.ts) there is a `cacheDatabaseWrapper()` func
 - HN Algolia API docs https://hn.algolia.com/api
 - Plausible configuration https://github.com/4lejandrito/next-plausible
 - Remove database connection from global scope to remove database connection dependency at build time for a Next.js app https://github.com/vercel/next.js/discussions/35534#discussioncomment-11385544
+- Alpine cron asn non-root user https://github.com/gliderlabs/docker-alpine/issues/381#issuecomment-621946699, https://stackoverflow.com/questions/63046301/how-to-run-cron-as-non-root-in-alpine
+- Scheduler libraries overview for Node.js https://dev.to/ethanleetech/task-scheduling-in-nextjs-top-tools-and-best-practices-2024-3l77
+- Instrumentation file, Next.js docs https://nextjs.org/docs/app/building-your-application/optimizing/instrumentation
 
 ## License
 
