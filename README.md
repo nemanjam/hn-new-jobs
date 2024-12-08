@@ -14,6 +14,23 @@ https://github.com/user-attachments/assets/c4acb705-e0ef-45bf-92a1-f445deabd660
 
 ## Features
 
+- Separate companies by: 1. First time companies (first job ad ever), 2. New companies (no job ad in previous month), 3. Old companies (had job ad in previous month) for every month in history
+- Display separated companies in multi-line chart graph
+- Job ad posts are linked and sorted by original time of creation
+- For every company in a month, find every job ad in history, link them and sort them chronologically
+- Display separated companies by number of job ads in the previous 12 months period in bar chart graph
+- Search job ads from a company
+- Cron job for parsing a new month
+- Cron job to respect Algolia API rate limiting and parse and seed database for the entire history (since `2015-06` uniform formatting with `|` separated post titles)
+- SQLite database for fast querying and Keyv caching for fast reads and page load
+- Http response caching with Keyv to reduce load on Algolia API and mitigate rate limiting
+- Docker deployments with x86 and ARM images, from local machine and Github Actions
+- Next.js app router app with SSR and Shadcn components
+- Responsive design and dark theme support
+- Plausible analytics
+- Winston logging
+- Clean, separated types, constants, utils and config
+
 ## Installation and running
 
 ```bash
