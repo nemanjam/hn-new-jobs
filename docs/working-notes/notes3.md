@@ -158,8 +158,8 @@ border on search table
 important: cache, db, log files in data must be created by app non-root user so app can write to them, or exceptions
 -----------
 docker delete old image after sure new is available
-recheck text content on website and metadata
+        recheck text content on website and metadata
 clear cache files content, or use memory, ram usage for db?
-reduce table first column width
+        reduce table first column width
 
 
