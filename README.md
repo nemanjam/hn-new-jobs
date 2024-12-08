@@ -134,17 +134,17 @@ yarn deploy:docker:pi
 
 ### Data source
 
-Initially app started with scraping original https://news.ycombinator.com thread pages and inside the [docs/old-code/scraper](docs/old-code/scraper) folder there is still complete scraper implementation. It uses `axios` for fetching html but soon I discovered that their server has very strict rate limiting and such scrapper was getting a lot of unpredictable `ETIMEDOUT` and `ECONNRESET` connection abrupt terminations. It's easy to distinguish `axios` from browser so I considered moving to Playwright until I discovered Algolia API https://hn.algolia.com/api.
+Initially app started with scraping original https://news.ycombinator.com thread pages and inside the [docs/old-code/scraper](docs/old-code/scraper) folder there is still complete scraper implementation. It uses Axios for fetching html but soon I discovered that their server has very strict rate limiting and such scrapper was getting a lot of unpredictable `ETIMEDOUT` and `ECONNRESET` connection abrupt terminations. It's easy to distinguish Axios from browser so I considered moving to Playwright until I discovered Algolia API https://hn.algolia.com/api.
 
-As stated in docs it has generous rate limiting plan 10000 requests/hour which is 2.77 requests/second. Although in practice I experienced more strict rate limits than this, it is still more than enough to easily collect enough data. Especially the fact that you can receive up to 1000 items per a single request. Meaning pagination is almost not needed, although it is implemented. "Who is hiring" thread have up to 700 comments, entire thread can be fetched with a single API request.
+As stated in docs it has generous rate limiting plan `10000 requests/hour` which is `2.77 requests/second`. Although in practice I experienced more strict rate limits than this, it is still more than enough to easily collect enough data. Especially the fact that you can receive up to 1000 items per a single request. Meaning pagination is almost not needed, although it is implemented. "Who is hiring" threads have up to 700 comments, entire thread can be fetched with a single API request.
 
-Company names are extracted with a simple `|` character Regex from a comment title, this posting convention was enforced around the year 2015, so the database is seeded starting from `'2015-06'` month. You can observe all of this in [constants/algolia.ts](constants/algolia.ts).
+Company names are extracted with a simple `|` character Regex from a comment title, this posting convention was enforced around the year 2015, so the database is seeded starting from `'2015-06'` month. You can see all of this in [constants/algolia.ts](constants/algolia.ts).
 
 ### Database
 
 Threads are modeled with `Thread` and `Comment` models, although they are named `Month` and `Company` because those words make more sense in context of app logic. `Company` table is both `Company` and `Comment` (job ad) at same time, that is why for example self join is used to extract all ads for a company. `Month` primary key is `name` string in `'YYYY-MM'` format which is sortable.
 
-Important implementation detail is that database connection is done as Singleton factory function and this way removed from the global scope. This allows the Next.js app to be built without requiring database connection at build time which significantly simplifies the build process. See this [Github discussion](https://github.com/vercel/next.js/discussions/35534#discussioncomment-11385544). The same Singleton factory is reused for both `Keyv` and `axios` instances [utils/singleton.ts](utils/singleton.ts).
+Important implementation detail is that database connection is done as Singleton factory function and this way removed from the global scope. This allows the Next.js app to be built without requiring database connection at build time which significantly simplifies the build process. See this [Github discussion](https://github.com/vercel/next.js/discussions/35534#discussioncomment-11385544). The same Singleton factory is reused for both Keyv and Axios instances [utils/singleton.ts](utils/singleton.ts).
 
 You can check schema in [modules/database/schema.ts](modules/database/schema.ts).
 
@@ -158,13 +158,13 @@ There is a number of select queries inside [modules/database/select](modules/dat
 
 ### Caching
 
-Like stated in the previous section, database is dominantly read only which allowed for easy caching of query responses. This improved SSR pages loading performance from `1200ms` to `400ms`. There is just a single invalidation event, when new month is parsed, you can see it in [modules/parser/calls.ts](modules/parser/calls.ts).
+Like stated in the previous section, database is dominantly read only which allowed for easy caching of query responses. This improved SSR pages loading performance from `1200 ms` to `400 ms`. There is just a single invalidation event, when new month is parsed, you can see it in [modules/parser/calls.ts](modules/parser/calls.ts).
 
-`Keyv` library with `KeyvFile` is used for caching both http requests and database queries into `.json` files. Invalidating cache entry does not seem to remove it from the `.json` file to save space, this requires more research and it is added to [Todo](#todo) list.
+Keyv library with KeyvFile is used for caching both http requests and database queries into `.json` files. Invalidating cache entry does not seem to remove it from the `.json` file to save space, this requires more research and it is added to [Todo](#todo) list.
 
 Inside the [libs/keyv.ts](libs/keyv.ts) there is a `cacheDatabaseWrapper()` function that accepts database query function and returns cached version.
 
-`Keyv` instances are also removed from the global scope with Singleton factory function.
+Keyv instances are also removed from the global scope with Singleton factory function.
 
 ### Scheduler
 
@@ -174,7 +174,7 @@ Scheduler is also useful to seed the database for the entire history and avoid A
 
 Initial idea was to add cron task inside the Docker image itself. After careful research I discovered that `crond` daemon must run as `root` user or it will produce `setpgid: Operation not permitted` error, see this [Github issue](https://github.com/gliderlabs/docker-alpine/issues/381#issuecomment-621946699). This was unacceptable because Next.js app needs to run as `non-root` user for security reasons and easier managing file permissions in Docker bind mount volumes (database, cache, log files).
 
-This requires exposing scripts as API endpoints and running `crond` daemon in a separate Docker image, which is unpractical and greatly complicates deployment. There are 3rd party binaries to run scheduled tasks in Docker, mostly in Go https://github.com/aptible/supercronic.
+This requires exposing scripts as API endpoints and running `crond` daemon in a separate Docker image, which is unpractical and greatly complicates deployment. There are 3rd party binaries to run scheduled tasks in Docker, mostly in Go [aptible/supercronic](https://github.com/aptible/supercronic).
 
 Fortunately there are also few Node.js packages to run scheduled tasks, I picked [node-cron/node-cron](https://github.com/node-cron/node-cron) for simplicity and practical reasons.
 
@@ -193,8 +193,8 @@ Scripts itself are also exposed (and left unused) as API endpoints in [app/api/p
 ## Todo
 
 - Handle not found exceptions in database select queries
+- Clear Keyv cache files, not just invalidate
 - Winston rotate single file
-- Clear `Keyv` cache files, not just invalidate
 
 ## References
 
