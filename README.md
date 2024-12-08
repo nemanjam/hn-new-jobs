@@ -184,6 +184,8 @@ Scripts itself are also exposed (and left unused) as API endpoints in [app/api/p
 
 ### Server side rendering
 
+Currently there are 115 months in history, it is not practical to prerender that many pages. For performance and SEO reasons server side rendering is always preferred to client side. Month is used as dynamic param, validated by Regex and database lookup, cached database query is read and the page is generated on server at request time. This is true for all 3 pages. Scroll position is stored in localStorage on `onChange` Select control event, read, restored and cleared on page load. For search page query param is passed as dynamic route param, as described in [Next.js docs](https://nextjs.org/learn/dashboard-app/adding-search-and-pagination).
+
 ### Docker
 
 ### Plausible analytics
@@ -202,7 +204,7 @@ Scripts itself are also exposed (and left unused) as API endpoints in [app/api/p
 - Shadcn components docs https://ui.shadcn.com/docs/components/accordion
 - Shadcn chart examples https://ui.shadcn.com/charts
 - Shadcn data table docs https://ui.shadcn.com/docs/components/data-table
-- Search and pagination as url query params to keep SSR for filtering Products list https://nextjs.org/learn/dashboard-app/adding-search-and-pagination
+- Search and pagination as url query params to keep SSR https://nextjs.org/learn/dashboard-app/adding-search-and-pagination
 - HN Algolia API docs https://hn.algolia.com/api
 - Plausible configuration https://github.com/4lejandrito/next-plausible
 - Remove database connection from global scope to remove database connection dependency at build time for a Next.js app https://github.com/vercel/next.js/discussions/35534#discussioncomment-11385544
