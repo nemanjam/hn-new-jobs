@@ -90,8 +90,6 @@ const CompaniesCommentsTable: FC<Props> = ({ tableData }) => {
                   <TableHead
                     key={header.id}
                     className={cn({
-                      'xs:w-40': index === 0,
-                      'xs:w-32': index === 1,
                       'hidden xs:table-cell': index === 2,
                     })}
                   >

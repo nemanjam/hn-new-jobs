@@ -113,8 +113,25 @@ yarn deploy:docker:pi
 
 ## Implementation details
 
+#### Database ER diagram
+
+![Database ER diagram](docs/screenshots/hn-new-jobs-database-er-diagram.png)
+
+## Todo
+
+- Handle not found exceptions in database select queries
+- Winston rotate single file
+
 ## References
+
+- Shadcn starter project (updated) https://github.com/shadcn-ui/next-template
+- Shadcn components docs https://ui.shadcn.com/docs/components/accordion
+- Shadcn chart examples https://ui.shadcn.com/charts
+- Shadcn data table docs https://ui.shadcn.com/docs/components/data-table
+- Search and pagination as url query params to keep SSR for filtering Products list https://nextjs.org/learn/dashboard-app/adding-search-and-pagination
+- HN Algolia API docs https://hn.algolia.com/api
+- Plausible configuration https://github.com/4lejandrito/next-plausible
 
 ## License
 
-This project uses MIT license: [License](LICENSE)
+MIT license: [License](LICENSE)
