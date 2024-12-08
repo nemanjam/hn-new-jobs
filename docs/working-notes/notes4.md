@@ -5,3 +5,4 @@
     fix first month exception
     add 404 and 500 page
     validate month in page params
+winston singleton

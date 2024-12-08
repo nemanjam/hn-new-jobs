@@ -54,6 +54,7 @@ const consoleCombinedFormats: Logform.Format = combine(
   consoleFormat
 );
 
+// todo: singleton
 const devLogger: Logger = winston.createLogger({
   level: 'debug',
   format: consoleCombinedFormats,

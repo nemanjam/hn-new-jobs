@@ -154,11 +154,15 @@ const setUnit = (chartData: LineChartMultipleData[], yAxisUnit: string) => {
 };
 
 const getFirstTimeCompaniesTrendingPercent = (chartData: LineChartMultipleData[]): number => {
-  if (!(chartData.length > 1)) return 0;
+  const chartDataLength = chartData.length;
+  if (!(chartDataLength > 1)) return 0;
+
+  const lastMonth = chartData[chartDataLength - 1];
+  const secondLastMonth = chartData[chartDataLength - 2];
 
   const percent = Math.round(
-    ((chartData[0].firstTimeCompaniesCount - chartData[1].firstTimeCompaniesCount) /
-      chartData[1].firstTimeCompaniesCount) *
+    ((lastMonth.firstTimeCompaniesCount - secondLastMonth.firstTimeCompaniesCount) /
+      secondLastMonth.firstTimeCompaniesCount) *
       100
   );
 
