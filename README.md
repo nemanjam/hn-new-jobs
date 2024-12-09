@@ -188,15 +188,28 @@ Currently there are 115 months in history, it is not practical to prerender that
 
 ### Docker
 
+There are configurations provided to build Docker images both locally and in Github Actions, for both `linux/amd64` and `linux/arm64` platforms. There are also dev [docker-compose.yml](docker-compose.yml) and prod [docker-compose.prod.yml](docker-compose.prod.yml) files. Two important things to note:
+
+[data](data) folder that contains files for SQLite database, cache and logs is exposed to Docker as bind mount. To avoid file permission issues a current user is passed in both dev and prod `docker-compose.yml`.
+
+There are two environment variables required at build time, `SITE_HOSTNAME` for Next.js metadata and `PLAUSIBLE_SERVER_URL` for custom Plausible domain. Both are passed into [Dockerfile](dockerfile) as build args and you need to provide them whenever you build Docker images (Github Actions, `docker-compose.yml`, yarn scripts). If you don't app will still run but you will have broken SEO and analytics.
+
 ### Plausible analytics
 
+It uses [4lejandrito/next-plausible](https://github.com/4lejandrito/next-plausible) package and its configuration is documented in its Readme file. Provider is configured in [components/base-head.tsx](components/base-head.tsx) and the API proxy in [next.config.mjs](next.config.mjs). It requires two environment variables, `PLAUSIBLE_DOMAIN` for your website domain, and `PLAUSIBLE_SERVER_URL` for your self-hosted Plausible instance. Proxy is needed so that `script.js` is loaded from your local domain instead of remote Plausible server, this will help mitigating adblockers. Important node is that variable used in `next.config.mjs` needs to be provided at build time.
+
 ### Logging
+
+Winston is configured in [libs/winston.ts](libs/winston.ts). Dev logger logs to console and prod logs to both console and html file that should be publicly available. Prod logger is disabled because up to this point I haven't found simple, elegant way to rotate single log file. Simple and obvious thing but somehow unavailable in Winston. Currently it is used only for logging scheduled parsing of new month, more logging should be added.
+
+Separate [utils/pretty-print.ts](utils/pretty-print.ts) function is used to log initial configuration and environment variables on app start.
 
 ## Todo
 
 - Handle not found exceptions in database select queries
 - Clear Keyv cache files, not just invalidate
 - Winston rotate single file
+- Plausible incorrectly detects server's location as user's country in some cases
 
 ## References
 
@@ -211,6 +224,7 @@ Currently there are 115 months in history, it is not practical to prerender that
 - Alpine cron asn non-root user https://github.com/gliderlabs/docker-alpine/issues/381#issuecomment-621946699, https://stackoverflow.com/questions/63046301/how-to-run-cron-as-non-root-in-alpine
 - Scheduler libraries overview for Node.js https://dev.to/ethanleetech/task-scheduling-in-nextjs-top-tools-and-best-practices-2024-3l77
 - Instrumentation file, Next.js docs https://nextjs.org/docs/app/building-your-application/optimizing/instrumentation
+- Plausible analytics configuration https://github.com/4lejandrito/next-plausible
 
 ## License
 
