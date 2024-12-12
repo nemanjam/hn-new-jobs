@@ -219,7 +219,6 @@ Separate [utils/pretty-print.ts](utils/pretty-print.ts) function is used to log 
 - Shadcn data table docs https://ui.shadcn.com/docs/components/data-table
 - Search and pagination as url query params to keep SSR https://nextjs.org/learn/dashboard-app/adding-search-and-pagination
 - HN Algolia API docs https://hn.algolia.com/api
-- Plausible configuration https://github.com/4lejandrito/next-plausible
 - Remove database connection from global scope to remove database connection dependency at build time for a Next.js app https://github.com/vercel/next.js/discussions/35534#discussioncomment-11385544
 - Alpine cron asn non-root user https://github.com/gliderlabs/docker-alpine/issues/381#issuecomment-621946699, https://stackoverflow.com/questions/63046301/how-to-run-cron-as-non-root-in-alpine
 - Scheduler libraries overview for Node.js https://dev.to/ethanleetech/task-scheduling-in-nextjs-top-tools-and-best-practices-2024-3l77
