@@ -14,3 +14,7 @@ https://play.clickhouse.com/play?user=play#U0VMRUNUIG1heCh0aW1lKSBGUk9NIGhhY2tlc
 lru cache
 lighthouse in ssr section readme
 need to restart container after cron new month, maybe cache or database volume 
+jeste do cache, nema sa cache disabled
+mozda samo portainer container recreate fails
+----
+x new ads since yesterday, both debugging and ui, compare last month updatedAt
