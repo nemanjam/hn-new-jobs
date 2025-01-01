@@ -3042,6 +3042,13 @@ keyv-file@^5.0.3:
     fs-extra "^4.0.1"
     tslib "^1.14.1"
 
+keyv-lru@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/keyv-lru/-/keyv-lru-3.0.4.tgz#95ec97077a18d9a6ceb16a48b6530c26c5ce9099"
+  integrity sha512-4XALKaBM/3nZr0o0Hskq+SPS2tBkfZXYQRDl0SqywIimZf0wrrMEgSfoOM7eNuKXnICIOHs3exPucGKDYAp/8g==
+  dependencies:
+    tiny-lru "^1.6.1"
+
 keyv@^4.5.3:
   version "4.5.4"
   resolved "https://registry.yarnpkg.com/keyv/-/keyv-4.5.4.tgz#a879a99e29452f942439f2a405e3af8b31d4de93"
@@ -4278,6 +4285,11 @@ tiny-invariant@^1.3.1:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.3.3.tgz#46680b7a873a0d5d10005995eb90a70d74d60127"
   integrity sha512-+FbBPE1o9QAYvviau/qC5SE3caw21q3xkvWKBtja5vgqOWIHHJ3ioaq1VPfn/Szqctz2bU/oYeKd9/z5BL+PVg==
+
+tiny-lru@^1.6.1:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/tiny-lru/-/tiny-lru-1.6.4.tgz#ee5226a29a7b734ef8aee47673dd5079bf987441"
+  integrity sha512-Et+J3Css66XPSLWjLF9wmgbECsGiExlEL+jxsFerTQF6N6dpxswDTPAfIrAbQKO5c1uhgq2xvo5zMk1W+kBDNA==
 
 tldts-core@^6.1.58:
   version "6.1.58"

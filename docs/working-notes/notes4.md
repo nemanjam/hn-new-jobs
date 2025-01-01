@@ -11,10 +11,13 @@ case insensitive company name consensys
 click up api
 
 https://play.clickhouse.com/play?user=play#U0VMRUNUIG1heCh0aW1lKSBGUk9NIGhhY2tlcm5ld3NfaGlzdG9yeQ==
-lru cache
+        lru cache
 lighthouse in ssr section readme
 need to restart container after cron new month, maybe cache or database volume 
 jeste do cache, nema sa cache disabled
+cache invalidate fails?
 mozda samo portainer container recreate fails
 ----
-x new ads since yesterday, both debugging and ui, compare last month updatedAt
+N new ads since yesterday, both debugging and ui, compare last month updatedAt // dobar feature
+deleteLastNMonths for test updating
+remove plausible proxy for country, open issue and ask

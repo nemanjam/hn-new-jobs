@@ -1,12 +1,20 @@
 import fs from 'fs';
 
-import Keyv from 'keyv';
+import Keyv, { KeyvStoreAdapter } from 'keyv';
 import KeyvFile from 'keyv-file';
 
 import { Singleton } from '@/utils/singleton';
 import { SERVER_CONFIG } from '@/config/server';
 
-const { cacheHttpFilePath, cacheDatabaseFilePath, cacheDatabaseDisabled } = SERVER_CONFIG;
+const { KeyvLruManagedTtl } = require('keyv-lru');
+
+const {
+  cacheHttpFilePath,
+  cacheDatabaseFilePath,
+  cacheDatabaseLruItems,
+  cacheHttpLruItems,
+  cacheDatabaseDisabled,
+} = SERVER_CONFIG;
 
 // deletes cache for testing
 try {
@@ -15,11 +23,14 @@ try {
 } catch (error) {}
 
 class CacheDatabaseInstance {
+  private static storeAdapter: KeyvStoreAdapter | null = null;
+
   private static createCacheDatabase(): Keyv {
-    // ttl: undefined - infinite duration
-    return new Keyv({
-      store: new KeyvFile({ filename: cacheDatabaseFilePath }),
-    });
+    return new Keyv({ store: CacheDatabaseInstance.storeAdapter });
+  }
+
+  public static setAdapter(adapter: KeyvStoreAdapter): void {
+    CacheDatabaseInstance.storeAdapter = adapter;
   }
 
   public static getCacheDatabase(): Keyv {
@@ -29,12 +40,23 @@ class CacheDatabaseInstance {
   }
 }
 
+// ttl: undefined - infinite duration
+const _databaseFileAdapter = new KeyvFile({ filename: cacheDatabaseFilePath });
+
+const databaseLruAdapter = new KeyvLruManagedTtl({ max: cacheDatabaseLruItems });
+CacheDatabaseInstance.setAdapter(databaseLruAdapter);
+
 export const getCacheDatabase = CacheDatabaseInstance.getCacheDatabase;
+
 class CacheHttpInstance {
+  private static storeAdapter: KeyvStoreAdapter | null = null;
+
   private static createCacheHttp(): Keyv {
-    return new Keyv({
-      store: new KeyvFile({ filename: cacheHttpFilePath }),
-    });
+    return new Keyv({ store: CacheHttpInstance.storeAdapter });
+  }
+
+  public static setAdapter(adapter: KeyvStoreAdapter): void {
+    CacheHttpInstance.storeAdapter = adapter;
   }
 
   public static getCacheHttp(): Keyv {
@@ -43,6 +65,11 @@ class CacheHttpInstance {
     );
   }
 }
+
+const _httpFileAdapter = new KeyvFile({ filename: cacheHttpFilePath });
+
+const httpLruAdapter = new KeyvLruManagedTtl({ max: cacheHttpLruItems });
+CacheHttpInstance.setAdapter(httpLruAdapter);
 
 export const getCacheHttp = CacheHttpInstance.getCacheHttp;
 

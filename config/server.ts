@@ -23,10 +23,13 @@ export const SERVER_CONFIG = {
   plausibleServerUrl: process.env.PLAUSIBLE_SERVER_URL, // build time, Docker
   // paths
   databaseFilePath: join(projectRootFolder, './data/database/', databaseFileName),
+  // unused
   cacheHttpFilePath: join(projectRootFolder, './data/cache/', 'cache-http.json'),
   cacheDatabaseFilePath: join(projectRootFolder, './data/cache/', 'cache-database.json'),
   logFilePath: join(projectRootFolder, './data/logs/', 'app.html'),
   // cache
+  cacheDatabaseLruItems: 100,
+  cacheHttpLruItems: 10,
   cacheHttpTtlMinutes: 5, // one old-many call
   // parser
   oldMonthsCount: 12, // one year
