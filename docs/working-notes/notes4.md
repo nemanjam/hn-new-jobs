@@ -19,5 +19,5 @@ cache invalidate fails?
 mozda samo portainer container recreate fails
 ----
 N new ads since yesterday, both debugging and ui, compare last month updatedAt // dobar feature
-deleteLastNMonths for test updating
+deleteLastNMonths to debug updating
 remove plausible proxy for country, open issue and ask
