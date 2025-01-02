@@ -12,3 +12,6 @@ export const middleware = (request: NextRequest) => {
 
   return NextResponse.next();
 };
+
+// for test
+// curl -A "Googlebot/2.1 (+http://www.google.com/bot.html)" https://hackernews-new-jobs.arm1.nemanjamitic.com -o /dev/null
