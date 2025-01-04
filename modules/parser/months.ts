@@ -1,7 +1,10 @@
 import { getAllMonths } from '@/modules/parser/algolia/threads';
 import { getFirstMonth, getLastMonth } from '@/modules/database/select/month';
 
-/** Always update latest month. */
+/**
+ * Parse first month newer than in the database, not only the latest.
+ * Always update the latest month.
+ */
 
 export const getNewMonthName = async (): Promise<string> => {
   const lastMonth = getLastMonth();

@@ -1,16 +1,11 @@
 import { parseNewMonth, parseNOldMonths, parseOldMonth } from '@/modules/parser/parse';
 import { getAppNow } from '@/libs/datetime';
-import { getCacheDatabase, getOrComputeValue } from '@/libs/keyv';
-import { CACHE_KEYS_DATABASE } from '@/constants/cache';
 import { SERVER_CONFIG } from '@/config/server';
-import { getStatistics } from '../database/select/statistics';
 
 import { ParserResponse } from '@/types/api';
 import { ParserResult } from '@/types/parser';
 
 const { oldMonthsCount } = SERVER_CONFIG;
-
-const { getStatisticsCacheKey } = CACHE_KEYS_DATABASE;
 
 /**
  * Reused in:
@@ -19,29 +14,17 @@ const { getStatisticsCacheKey } = CACHE_KEYS_DATABASE;
  * app/api/parser/[script]/route.ts
  * modules/parser/main.ts
  *
- * ! invalidate all database keys here, for scheduler, api, cli
+ * ! invalidate all database keys here, for scheduler, api, cli // WRONG
  *
  * These can throw.
  */
 
 export const callParseNewMonth = async (): Promise<ParserResponse> => {
-  const statistics1 = await getOrComputeValue(
-    () => getCacheDatabase().get(getStatisticsCacheKey),
-    (value) => getCacheDatabase().set(getStatisticsCacheKey, value),
-    getStatistics
-  );
-  console.log('statistics1', statistics1);
-
   const parserResult: ParserResult = await parseNewMonth();
 
-  await getCacheDatabase().clear();
-
-  const statistics2 = await getOrComputeValue(
-    () => getCacheDatabase().get(getStatisticsCacheKey),
-    (value) => getCacheDatabase().set(getStatisticsCacheKey, value),
-    getStatistics
-  );
-  console.log('statistics2', statistics2);
+  // ! here this WONT work, because this function is called in another process, scheduler, cli
+  // ! must detect database change or message queue
+  // await getCacheDatabase().clear();
 
   const parserResponse: ParserResponse = {
     parseMessage: `Parsing new month successful, now: ${getAppNow()}.`,
@@ -59,8 +42,6 @@ export const callParseOldMonth = async (): Promise<ParserResponse> => {
     parserResults: [parserResult],
   };
 
-  await getCacheDatabase().clear();
-
   return parserResponse;
 };
 
@@ -71,8 +52,6 @@ export const callParseNOldMonths = async (): Promise<ParserResponse> => {
     parserResults,
     parseMessage: `Parsing ${parserResults.length} old months successful, now: ${getAppNow()}.`,
   };
-
-  await getCacheDatabase().clear();
 
   return parserResponse;
 };

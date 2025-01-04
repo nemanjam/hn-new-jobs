@@ -1,4 +1,4 @@
-import fs from 'fs';
+// import fs from 'fs';
 
 import Keyv, { KeyvStoreAdapter } from 'keyv';
 import KeyvFile from 'keyv-file';
@@ -48,10 +48,7 @@ const _databaseFileAdapter = new KeyvFile({ filename: cacheDatabaseFilePath });
 const databaseLruAdapter = new KeyvLruManagedTtl({ max: cacheDatabaseLruItems });
 CacheDatabaseInstance.setAdapter(databaseLruAdapter);
 
-// export const getCacheDatabase = CacheDatabaseInstance.getCacheDatabase;
-
-const keyvDb = new Keyv({ store: _databaseFileAdapter });
-export const getCacheDatabase = (): Keyv => keyvDb;
+export const getCacheDatabase = CacheDatabaseInstance.getCacheDatabase;
 
 /*-------------------------------- http cache ------------------------------*/
 
@@ -80,23 +77,18 @@ CacheHttpInstance.setAdapter(httpLruAdapter);
 
 export const getCacheHttp = CacheHttpInstance.getCacheHttp;
 
-export const getOrComputeValue = async <T, A extends any[]>(
-  getCache: () => Promise<T | undefined>,
-  setCache: (value: T) => Promise<boolean>,
-  computeValue: (...args: A) => T,
+export const cacheDatabaseWrapper = async <T, A extends any[]>(
+  key: string,
+  func: (...args: A) => T,
   ...args: A
 ): Promise<T> => {
   if (!cacheDatabaseDisabled) {
-    const cachedResult = await getCache();
-    console.log('cachedResult', (cachedResult as any)?.forMonth);
-
+    const cachedResult = await getCacheDatabase().get<T>(key);
     if (cachedResult) return cachedResult;
   }
 
-  const dbResult = computeValue(...args);
-  await setCache(dbResult);
-
-  console.log('dbResult', (dbResult as any)?.forMonth);
+  const dbResult = func(...args);
+  await getCacheDatabase().set(key, dbResult);
 
   return dbResult;
 };

@@ -36,5 +36,7 @@ if (cachedResult) return cachedResult;
   const dbResult = func(...args);
   await getCacheDatabase().set(key, dbResult);
 NIJE ISTI PROCESS u scheduler script, cli script, i u next.js page
+cache.clear() zove u drugoj aplikaciji - procesu iako je isti import // glavna POENTA
 event?
 get number of months from db, check in next.js page and cache.clear() // to
+compare cached number of months and db number of months

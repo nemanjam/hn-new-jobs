@@ -5,19 +5,16 @@ import BarChartSimple from '@/components/charts/bar-chart-simple';
 import CompaniesCommentsTable from '@/components/companies-comments-table';
 import Heading from '@/components/heading';
 
-import { getNewOldCompaniesForMonth } from '@/modules/database/select/company';
+import { getNewOldCompaniesForMonthCached } from '@/modules/database/select/company';
+import { clearCacheIfDatabaseUpdated } from '@/modules/database/select/is-updated';
 import { getAllMonths } from '@/modules/database/select/month';
 import { getBarChartSimpleData } from '@/modules/transform/bar-chart';
 import { getCompanyTableData } from '@/modules/transform/table';
-import { getCacheDatabase, getDynamicCacheKey, getOrComputeValue } from '@/libs/keyv';
 import { isValidMonthNameWithDb } from '@/utils/validation';
-import { CACHE_KEYS_DATABASE } from '@/constants/cache';
 
 import { MonthQueryParam } from '@/types/api';
 
 export interface Props extends MonthQueryParam {}
-
-const { getNewOldCompaniesForMonthCacheKey } = CACHE_KEYS_DATABASE;
 
 const CurrentMonthPage: FC<Props> = async ({ params }) => {
   const allMonths = getAllMonths();
@@ -27,18 +24,9 @@ const CurrentMonthPage: FC<Props> = async ({ params }) => {
 
   if (!isValidMonthNameWithDb(selectedMonth)) return notFound();
 
-  const newOldCompanies = await getOrComputeValue(
-    () =>
-      getCacheDatabase().get(getDynamicCacheKey(getNewOldCompaniesForMonthCacheKey, selectedMonth)),
-    (value) =>
-      getCacheDatabase().set(
-        getDynamicCacheKey(getNewOldCompaniesForMonthCacheKey, selectedMonth),
-        value
-      ),
-    getNewOldCompaniesForMonth,
-    selectedMonth
-  );
+  await clearCacheIfDatabaseUpdated();
 
+  const newOldCompanies = await getNewOldCompaniesForMonthCached(selectedMonth);
   const companyTableData = getCompanyTableData(newOldCompanies.allCompanies);
   const barChartSimpleData = getBarChartSimpleData(newOldCompanies.allCompanies);
 

@@ -1,7 +1,11 @@
 import { getDb } from '@/modules/database/schema';
 import { getFirstMonth, getLastMonth } from '@/modules/database/select/month';
+import { cacheDatabaseWrapper } from '@/libs/keyv';
+import { CACHE_KEYS_DATABASE } from '@/constants/cache';
 
 import { Statistics } from '@/types/database';
+
+const { getStatisticsCacheKey } = CACHE_KEYS_DATABASE;
 
 export const getStatistics = (): Statistics => {
   const counts = getDb()
@@ -24,3 +28,5 @@ export const getStatistics = (): Statistics => {
 
   return statistics;
 };
+
+export const getStatisticsCached = () => cacheDatabaseWrapper(getStatisticsCacheKey, getStatistics);

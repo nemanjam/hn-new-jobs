@@ -11,6 +11,8 @@ import { format as formatTz, toZonedTime } from 'date-fns-tz';
 
 import { SERVER_CONFIG } from '@/config/server';
 
+export type DateUnion = Date | string | number;
+
 const { appTimeZone, appDateTimeFormat } = SERVER_CONFIG;
 
 export const DATETIME = {
@@ -36,10 +38,10 @@ export const convertMonthNameToDate = (monthString: string): Date =>
  * Format to 'dd/MM/yyyy HH:mm:ss' to Belgrade time zone.
  * @example 05/11/2024 14:30:01
  */
-export const humanFormat = (date: Date): string =>
+export const humanFormat = (date: DateUnion): string =>
   formatTz(date, appDateTimeFormat, { timeZone: appTimeZone });
 
-export const getAppTime = (dateTime: Date): Date => toZonedTime(dateTime, appTimeZone);
+export const getAppTime = (dateTime: DateUnion): Date => toZonedTime(dateTime, appTimeZone);
 
 export const getAppNow = (): Date => getAppTime(new Date());
 
