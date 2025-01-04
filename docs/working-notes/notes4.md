@@ -35,3 +35,6 @@ if (cachedResult) return cachedResult;
 // set() Stores a Promise
   const dbResult = func(...args);
   await getCacheDatabase().set(key, dbResult);
+NIJE ISTI PROCESS u scheduler script, cli script, i u next.js page
+event?
+get number of months from db, check in next.js page and cache.clear() // to

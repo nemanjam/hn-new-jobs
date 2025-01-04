@@ -88,11 +88,15 @@ export const getOrComputeValue = async <T, A extends any[]>(
 ): Promise<T> => {
   if (!cacheDatabaseDisabled) {
     const cachedResult = await getCache();
+    console.log('cachedResult', (cachedResult as any)?.forMonth);
+
     if (cachedResult) return cachedResult;
   }
 
   const dbResult = computeValue(...args);
   await setCache(dbResult);
+
+  console.log('dbResult', (dbResult as any)?.forMonth);
 
   return dbResult;
 };

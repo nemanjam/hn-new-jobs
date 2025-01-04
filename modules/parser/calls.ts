@@ -1,13 +1,16 @@
 import { parseNewMonth, parseNOldMonths, parseOldMonth } from '@/modules/parser/parse';
 import { getAppNow } from '@/libs/datetime';
-import { getCacheDatabase } from '@/libs/keyv';
+import { getCacheDatabase, getOrComputeValue } from '@/libs/keyv';
 import { CACHE_KEYS_DATABASE } from '@/constants/cache';
 import { SERVER_CONFIG } from '@/config/server';
+import { getStatistics } from '../database/select/statistics';
 
 import { ParserResponse } from '@/types/api';
 import { ParserResult } from '@/types/parser';
 
 const { oldMonthsCount } = SERVER_CONFIG;
+
+const { getStatisticsCacheKey } = CACHE_KEYS_DATABASE;
 
 /**
  * Reused in:
@@ -22,25 +25,28 @@ const { oldMonthsCount } = SERVER_CONFIG;
  */
 
 export const callParseNewMonth = async (): Promise<ParserResponse> => {
+  const statistics1 = await getOrComputeValue(
+    () => getCacheDatabase().get(getStatisticsCacheKey),
+    (value) => getCacheDatabase().set(getStatisticsCacheKey, value),
+    getStatistics
+  );
+  console.log('statistics1', statistics1);
+
   const parserResult: ParserResult = await parseNewMonth();
+
+  await getCacheDatabase().clear();
+
+  const statistics2 = await getOrComputeValue(
+    () => getCacheDatabase().get(getStatisticsCacheKey),
+    (value) => getCacheDatabase().set(getStatisticsCacheKey, value),
+    getStatistics
+  );
+  console.log('statistics2', statistics2);
 
   const parserResponse: ParserResponse = {
     parseMessage: `Parsing new month successful, now: ${getAppNow()}.`,
     parserResults: [parserResult],
   };
-
-  const { getNewOldCompaniesCountForAllMonthsCacheKey } = CACHE_KEYS_DATABASE;
-  const newOldCompaniesForAllMonthsBefore = await getCacheDatabase().get(
-    getNewOldCompaniesCountForAllMonthsCacheKey
-  );
-  console.log('newOldCompaniesForAllMonthsBefore', newOldCompaniesForAllMonthsBefore?.length);
-
-  await getCacheDatabase().clear();
-
-  const newOldCompaniesForAllMonthsAfter = await getCacheDatabase().get(
-    getNewOldCompaniesCountForAllMonthsCacheKey
-  );
-  console.log('newOldCompaniesForAllMonthsAfter', newOldCompaniesForAllMonthsAfter);
 
   return parserResponse;
 };

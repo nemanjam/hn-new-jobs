@@ -1,8 +1,5 @@
 import { callParseNewMonth, callParseNOldMonths, callParseOldMonth } from '@/modules/parser/calls';
-import {
-  deleteMonthsAndCompaniesNewerThanMonth,
-  deleteMonthsAndCompaniesOlderThanMonth,
-} from '@/modules/database/delete';
+import { deleteMonthsAndCompaniesNewerThanMonth } from '@/modules/database/delete';
 import { getCacheDatabase } from '@/libs/keyv';
 import logger from '@/libs/winston';
 import { CACHE_KEYS_DATABASE } from '@/constants/cache';
@@ -20,7 +17,7 @@ const main = async (script: ScriptType) => {
   switch (script) {
     case SCRIPTS.parseNew: {
       const parserResponse: ParserResponse = await callParseNewMonth();
-      logger.info('main.ts parseNew script, parserResponse:', parserResponse);
+      logger.info('main.ts parseNew script, parserResponse:', { parserResponse });
       break;
     }
     case SCRIPTS.parseOld: {
