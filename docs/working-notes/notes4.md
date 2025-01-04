@@ -21,3 +21,17 @@ mozda samo portainer container recreate fails
 N new ads since yesterday, both debugging and ui, compare last month updatedAt // dobar feature
 deleteLastNMonths to debug updating
 remove plausible proxy for country, open issue and ask
+-----------------
+first newer month, check db too, not latest
+await getCacheDatabase().clear(); simply FAILS
+after clear() doesnt work
+----
+cacheDatabaseWrapper() must accept keyv as arg, pass getCacheDatabase() every time
+doesnt mutate
+always has data from memory, get() has memory
+const cachedResult = await getCacheDatabase().get<T>(key);
+console.log('key', key, 'cachedResult', cachedResult);
+if (cachedResult) return cachedResult;
+// set() Stores a Promise
+  const dbResult = func(...args);
+  await getCacheDatabase().set(key, dbResult);

@@ -1,10 +1,6 @@
 import { getDb } from '@/modules/database/schema';
-import { cacheDatabaseWrapper } from '@/libs/keyv';
-import { CACHE_KEYS_DATABASE } from '@/constants/cache';
 
 import { LineChartMultipleData } from '@/types/charts';
-
-const { getNewOldCompaniesCountForAllMonthsCacheKey: lineChartCacheKey } = CACHE_KEYS_DATABASE;
 
 export const getNewOldCompaniesCountForAllMonths = (): LineChartMultipleData[] => {
   const query = `
@@ -85,6 +81,3 @@ export const getNewOldCompaniesCountForAllMonths = (): LineChartMultipleData[] =
 
   return result;
 };
-
-export const getNewOldCompaniesCountForAllMonthsCached = () =>
-  cacheDatabaseWrapper(lineChartCacheKey, getNewOldCompaniesCountForAllMonths);

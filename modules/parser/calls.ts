@@ -1,6 +1,7 @@
 import { parseNewMonth, parseNOldMonths, parseOldMonth } from '@/modules/parser/parse';
 import { getAppNow } from '@/libs/datetime';
 import { getCacheDatabase } from '@/libs/keyv';
+import { CACHE_KEYS_DATABASE } from '@/constants/cache';
 import { SERVER_CONFIG } from '@/config/server';
 
 import { ParserResponse } from '@/types/api';
@@ -28,7 +29,18 @@ export const callParseNewMonth = async (): Promise<ParserResponse> => {
     parserResults: [parserResult],
   };
 
+  const { getNewOldCompaniesCountForAllMonthsCacheKey } = CACHE_KEYS_DATABASE;
+  const newOldCompaniesForAllMonthsBefore = await getCacheDatabase().get(
+    getNewOldCompaniesCountForAllMonthsCacheKey
+  );
+  console.log('newOldCompaniesForAllMonthsBefore', newOldCompaniesForAllMonthsBefore?.length);
+
   await getCacheDatabase().clear();
+
+  const newOldCompaniesForAllMonthsAfter = await getCacheDatabase().get(
+    getNewOldCompaniesCountForAllMonthsCacheKey
+  );
+  console.log('newOldCompaniesForAllMonthsAfter', newOldCompaniesForAllMonthsAfter);
 
   return parserResponse;
 };

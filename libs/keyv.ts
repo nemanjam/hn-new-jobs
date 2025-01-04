@@ -22,6 +22,8 @@ try {
   // fs.unlinkSync(cacheDatabaseFilePath);
 } catch (error) {}
 
+/*-------------------------------- database cache ------------------------------*/
+
 class CacheDatabaseInstance {
   private static storeAdapter: KeyvStoreAdapter | null = null;
 
@@ -46,7 +48,12 @@ const _databaseFileAdapter = new KeyvFile({ filename: cacheDatabaseFilePath });
 const databaseLruAdapter = new KeyvLruManagedTtl({ max: cacheDatabaseLruItems });
 CacheDatabaseInstance.setAdapter(databaseLruAdapter);
 
-export const getCacheDatabase = CacheDatabaseInstance.getCacheDatabase;
+// export const getCacheDatabase = CacheDatabaseInstance.getCacheDatabase;
+
+const keyvDb = new Keyv({ store: _databaseFileAdapter });
+export const getCacheDatabase = (): Keyv => keyvDb;
+
+/*-------------------------------- http cache ------------------------------*/
 
 class CacheHttpInstance {
   private static storeAdapter: KeyvStoreAdapter | null = null;
@@ -73,18 +80,19 @@ CacheHttpInstance.setAdapter(httpLruAdapter);
 
 export const getCacheHttp = CacheHttpInstance.getCacheHttp;
 
-export const cacheDatabaseWrapper = async <T, A extends any[]>(
-  key: string,
-  func: (...args: A) => T,
+export const getOrComputeValue = async <T, A extends any[]>(
+  getCache: () => Promise<T | undefined>,
+  setCache: (value: T) => Promise<boolean>,
+  computeValue: (...args: A) => T,
   ...args: A
 ): Promise<T> => {
   if (!cacheDatabaseDisabled) {
-    const cachedResult = await getCacheDatabase().get<T>(key);
+    const cachedResult = await getCache();
     if (cachedResult) return cachedResult;
   }
 
-  const dbResult = func(...args);
-  await getCacheDatabase().set(key, dbResult);
+  const dbResult = computeValue(...args);
+  await setCache(dbResult);
 
   return dbResult;
 };

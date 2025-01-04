@@ -5,11 +5,13 @@ import LineChartMultiple from '@/components/charts/line-chart-multiple';
 import Heading from '@/components/heading';
 import NewOldCompaniesSection from '@/components/new-old-companies-section';
 
-import { getNewOldCompaniesForMonthCached } from '@/modules/database/select/company';
-import { getNewOldCompaniesCountForAllMonthsCached } from '@/modules/database/select/line-chart';
+import { getNewOldCompaniesForMonth } from '@/modules/database/select/company';
+import { getNewOldCompaniesCountForAllMonths } from '@/modules/database/select/line-chart';
 import { getAllMonths } from '@/modules/database/select/month';
-import { getStatisticsCached } from '@/modules/database/select/statistics';
+import { getStatistics } from '@/modules/database/select/statistics';
+import { getCacheDatabase, getDynamicCacheKey, getOrComputeValue } from '@/libs/keyv';
 import { isValidMonthNameWithDb } from '@/utils/validation';
+import { CACHE_KEYS_DATABASE } from '@/constants/cache';
 import { METADATA } from '@/constants/metadata';
 
 import { MonthQueryParam } from '@/types/website';
@@ -18,9 +20,25 @@ export interface Props extends MonthQueryParam {}
 
 const { title } = METADATA;
 
+const {
+  getStatisticsCacheKey,
+  getNewOldCompaniesCountForAllMonthsCacheKey,
+  getNewOldCompaniesForMonthCacheKey,
+} = CACHE_KEYS_DATABASE;
+
 const IndexPage: FC<Props> = async ({ params }) => {
-  const statistics = await getStatisticsCached();
-  const lineChartMultipleData = await getNewOldCompaniesCountForAllMonthsCached();
+  const statistics = await getOrComputeValue(
+    () => getCacheDatabase().get(getStatisticsCacheKey),
+    (value) => getCacheDatabase().set(getStatisticsCacheKey, value),
+    getStatistics
+  );
+
+  // ! must run AT REQUEST time, big problem with stale data
+  const lineChartMultipleData = await getOrComputeValue(
+    () => getCacheDatabase().get(getNewOldCompaniesCountForAllMonthsCacheKey),
+    (value) => getCacheDatabase().set(getNewOldCompaniesCountForAllMonthsCacheKey, value),
+    getNewOldCompaniesCountForAllMonths
+  );
 
   const allMonths = getAllMonths();
 
@@ -30,7 +48,17 @@ const IndexPage: FC<Props> = async ({ params }) => {
 
   if (!isValidMonthNameWithDb(selectedMonth)) return notFound();
 
-  const newOldCompanies = await getNewOldCompaniesForMonthCached(selectedMonth);
+  const newOldCompanies = await getOrComputeValue(
+    () =>
+      getCacheDatabase().get(getDynamicCacheKey(getNewOldCompaniesForMonthCacheKey, selectedMonth)),
+    (value) =>
+      getCacheDatabase().set(
+        getDynamicCacheKey(getNewOldCompaniesForMonthCacheKey, selectedMonth),
+        value
+      ),
+    getNewOldCompaniesForMonth,
+    selectedMonth
+  );
 
   const { monthsCount, companiesCount, commentsCount, firstMonth, lastMonth } = statistics ?? {
     firstMonth: {},

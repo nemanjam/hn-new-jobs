@@ -1,15 +1,40 @@
 import { getAllMonths } from '@/modules/parser/algolia/threads';
-import { getFirstMonth } from '@/modules/database/select/month';
+import { getFirstMonth, getLastMonth } from '@/modules/database/select/month';
 
 /** Always update latest month. */
 
 export const getNewMonthName = async (): Promise<string> => {
+  const lastMonth = getLastMonth();
+
   const parsedMonths = await getAllMonths();
   if (!(parsedMonths.length > 0))
     throw new Error(`Invalid parsedMonths length: ${parsedMonths.length}`);
 
-  // overwrite
-  return parsedMonths[0];
+  let newMonthName: string;
+
+  // handle empty db
+  if (!lastMonth) {
+    // gets last thread on empty db
+    newMonthName = parsedMonths[0];
+    return newMonthName;
+  }
+
+  const index = parsedMonths.indexOf(lastMonth.name);
+  // index not found or out of bounds
+  if (!(index !== -1 && index < parsedMonths.length - 1))
+    throw new Error(
+      `IndexOf lastMonth.name: ${lastMonth.name} from database not found in parsedMonths.`
+    );
+
+  // redo last month
+  if (index === 0) {
+    newMonthName = parsedMonths[0];
+    return newMonthName;
+  }
+
+  // one month newer
+  newMonthName = parsedMonths[index - 1];
+  return newMonthName;
 };
 
 export const getOldMonthName = async (): Promise<string> => {

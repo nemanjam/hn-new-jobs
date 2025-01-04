@@ -13,6 +13,7 @@
     "hn:dev:old": "tsx modules/parser/main.ts old",
     "hn:dev:old-many": "tsx modules/parser/main.ts old-many",
     "hn:dev:trim-old": "tsx modules/parser/main.ts trim-old",
+    "hn:dev:trim-new": "tsx modules/parser/main.ts trim-new",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "preview": "next build && next start",

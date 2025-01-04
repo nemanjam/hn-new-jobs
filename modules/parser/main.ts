@@ -1,6 +1,11 @@
 import { callParseNewMonth, callParseNOldMonths, callParseOldMonth } from '@/modules/parser/calls';
-import { deleteMonthsAndCompaniesOlderThanMonth } from '@/modules/database/delete';
+import {
+  deleteMonthsAndCompaniesNewerThanMonth,
+  deleteMonthsAndCompaniesOlderThanMonth,
+} from '@/modules/database/delete';
+import { getCacheDatabase } from '@/libs/keyv';
 import logger from '@/libs/winston';
+import { CACHE_KEYS_DATABASE } from '@/constants/cache';
 import { SCRIPTS } from '@/constants/scripts';
 import { SERVER_CONFIG } from '@/config/server';
 import { getStatistics } from '../database/select/statistics';
@@ -30,12 +35,35 @@ const main = async (script: ScriptType) => {
       break;
     }
     case SCRIPTS.trimOld: {
+      // const statisticsBefore = getStatistics();
+      // const rowsCount = deleteMonthsAndCompaniesOlderThanMonth();
+      // const statisticsAfter = getStatistics();
+
+      // const context = { rowsCount, statisticsBefore, statisticsAfter };
+      // logger.info('main.ts script, deleted old rows:', context);
+
+      const { getNewOldCompaniesCountForAllMonthsCacheKey } = CACHE_KEYS_DATABASE;
+      const newOldCompaniesForAllMonthsBefore = await getCacheDatabase().get(
+        getNewOldCompaniesCountForAllMonthsCacheKey
+      );
+      console.log('newOldCompaniesForAllMonthsBefore', newOldCompaniesForAllMonthsBefore?.length);
+
+      await getCacheDatabase().clear();
+
+      const newOldCompaniesForAllMonthsAfter = await getCacheDatabase().get(
+        getNewOldCompaniesCountForAllMonthsCacheKey
+      );
+      console.log('newOldCompaniesForAllMonthsAfter', newOldCompaniesForAllMonthsAfter);
+
+      break;
+    }
+    case SCRIPTS.trimNew: {
       const statisticsBefore = getStatistics();
-      const rowsCount = deleteMonthsAndCompaniesOlderThanMonth();
+      const rowsCount = deleteMonthsAndCompaniesNewerThanMonth();
       const statisticsAfter = getStatistics();
 
       const context = { rowsCount, statisticsBefore, statisticsAfter };
-      logger.info('main.ts script, deleted rows:', context);
+      logger.info('main.ts script, deleted new rows:', context);
       break;
     }
   }
