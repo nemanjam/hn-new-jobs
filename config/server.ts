@@ -7,8 +7,7 @@ const projectRootFolder = process.cwd();
 
 const isProd = process.env.NODE_ENV === 'production';
 
-// const dbSuffix = isProd ? 'prod' : 'dev';
-const dbSuffix = 'dev';
+const dbSuffix = isProd ? 'prod' : 'dev';
 const databaseFileName = `hn-new-jobs-database-${dbSuffix}.sqlite3`;
 
 export const SERVER_CONFIG = {
