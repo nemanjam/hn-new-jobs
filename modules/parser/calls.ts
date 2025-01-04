@@ -1,6 +1,5 @@
 import { parseNewMonth, parseNOldMonths, parseOldMonth } from '@/modules/parser/parse';
 import { getAppNow } from '@/libs/datetime';
-import { getCacheDatabase } from '@/libs/keyv';
 import { SERVER_CONFIG } from '@/config/server';
 
 import { ParserResponse } from '@/types/api';
@@ -15,7 +14,7 @@ const { oldMonthsCount } = SERVER_CONFIG;
  * app/api/parser/[script]/route.ts
  * modules/parser/main.ts
  *
- * ! invalidate all database keys here, for scheduler, api, cli
+ * ! invalidate all database keys here, for scheduler, api, cli // WRONG
  *
  * These can throw.
  */
@@ -23,12 +22,14 @@ const { oldMonthsCount } = SERVER_CONFIG;
 export const callParseNewMonth = async (): Promise<ParserResponse> => {
   const parserResult: ParserResult = await parseNewMonth();
 
+  // ! here this WONT work, because this function is called in another process, scheduler, cli
+  // ! must detect database change or message queue
+  // await getCacheDatabase().clear();
+
   const parserResponse: ParserResponse = {
     parseMessage: `Parsing new month successful, now: ${getAppNow()}.`,
     parserResults: [parserResult],
   };
-
-  await getCacheDatabase().clear();
 
   return parserResponse;
 };
@@ -41,8 +42,6 @@ export const callParseOldMonth = async (): Promise<ParserResponse> => {
     parserResults: [parserResult],
   };
 
-  await getCacheDatabase().clear();
-
   return parserResponse;
 };
 
@@ -53,8 +52,6 @@ export const callParseNOldMonths = async (): Promise<ParserResponse> => {
     parserResults,
     parseMessage: `Parsing ${parserResults.length} old months successful, now: ${getAppNow()}.`,
   };
-
-  await getCacheDatabase().clear();
 
   return parserResponse;
 };

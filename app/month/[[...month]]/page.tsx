@@ -6,6 +6,7 @@ import CompaniesCommentsTable from '@/components/companies-comments-table';
 import Heading from '@/components/heading';
 
 import { getNewOldCompaniesForMonthCached } from '@/modules/database/select/company';
+import { clearCacheIfDatabaseUpdated } from '@/modules/database/select/is-updated';
 import { getAllMonths } from '@/modules/database/select/month';
 import { getBarChartSimpleData } from '@/modules/transform/bar-chart';
 import { getCompanyTableData } from '@/modules/transform/table';
@@ -22,6 +23,8 @@ const CurrentMonthPage: FC<Props> = async ({ params }) => {
   const selectedMonth = month?.[0] ?? allMonths[0].name;
 
   if (!isValidMonthNameWithDb(selectedMonth)) return notFound();
+
+  await clearCacheIfDatabaseUpdated();
 
   const newOldCompanies = await getNewOldCompaniesForMonthCached(selectedMonth);
   const companyTableData = getCompanyTableData(newOldCompanies.allCompanies);

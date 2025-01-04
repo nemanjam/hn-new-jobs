@@ -1,5 +1,8 @@
 import { callParseNewMonth, callParseNOldMonths, callParseOldMonth } from '@/modules/parser/calls';
-import { deleteMonthsAndCompaniesOlderThanMonth } from '@/modules/database/delete';
+import {
+  deleteMonthsAndCompaniesNewerThanMonth,
+  deleteMonthsAndCompaniesOlderThanMonth,
+} from '@/modules/database/delete';
 import logger from '@/libs/winston';
 import { SCRIPTS } from '@/constants/scripts';
 import { SERVER_CONFIG } from '@/config/server';
@@ -15,7 +18,7 @@ const main = async (script: ScriptType) => {
   switch (script) {
     case SCRIPTS.parseNew: {
       const parserResponse: ParserResponse = await callParseNewMonth();
-      logger.info('main.ts parseNew script, parserResponse:', parserResponse);
+      logger.info('main.ts parseNew script, parserResponse:', { parserResponse });
       break;
     }
     case SCRIPTS.parseOld: {
@@ -35,7 +38,18 @@ const main = async (script: ScriptType) => {
       const statisticsAfter = getStatistics();
 
       const context = { rowsCount, statisticsBefore, statisticsAfter };
-      logger.info('main.ts script, deleted rows:', context);
+      logger.info('main.ts script, deleted old rows:', context);
+
+      break;
+    }
+    // for debugging cache.clear()
+    case SCRIPTS.trimNew: {
+      const statisticsBefore = getStatistics();
+      const rowsCount = deleteMonthsAndCompaniesNewerThanMonth();
+      const statisticsAfter = getStatistics();
+
+      const context = { rowsCount, statisticsBefore, statisticsAfter };
+      logger.info('main.ts script, deleted new rows:', context);
       break;
     }
   }

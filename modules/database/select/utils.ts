@@ -55,13 +55,6 @@ export const withCommentsQuery = (
     `;
 
 export const convertCompanyRowType = (row: CompanyWithCommentsAsStrings): CompanyWithComments => ({
-  company: {
-    name: row.name,
-    commentId: row.commentId,
-    monthName: row.monthName,
-    createdAtOriginal: new Date(row.createdAtOriginal),
-    createdAt: new Date(row.createdAt),
-    updatedAt: new Date(row.updatedAt),
-  },
+  company: row,
   comments: JSON.parse(row.comments) as DbCompany[],
 });

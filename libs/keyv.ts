@@ -1,4 +1,4 @@
-import fs from 'fs';
+// import fs from 'fs';
 
 import Keyv, { KeyvStoreAdapter } from 'keyv';
 import KeyvFile from 'keyv-file';
@@ -21,6 +21,8 @@ try {
   // fs.unlinkSync(cacheHttpFilePath);
   // fs.unlinkSync(cacheDatabaseFilePath);
 } catch (error) {}
+
+/*-------------------------------- database cache ------------------------------*/
 
 class CacheDatabaseInstance {
   private static storeAdapter: KeyvStoreAdapter | null = null;
@@ -47,6 +49,8 @@ const databaseLruAdapter = new KeyvLruManagedTtl({ max: cacheDatabaseLruItems })
 CacheDatabaseInstance.setAdapter(databaseLruAdapter);
 
 export const getCacheDatabase = CacheDatabaseInstance.getCacheDatabase;
+
+/*-------------------------------- http cache ------------------------------*/
 
 class CacheHttpInstance {
   private static storeAdapter: KeyvStoreAdapter | null = null;

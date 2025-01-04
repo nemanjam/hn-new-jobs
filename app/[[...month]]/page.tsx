@@ -6,6 +6,7 @@ import Heading from '@/components/heading';
 import NewOldCompaniesSection from '@/components/new-old-companies-section';
 
 import { getNewOldCompaniesForMonthCached } from '@/modules/database/select/company';
+import { clearCacheIfDatabaseUpdated } from '@/modules/database/select/is-updated';
 import { getNewOldCompaniesCountForAllMonthsCached } from '@/modules/database/select/line-chart';
 import { getAllMonths } from '@/modules/database/select/month';
 import { getStatisticsCached } from '@/modules/database/select/statistics';
@@ -19,6 +20,8 @@ export interface Props extends MonthQueryParam {}
 const { title } = METADATA;
 
 const IndexPage: FC<Props> = async ({ params }) => {
+  await clearCacheIfDatabaseUpdated();
+
   const statistics = await getStatisticsCached();
   const lineChartMultipleData = await getNewOldCompaniesCountForAllMonthsCached();
 

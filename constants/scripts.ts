@@ -3,4 +3,5 @@ export const SCRIPTS = {
   parseOld: 'old',
   parseOldMany: 'old-many',
   trimOld: 'trim-old',
+  trimNew: 'trim-new',
 } as const;

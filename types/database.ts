@@ -8,26 +8,29 @@ import { ValueUnion } from '@/types/utils';
 export interface DbMonth {
   name: string;
   threadId: string;
-  createdAtOriginal: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAtOriginal: string; // string in better-sqlite3, not Date
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface DbCompany {
   name: string;
   commentId: string;
   monthName: string;
-  createdAtOriginal: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAtOriginal: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 /*-------------------------------- Insert ------------------------------*/
 
-export interface DbCompanyInsert
-  extends Pick<DbCompany, 'name' | 'commentId' | 'createdAtOriginal'> {}
+export interface DbCompanyInsert extends Pick<DbCompany, 'name' | 'commentId'> {
+  createdAtOriginal: Date;
+}
 
-export interface DbMonthInsert extends Pick<DbMonth, 'name' | 'threadId' | 'createdAtOriginal'> {}
+export interface DbMonthInsert extends Pick<DbMonth, 'name' | 'threadId'> {
+  createdAtOriginal: Date;
+}
 
 /*-------------------------- Select ------------------------*/
 
