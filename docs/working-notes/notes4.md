@@ -40,3 +40,5 @@ cache.clear() zove u drugoj aplikaciji - procesu iako je isti import // glavna P
 event?
 get number of months from db, check in next.js page and cache.clear() // to
 compare cached number of months and db number of months
+-----
+add endpoint, webhook to trigger cache.clear(), like ISR, POST with arg, axios na localhost
