@@ -40,5 +40,9 @@ cache.clear() zove u drugoj aplikaciji - procesu iako je isti import // glavna P
 event?
 get number of months from db, check in next.js page and cache.clear() // to
 compare cached number of months and db number of months
+symmetric difference
+let symDifference = arr1.filter(x => !arr2.includes(x))
+                        .concat(arr2.filter(x => !arr1.includes(x)));
+// https://stackoverflow.com/questions/1187518/how-to-get-the-difference-between-two-arrays-in-javascript
 -----
 add endpoint, webhook to trigger cache.clear(), like ISR, POST with arg, axios na localhost
