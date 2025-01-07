@@ -46,3 +46,17 @@ let symDifference = arr1.filter(x => !arr2.includes(x))
 // https://stackoverflow.com/questions/1187518/how-to-get-the-difference-between-two-arrays-in-javascript
 -----
 add endpoint, webhook to trigger cache.clear(), like ISR, POST with arg, axios na localhost
+
+// try this nextjs.config.mjs
+
+async rewrites() {
+  return [
+    {
+      source: '/proxy/*',
+      headers: [
+        { key: 'X-Forwarded-For', value: '{http-client-ip}' }
+      ],
+      destination: 'https://plausible.io/:path*',
+    }
+  ]
+}
