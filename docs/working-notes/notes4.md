@@ -60,3 +60,5 @@ async rewrites() {
     }
   ]
 }
+----------------
+percentages tooltip for percentage select box
