@@ -61,4 +61,4 @@ async rewrites() {
   ]
 }
 ----------------
-percentages tooltip for percentage select box
+percentages tooltip for percentage select box // to vec radi
