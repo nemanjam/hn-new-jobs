@@ -78,19 +78,19 @@ export const columns: ColumnDef<CompanyTable>[] = [
               const { commentId, monthName, createdAtOriginal } = comment;
 
               return (
-                <Badge
+                <Link
                   key={commentId}
-                  variant="secondary"
-                  className="hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                  href={getThreadOrCommentUrlFromId(commentId)}
+                  title={humanFormat(createdAtOriginal)}
+                  target="_blank"
                 >
-                  <Link
-                    href={getThreadOrCommentUrlFromId(commentId)}
-                    title={humanFormat(createdAtOriginal)}
-                    target="_blank"
+                  <Badge
+                    variant="secondary"
+                    className="hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
                   >
                     {monthName}
-                  </Link>
-                </Badge>
+                  </Badge>
+                </Link>
               );
             })}
           </div>

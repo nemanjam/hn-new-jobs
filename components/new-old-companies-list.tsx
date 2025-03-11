@@ -41,20 +41,20 @@ const NewOldCompaniesList: FC<Props> = ({ newOldCompanies }) => {
                 const { name, commentId, createdAtOriginal } = company;
 
                 return (
-                  <Badge
+                  <Link
                     key={commentId}
-                    variant="secondary"
-                    className="hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
+                    href={getThreadOrCommentUrlFromId(commentId)}
+                    target="_blank"
+                    title={humanFormat(createdAtOriginal)}
                   >
-                    <Link
+                    <Badge
                       key={commentId}
-                      href={getThreadOrCommentUrlFromId(commentId)}
-                      target="_blank"
-                      title={humanFormat(createdAtOriginal)}
+                      variant="secondary"
+                      className="hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
                     >
                       {`${name} (${comments.length})`}
-                    </Link>
-                  </Badge>
+                    </Badge>
+                  </Link>
                 );
               })}
             </div>
