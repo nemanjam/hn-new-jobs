@@ -5,11 +5,12 @@ import Link from 'next/link';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
+import { badgeVariants } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 import { humanFormat } from '@/libs/datetime';
+import { cn } from '@/utils/styles';
 import { getThreadOrCommentUrlFromId } from '@/utils/urls';
 
 import { DbCompany } from '@/types/database';
@@ -83,13 +84,12 @@ export const columns: ColumnDef<CompanyTable>[] = [
                   href={getThreadOrCommentUrlFromId(commentId)}
                   title={humanFormat(createdAtOriginal)}
                   target="_blank"
+                  className={cn(
+                    badgeVariants({ variant: 'secondary' }),
+                    'hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors'
+                  )}
                 >
-                  <Badge
-                    variant="secondary"
-                    className="hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                  >
-                    {monthName}
-                  </Badge>
+                  {monthName}
                 </Link>
               );
             })}

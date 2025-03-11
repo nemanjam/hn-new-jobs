@@ -1,10 +1,11 @@
 import { FC } from 'react';
 import Link from 'next/link';
 
-import { Badge } from '@/components/ui/badge';
+import { badgeVariants } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { humanFormat } from '@/libs/datetime';
+import { cn } from '@/utils/styles';
 import { getThreadOrCommentUrlFromId } from '@/utils/urls';
 
 import { NewOldCompanies } from '@/types/database';
@@ -46,14 +47,12 @@ const NewOldCompaniesList: FC<Props> = ({ newOldCompanies }) => {
                     href={getThreadOrCommentUrlFromId(commentId)}
                     target="_blank"
                     title={humanFormat(createdAtOriginal)}
+                    className={cn(
+                      badgeVariants({ variant: 'secondary' }),
+                      'hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors'
+                    )}
                   >
-                    <Badge
-                      key={commentId}
-                      variant="secondary"
-                      className="hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                    >
-                      {`${name} (${comments.length})`}
-                    </Badge>
+                    {`${name} (${comments.length})`}
                   </Link>
                 );
               })}

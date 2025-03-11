@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Link from 'next/link';
 
-import { Badge } from '@/components/ui/badge';
+import { badgeVariants } from '@/components/ui/badge';
 import {
   Table,
   TableBody,
@@ -13,6 +13,7 @@ import {
 
 import { searchCompanyByName } from '@/modules/database/select/search';
 import { humanFormat } from '@/libs/datetime';
+import { cn } from '@/utils/styles';
 import { getThreadOrCommentUrlFromId, isCompanySearchMinLength } from '@/utils/urls';
 
 import { SearchParams } from '@/types/website';
@@ -73,13 +74,12 @@ const SearchCompanyList: FC<Props> = ({ company }) => {
                             href={getThreadOrCommentUrlFromId(commentId)}
                             title={humanFormat(createdAtOriginal)}
                             target="_blank"
+                            className={cn(
+                              badgeVariants({ variant: 'secondary' }),
+                              'hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors'
+                            )}
                           >
-                            <Badge
-                              variant="secondary"
-                              className="hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
-                            >
-                              {monthName}
-                            </Badge>
+                            {monthName}
                           </Link>
                         );
                       })}
