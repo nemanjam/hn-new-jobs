@@ -6,8 +6,7 @@ import { ALGOLIA } from '@/constants/algolia';
 import { AComment, APagination, AThread } from '@/types/algolia';
 import type { DbCompanyInsert } from '@/types/database';
 
-const { threadBaseUrl, hitsPerPageMax, companyNameRegex, removeLinkOrBracesRegex } =
-  ALGOLIA.comments;
+const { threadBaseUrl, hitsPerPageMax, companyNameRegex, companyNameMaxLength } = ALGOLIA.comments;
 
 // with hitsPerPage=1000 pagination mostly not needed
 
@@ -81,11 +80,9 @@ export const parseCompaniesForPage = async (
 
       // get company name from text
       const match = titleText.match(companyNameRegex);
-      let name = match ? match[1].trim() : null;
-      if (!name) return blankCompany;
+      const name = match ? match[1].trim() : null;
 
-      const urlMatch = name.match(removeLinkOrBracesRegex);
-      name = urlMatch ? urlMatch[1].trim() : name;
+      if (!name || name.length > companyNameMaxLength) return blankCompany;
 
       // 3. createdAtOriginal - for original order
       const createdAtOriginal = new Date(created_at);

@@ -9,8 +9,11 @@ export const ALGOLIA = {
   comments: {
     // https://hn.algolia.com/api/v1/search_by_date?tags=comment,story_42017580
     threadBaseUrl: 'https://hn.algolia.com/api/v1/search_by_date?tags=comment,story_',
-    companyNameRegex: /^([^|]+)\|/,
-    removeLinkOrBracesRegex: /^(.*?)\s*(?:\([^)]*\)|https?:\/\/\S+)/,
+    // algolia converts links to [...
+    // example: Imbue [<a href="https://imbue.com" rel="nofollow">https://imbue.com</a>] | Senior Product
+    // catch everything that is not | or ( or [
+    companyNameRegex: /^([^\|\(\[]+)/,
+    companyNameMaxLength: 50,
     hitsPerPageMax: 1000,
   },
   axios: {
