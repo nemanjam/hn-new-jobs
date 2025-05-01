@@ -1,5 +1,5 @@
 ARG NODE_IMAGE=node:22.9.0-alpine
-FROM --platform=$BUILDPLATFORM ${NODE_IMAGE} AS base
+FROM ${NODE_IMAGE} AS base
 
 # Install dependencies only when needed
 FROM base AS deps
