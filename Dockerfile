@@ -1,4 +1,4 @@
-ARG NODE_IMAGE=node:22.9.0-alpine
+ARG NODE_IMAGE=node:22-alpine
 FROM ${NODE_IMAGE} AS base
 
 # Install dependencies only when needed
