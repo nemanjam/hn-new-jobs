@@ -21,7 +21,7 @@ export type ScriptType = (typeof SCRIPTS)[keyof typeof SCRIPTS];
 
 export interface ParserRouteParam {
   params: Promise<{
-    script: ScriptType;
+    script: string;
   }>;
 }
 export interface MonthQueryParam {

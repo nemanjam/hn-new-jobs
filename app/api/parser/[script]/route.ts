@@ -1,12 +1,11 @@
 import { NextResponse } from 'next/server';
 
 import { callParseNewMonth, callParseNOldMonths, callParseOldMonth } from '@/modules/parser/calls';
-import { getLastMonth } from '@/modules/database/select/month';
 import logger from '@/libs/winston';
 import { SCRIPTS } from '@/constants/scripts';
 import { SERVER_CONFIG } from '@/config/server';
 
-import type { ErrorResponse, ParserResponse, ParserRouteParam } from '@/types/api';
+import type { ErrorResponse, ParserResponse, ParserRouteParam, ScriptType } from '@/types/api';
 
 export const dynamic = 'force-dynamic';
 
@@ -34,7 +33,7 @@ export const GET = async (
   }
 
   // 2. script param
-  const { script } = await params;
+  const { script } = (await params) as { script: ScriptType };
 
   if (!scripts.includes(script)) {
     logger.error(`Wrong route param script: ${script}`);
